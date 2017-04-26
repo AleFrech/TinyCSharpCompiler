@@ -4,6 +4,6 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src" />
+    <ProjectReference Include="..\LexerProject\LexerProject.csproj" />
   </ItemGroup>
 </Project>
