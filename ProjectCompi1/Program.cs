@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
 namespace ProjectCompi1
 {
@@ -9,7 +8,8 @@ namespace ProjectCompi1
         static void Main(string[] args)
         {
             var file = new FileManager();
-            var sourceCode = file.GetSourceCode(Path.Combine(Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), @"src\", "test.cs"));
+            var sourceCode = file.GetSourceCode(Path.Combine(AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("bin", StringComparison.Ordinal)), "src/test.cs"));
+            Console.WriteLine(sourceCode);
             Console.WriteLine("Hello World!");
         }
     }
