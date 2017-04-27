@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace ProjectCompi1
+namespace Compiler
 {
     public class FileManager
     {
