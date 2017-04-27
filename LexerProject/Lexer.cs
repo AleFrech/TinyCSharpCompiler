@@ -10,22 +10,22 @@ namespace LexerProject
 {
     public class Lexer
     {
-        InputString _inputString;
-        Symbol _currentSymbol;
-        readonly IdState _idState;
-        readonly SymbolState _symbolState; 
-        readonly ReservedWords _reservedWords;
-        readonly CharState _charState;
-        readonly StringState _stringState;
+        private readonly InputString _inputString;
+        private Symbol _currentSymbol;
+        private readonly IdState _idState;
+        private readonly SymbolState _symbolState;
+        private readonly CharState _charState;
+        private readonly StringState _stringState;
+        private readonly BackSlashState _backslashState;
         public Lexer(InputString inputString)
         {
             _inputString = inputString;
             _currentSymbol = _inputString.GetNextSymbol();
             _idState = new IdState();
             _symbolState = new SymbolState();
-            _reservedWords = new ReservedWords();
             _charState = new CharState();
             _stringState = new StringState();
+            _backslashState = new BackSlashState();
         }
 
         public Token GetNextToken()
@@ -36,27 +36,22 @@ namespace LexerProject
             }
 
             if (_currentSymbol.Character.IsEof())
-            {
                 return new Token { Type = TokenType.Eof };
-            }
+
+            if (_currentSymbol.Character.Equals('/'))
+                return _backslashState.GetToken(ref _currentSymbol, _inputString);
 
             if (_currentSymbol.Character.IsLetterOrUnderscore())
-            {
-                return _idState.GetId( ref _currentSymbol,  _inputString);
-            }
+                    return _idState.GetId(ref _currentSymbol, _inputString);
 
             if(_currentSymbol.Character.IsSingleQuotes())
-            {
                 return _charState.GetChar(ref _currentSymbol, _inputString);
-            }
+            
             if (_currentSymbol.Character.IsDoubleQuotes())
-			{
 				return _stringState.GetString(ref _currentSymbol, _inputString);
-			}
+            
 			if (_symbolState.IsValid(_currentSymbol.Character.ToString()))
-                {
                     return _symbolState.GetSymbol(ref _currentSymbol, _inputString);
-                }
 
             throw new LexicalException("Cannot resolve symbol  " + _currentSymbol.Character + "  Line: " + _currentSymbol.Line + " Column: " + _currentSymbol.Column);
         }
