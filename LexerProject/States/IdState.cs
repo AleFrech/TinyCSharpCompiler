@@ -13,12 +13,11 @@ namespace LexerProject.States
         {
             _reservedWords = new ReservedWords();
         }
-        public Token GetId(Symbol symbol, InputString inputString)
+        public Token GetId( ref Symbol currentSymbol,  InputString inputString)
         {
-            var line = inputString.Line;
-            var col = inputString.Column;
+            var line = currentSymbol.Line;
+            var col = currentSymbol.Column;
             var lexeme = new StringBuilder();
-            var currentSymbol = symbol;
             while (currentSymbol.Character.IsLetterOrDigitOrUnderscore())
             {
                 lexeme.Append(currentSymbol.Character);
