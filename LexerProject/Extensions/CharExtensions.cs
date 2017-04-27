@@ -42,12 +42,6 @@
             return chr.Equals('\'');
         }
 
-
-        public static bool IsEnter(this char chr)
-        {
-            return chr.Equals('\r') || chr.Equals('\n');
-        }
-
         public static bool IsHexValidLetter(this char chr)
         {
             return chr.Equals('a') || chr.Equals('A') || chr.Equals('b') || chr.Equals('B') || chr.Equals('c') || chr.Equals('C') || chr.Equals('d') || chr.Equals('D')

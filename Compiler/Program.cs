@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
-using LexerProject.Extensions;
+using LexerProject;
+using LexerProject.Tokens;
 
 namespace Compiler
 {
@@ -11,12 +12,22 @@ namespace Compiler
             var file = new FileManager();
             var sourceCode = file.GetSourceCode(Path.Combine(AppContext.BaseDirectory.
                 Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/test.cs"));
-            var s = @"
-";
-            var c = s[0];
-            Console.WriteLine(c.IsEnter());
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
+            try
+            {
+
+                var lex = new Lexer(new InputString(sourceCode));
+                var currentToken = lex.GetNextToken();
+                while (currentToken.Type != TokenType.Eof)
+                {
+                    Console.WriteLine(currentToken.ToString());
+                    currentToken = lex.GetNextToken();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            Console.ReadLine();
         }
     }
 }

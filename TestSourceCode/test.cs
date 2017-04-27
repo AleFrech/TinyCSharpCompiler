@@ -1,1 +1,3 @@
-int x =1;
+int x
+Int y           string z
+          hola

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using LexerProject.Token;
+using LexerProject.Tokens;
 
 namespace LexerProject.Tables
 {
