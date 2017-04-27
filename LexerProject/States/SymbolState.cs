@@ -24,17 +24,17 @@ namespace LexerProject.States
                 currentSymbol = inputString.GetNextSymbol();
             }
             var exists = _reserverdSymbols.Collection.ContainsKey(lexeme.ToString().ToLower());
-            if(exists)
-	            return new Token
+            if(!exists)
+				throw new LexicalException("Cannot resolve symbol  " + lexeme.ToString() + "  Line: " + line +
+										   " Column: " + col);
+            return new Token
 	            {
 	                Type = _reserverdSymbols.Collection[lexeme.ToString().ToLower()],
 	                Lexeme = lexeme.ToString(),
 	                Column = col,
 	                Line = line
 	            };
-            else
-                throw new LexicalException("Cannot resolve symbol  " + lexeme.ToString() + "  Line: " + line +
-                                           " Column: " + col);
+                
         }
 
         public bool IsValid(string symbol)

@@ -7,14 +7,15 @@ namespace LexerProject.States
 {
     public class IdState
     {
-        private readonly ReservedWords _reservedWords;
+        readonly ReservedWords _reservedWords;
 
         public IdState()
         {
             _reservedWords = new ReservedWords();
         }
-        public Token GetId( ref Symbol currentSymbol,  InputString inputString)
+        public Token GetId(ref Symbol currentSymbol, InputString inputString)
         {
+            
             var line = currentSymbol.Line;
             var col = currentSymbol.Column;
             var lexeme = new StringBuilder();

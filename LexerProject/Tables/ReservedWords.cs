@@ -54,6 +54,8 @@ namespace LexerProject.Tables
                 { "virtual", TokenType.RwVirtual },
                 { "void", TokenType.RwVoid },
                 { "var", TokenType.RwVar },
+                { "try", TokenType.RwTry },
+                {"finally",TokenType.RwFinally},
                 { "while", TokenType.RwWhile },
             };
 

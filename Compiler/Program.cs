@@ -14,7 +14,7 @@ namespace Compiler
                 Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/test.cs"));
             try
             {
-               
+                var x = "hola \r\n esto esta chidismimo \r\n";
                 var lex = new Lexer(new InputString(sourceCode));
                 var currentToken = lex.GetNextToken();
                 while (currentToken.Type != TokenType.Eof)
