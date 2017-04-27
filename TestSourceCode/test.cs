@@ -1,3 +1,3 @@
-int x
-Int y           string z
+int x= z;
+Int y++ + w-- :           string z
           hola

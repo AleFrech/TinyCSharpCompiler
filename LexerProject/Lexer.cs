@@ -10,15 +10,17 @@ namespace LexerProject
 {
     public class Lexer
     {
-        private InputString _inputString;
-        private Symbol _currentSymbol;
-        private readonly IdState _idState;
-        private readonly  ReservedWords _reservedWords;
+        InputString _inputString;
+        Symbol _currentSymbol;
+        readonly IdState _idState;
+        readonly SymbolState _symbolState; 
+        readonly ReservedWords _reservedWords;
         public Lexer(InputString inputString)
         {
             _inputString = inputString;
             _currentSymbol = _inputString.GetNextSymbol();
             _idState = new IdState();
+            _symbolState = new SymbolState();
             _reservedWords = new ReservedWords();
         }
 
@@ -37,6 +39,12 @@ namespace LexerProject
             if (_currentSymbol.Character.IsLetterOrUnderscore())
             {
                 return _idState.GetId( ref _currentSymbol,  _inputString);
+            }
+
+
+            if(_symbolState.IsValid(_currentSymbol.Character.ToString()))
+            {
+                return _symbolState.GetSymbol(ref _currentSymbol, _inputString);  
             }
 
             throw new LexicalException("Cannot resolve symbol  " + _currentSymbol.Character + "  Line: " + _currentSymbol.Line + " Column: " + _currentSymbol.Column);

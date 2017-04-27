@@ -14,12 +14,12 @@ namespace Compiler
                 Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/test.cs"));
             try
             {
-
+               
                 var lex = new Lexer(new InputString(sourceCode));
                 var currentToken = lex.GetNextToken();
                 while (currentToken.Type != TokenType.Eof)
                 {
-                    Console.WriteLine(currentToken.ToString());
+                    Console.WriteLine(currentToken);
                     currentToken = lex.GetNextToken();
                 }
             }

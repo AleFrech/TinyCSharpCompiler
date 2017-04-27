@@ -24,7 +24,7 @@ namespace LexerProject.States
                 currentSymbol = inputString.GetNextSymbol();
             }
 
-            return new Token()
+            return new Token
             {
                 Type = _reservedWords.Collection.ContainsKey(lexeme.ToString().ToLower()) ? _reservedWords.Collection[lexeme.ToString().ToLower()] : TokenType.Id,
                 Lexeme = lexeme.ToString(),
