@@ -152,6 +152,9 @@
         RwProtected,
         RwTypeof,
         RwFinally,
-        RwVar
+        RwVar,
+        OpCoalescing,
+        RwAs,
+        RwIs
     }
 }

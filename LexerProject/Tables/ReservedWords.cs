@@ -12,6 +12,7 @@ namespace LexerProject.Tables
             Collection = new Dictionary<string, TokenType>
             {
 
+                {"as",TokenType.RwAs},
                 { "abstract", TokenType.RwAbstract},
                 { "break", TokenType.RwBreak },
                 { "bool", TokenType.RwBool},
@@ -34,6 +35,7 @@ namespace LexerProject.Tables
                 { "int", TokenType.RwInt},
                 { "interface", TokenType.RwInterface},
                 { "internal", TokenType.RwInternal},
+                { "is", TokenType.RwIs},
                 { "long", TokenType.RwLong },
                 { "namespace", TokenType.RwNamespace},
                 { "new", TokenType.RwNew},

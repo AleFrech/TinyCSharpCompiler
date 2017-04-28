@@ -47,6 +47,7 @@ namespace LexerProject.Tables
                 {",", TokenType.Comma},
                 {".", TokenType.Period},
                 {"?", TokenType.OpTernario},
+                {"??", TokenType.OpCoalescing},
                 {"(", TokenType.ParOpen},
                 {")", TokenType.ParClose},
                 {"{", TokenType.KeyOpen},
