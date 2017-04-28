@@ -17,6 +17,7 @@ namespace LexerProject
         private readonly CharState _charState;
         private readonly StringState _stringState;
         private readonly CommentState _commentState;
+        private readonly DigitState _digitState;
         public Lexer(InputString inputString)
         {
             _inputString = inputString;
@@ -26,6 +27,7 @@ namespace LexerProject
             _charState = new CharState();
             _stringState = new StringState();
             _commentState = new CommentState();
+            _digitState= new DigitState();
         }
 
         public Token GetNextToken()
@@ -43,10 +45,13 @@ namespace LexerProject
             if (_currentSymbol.Character.IsLetterOrUnderscore())
                     return _idState.GetId(ref _currentSymbol, _inputString);
 
+            if (_currentSymbol.Character.IsLetterOrDigitOrUnderscore())
+                return _digitState.GetDigit(ref _currentSymbol, _inputString);
+
             if(_currentSymbol.Character.IsSingleQuotes())
                 return _charState.GetChar(ref _currentSymbol, _inputString);
             
-            if (_currentSymbol.Character.IsDoubleQuotes())
+            if (_currentSymbol.Character.IsDoubleQuotes()|| _currentSymbol.Character.Equals('@'))
 				return _stringState.GetString(ref _currentSymbol, _inputString);
             
 			if (_symbolState.IsValid(_currentSymbol.Character.ToString()))

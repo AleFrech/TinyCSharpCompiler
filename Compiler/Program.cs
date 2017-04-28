@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.IO;
 using LexerProject;
 using LexerProject.Tokens;
@@ -14,7 +14,11 @@ namespace Compiler
                 Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/test.cs"));
             try
             {
-                var x = "hola \r\n esto esta chidismimo \r\n";
+                var x = @"testing
+ this is new line
+"" internal string """;
+                var y = "testing\n this is new line\n\" internal string \"";
+                var z = x == y;
                 var lex = new Lexer(new InputString(sourceCode));
                 var currentToken = lex.GetNextToken();
                 while (currentToken.Type != TokenType.Eof)
