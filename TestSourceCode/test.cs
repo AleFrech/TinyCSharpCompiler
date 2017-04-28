@@ -19,3 +19,15 @@ int x=y*w;
  int hex=0x;
  
  int test="siiii";
+
+int impuesto = 3.123f;
+
+int fl = 3.234.this 232.f;
+
+var timp= 0.3414.f123 0.123fs;
+
+int bin = 0B010101;
+
+
+int bin = 0b101001 xb 0b010101;
+

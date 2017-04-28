@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.IO;
 using LexerProject;
 using LexerProject.Tokens;
@@ -19,6 +19,7 @@ namespace Compiler
 "" internal string """;
                 var y = "testing\n this is new line\n\" internal string \"";
                 var z = x == y;
+                decimal pin = 34;
                 var lex = new Lexer(new InputString(sourceCode));
                 var currentToken = lex.GetNextToken();
                 while (currentToken.Type != TokenType.Eof)
