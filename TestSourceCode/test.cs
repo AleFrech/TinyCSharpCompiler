@@ -1,3 +1,15 @@
-var txt=" Hola \r Mundo \r esto esta chido";
+var txt=" Hola \t Mundo \r esto esta chido";
 
-//Buen coment
+int want=d/t;
+int speed/=want;
+//Buen coment  mierda 
+
+int x=y*w;
+
+/* So mierda este coment
+    fewfewf wefweff
+     wwfwefw
+      wfwfwefwef
+ */
+ 
+ int test="siiii";

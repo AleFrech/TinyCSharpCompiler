@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿﻿﻿using System;
 using System.Text;
 using LexerProject.Extensions;
 using LexerProject.States;
@@ -16,7 +16,7 @@ namespace LexerProject
         private readonly SymbolState _symbolState;
         private readonly CharState _charState;
         private readonly StringState _stringState;
-        private readonly BackSlashState _backslashState;
+        private readonly CommentState _commentState;
         public Lexer(InputString inputString)
         {
             _inputString = inputString;
@@ -25,21 +25,20 @@ namespace LexerProject
             _symbolState = new SymbolState();
             _charState = new CharState();
             _stringState = new StringState();
-            _backslashState = new BackSlashState();
+            _commentState = new CommentState();
         }
 
         public Token GetNextToken()
         {
-            while (_currentSymbol.Character.IsWhiteSpace())
-            {
-                _currentSymbol = _inputString.GetNextSymbol();
-            }
+			while (_currentSymbol.Character.IsWhiteSpace())
+			{
+				_currentSymbol = _inputString.GetNextSymbol();
+			}
+
+            _commentState.ConsumeComments(ref _currentSymbol,_inputString);
 
             if (_currentSymbol.Character.IsEof())
                 return new Token { Type = TokenType.Eof };
-
-            if (_currentSymbol.Character.Equals('/'))
-                return _backslashState.GetToken(ref _currentSymbol, _inputString);
 
             if (_currentSymbol.Character.IsLetterOrUnderscore())
                     return _idState.GetId(ref _currentSymbol, _inputString);

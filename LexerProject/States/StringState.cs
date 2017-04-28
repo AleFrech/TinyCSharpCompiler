@@ -61,7 +61,7 @@ namespace LexerProject.States
                     };
                 }
             }
-            throw new LexicalException("Cannot resolve symbol  " + lexeme.ToString() + "  Line: " + line +
+            throw new LexicalException("String not  closed   Line: " + line +
                                            " Column: " + col);
         }
     }

@@ -5,10 +5,10 @@ namespace LexerProject
 {
         public class InputString : IInput
         {
-            public string SourceCode;
-            public int CurrentChar;
-            public int Column;
-            public int Line;
+            private string SourceCode;
+            private int CurrentChar;
+            private int Column;
+            private int Line;
 
             public InputString(string input)
             {
@@ -42,5 +42,12 @@ namespace LexerProject
                 }
                 return new Symbol {Character = '\0', Column = Column, Line = Line};
             }
+
+            public void ResetCurrentIndexByOne(){
+                CurrentChar--;
+                Column--;
+            }
+
+
         }
 }
