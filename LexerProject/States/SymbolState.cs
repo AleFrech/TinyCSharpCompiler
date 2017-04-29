@@ -18,15 +18,13 @@ namespace LexerProject.States
 			var line = currentSymbol.Line;
 			var col = currentSymbol.Column;
 			var lexeme = new StringBuilder();
-            while (IsValid(currentSymbol.Character.ToString()))
+            var sym = currentSymbol.Character.ToString();
+            while (IsValid(sym))
             {
                 lexeme.Append(currentSymbol.Character);
                 currentSymbol = inputString.GetNextSymbol();
+                sym += currentSymbol.Character.ToString();
             }
-            var exists = _reserverdSymbols.Collection.ContainsKey(lexeme.ToString().ToLower());
-            if(!exists)
-				throw new LexicalException("Cannot resolve symbol  " + lexeme.ToString() + "  Line: " + line +
-										   " Column: " + col);
             return new Token
 	            {
 	                Type = _reserverdSymbols.Collection[lexeme.ToString().ToLower()],
