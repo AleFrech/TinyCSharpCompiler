@@ -23,10 +23,6 @@ namespace LexerProject.States
                     if (t != null)
                         return t;
                 }
-                if (currentSymbol.Character.Equals('.'))
-                {
-                    return GetFloatNumber(ref currentSymbol, inputString, ref lexeme, col, line);
-                }
                 if (currentSymbol.Character.Equals(('B')) || currentSymbol.Character.Equals(('b')))
                 {
                     lexeme.Append(currentSymbol.Character);
@@ -67,6 +63,10 @@ namespace LexerProject.States
             {
                 return GetFloatNumber(ref currentSymbol, inputString, ref lexeme, col, line);
             }
+            if (currentSymbol.Character.Equals('E') || currentSymbol.Character.Equals('e'))
+            {
+                return GetExponent(ref currentSymbol, inputString, ref lexeme, col, line);
+            }
             return new Token
             {
                 Type = TokenType.LitNum,
@@ -98,15 +98,49 @@ namespace LexerProject.States
                     Line = line
                 };
             }
-            throw new LexicalException("Missing f in float types  " + lexeme.ToString() + "  Line: " + line +
+            throw new LexicalException("Invalid float syntax  " + lexeme.ToString() + "  Line: " + line +
                                        " Column: " + col);
         }
 
-        private Token GetExponent(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme, int col, int line)
+        private Token GetExponent(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme, int col,
+            int line)
         {
-            throw new System.NotImplementedException();
+            int result;
+            lexeme.Append(currentSymbol.Character);
+            currentSymbol = inputString.GetNextSymbol();
+            while (currentSymbol.Character.IsDigit())
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+            }
+            if (lexeme[lexeme.Length - 1].Equals('e') || lexeme[lexeme.Length - 1].Equals('E'))
+            {
+                if (currentSymbol.Character.Equals('-'))
+                {
+                    lexeme.Append(currentSymbol.Character);
+                    currentSymbol = inputString.GetNextSymbol();
+                    while (currentSymbol.Character.IsDigit())
+                    {
+                        lexeme.Append(currentSymbol.Character);
+                        currentSymbol = inputString.GetNextSymbol();
+                    }
+                }
+            }
+            if ((currentSymbol.Character.Equals(('f')) || currentSymbol.Character.Equals(('F'))) && int.TryParse(lexeme[lexeme.Length - 1].ToString(), out result))
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+                return new Token
+                {
+                    Type = TokenType.LitNum,
+                    Lexeme = lexeme.ToString(),
+                    Column = col,
+                    Line = line
+                };
+            }
+            throw new LexicalException("Invalid float syntax  " + lexeme.ToString() + "  Line: " + line +
+                                       " Column: " + col);
         }
-
         private Token GetHeximalNumber(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme,int col,int line)
         {
             lexeme.Append(currentSymbol.Character);

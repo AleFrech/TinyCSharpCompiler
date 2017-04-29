@@ -19,7 +19,7 @@ namespace Compiler
 "" internal string """;
                 var y = "testing\n this is new line\n\" internal string \"";
                 var z = x == y;
-                float mierda = 12e-12f;
+                float mierda = 2e-12f;
                 var lex = new Lexer(new InputString(sourceCode));
                 var currentToken = lex.GetNextToken();
                 while (currentToken.Type != TokenType.Eof)

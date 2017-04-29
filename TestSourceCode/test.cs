@@ -38,3 +38,6 @@ varx =0b01010cwefwfwef;
 
 @testing=1;
 
+
+
+var exp= 3675e10f;
