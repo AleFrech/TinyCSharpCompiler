@@ -1,4 +1,7 @@
 var txt=" Hola \" Mundo \" esto esta chido";
+testing= 3 .14;
+char a= 't';
+char b= '\n';
 
 int want=d/t;
 int speed/=want;
@@ -14,7 +17,7 @@ int x=y*w;
 
  int zero=0;
  int num=120342;
- int hex=0x123aef;
+ int hex=0x123aefghhhgf;
  mierda = culo;
  int hex=0x;
  
@@ -22,12 +25,16 @@ int x=y*w;
 
 int impuesto = 3.123f;
 
-int fl = 3.234.this 232.f;
+int fl = 3.234f.this 232;
 
-var timp= 0.3414.f123 0.123fs;
+var timp= 0.3414f.f123 0.123fs;
 
 int bin = 0B010101;
 
 
-int bin = 0b101001 xb 0b010101;
+int bin = 0b101001xb 0b010101;
+
+varx =0b01010cwefwfwef;
+
+@testing=1;
 

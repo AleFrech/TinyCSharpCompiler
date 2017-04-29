@@ -48,6 +48,12 @@ namespace LexerProject
                 Column--;
             }
 
+            public void RemoveConsumedCaracters(int count)
+            {
+                CurrentChar -= count;
+                Column -= count;
+            }
+
 
         }
 }

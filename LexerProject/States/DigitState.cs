@@ -1,4 +1,5 @@
 ﻿﻿using System.Text;
+using LexerProject.Exceptions;
 using LexerProject.Extensions;
 using LexerProject.Tokens;
 
@@ -24,9 +25,7 @@ namespace LexerProject.States
                 }
                 if (currentSymbol.Character.Equals('.'))
                 {
-                    var t = GetFloatNumber(ref currentSymbol, inputString,ref lexeme,col,line);
-                    if (t != null)
-                        return t;
+                    return GetFloatNumber(ref currentSymbol, inputString, ref lexeme, col, line);
                 }
                 if (currentSymbol.Character.Equals(('B')) || currentSymbol.Character.Equals(('b')))
                 {
@@ -45,7 +44,7 @@ namespace LexerProject.States
                             Column = col,
                             Line = line
                         };
-                    lexeme.Length-=2;
+                    lexeme.Length -= 2;
                     inputString.ResetCurrentIndexByOne();
                     inputString.ResetCurrentIndexByOne();
                     inputString.ResetCurrentIndexByOne();
@@ -58,19 +57,15 @@ namespace LexerProject.States
 
         private Token GetDecimalNumber(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme, int col, int line)
         {
-            int result;
-            lexeme.Append(currentSymbol.Character);
-            currentSymbol = inputString.GetNextSymbol();
+ 
             while (currentSymbol.Character.IsDigit())
             {
                 lexeme.Append(currentSymbol.Character);
                  currentSymbol = inputString.GetNextSymbol();
             }
-            if (currentSymbol.Character.Equals('.') && int.TryParse(lexeme.ToString(), out result))
+            if (currentSymbol.Character.Equals('.'))
             {
-                var t = GetFloatNumber(ref currentSymbol, inputString,ref lexeme,col,line);
-                if (t != null)
-                    return t;
+                return GetFloatNumber(ref currentSymbol, inputString, ref lexeme, col, line);
             }
             return new Token
             {
@@ -91,38 +86,20 @@ namespace LexerProject.States
                 lexeme.Append(currentSymbol.Character);
                 currentSymbol = inputString.GetNextSymbol();
             }
-            if (int.TryParse(lexeme[lexeme.Length - 1].ToString(), out result))
+            if ((currentSymbol.Character.Equals(('f')) || currentSymbol.Character.Equals(('F'))) && int.TryParse(lexeme[lexeme.Length - 1].ToString(), out result))
             {
-                if (currentSymbol.Character.Equals('E') || currentSymbol.Character.Equals('e'))
-                {
-                    var t = GetExponent(ref currentSymbol, inputString, ref lexeme, col, line);
-                    if (t != null)
-                        return t;
-                }
-                if (!lexeme[lexeme.Length - 1].Equals('.'))
-                {
-                    if (currentSymbol.Character.Equals('F') || currentSymbol.Character.Equals('f'))
-                    {
-                        lexeme.Append(currentSymbol.Character);
-                        currentSymbol = inputString.GetNextSymbol();
-                    }
-                    return new Token
-                    {
-                        Type = TokenType.LitNum,
-                        Lexeme = lexeme.ToString(),
-                        Column = col,
-                        Line = line
-                    };
-                }
-                lexeme.Length--;
-                inputString.ResetCurrentIndexByOne();
+                lexeme.Append(currentSymbol.Character);
                 currentSymbol = inputString.GetNextSymbol();
+                return new Token
+                {
+                    Type = TokenType.LitNum,
+                    Lexeme = lexeme.ToString(),
+                    Column = col,
+                    Line = line
+                };
             }
-            lexeme.Length--;
-            inputString.ResetCurrentIndexByOne();
-            inputString.ResetCurrentIndexByOne();
-            currentSymbol = inputString.GetNextSymbol();
-            return null;
+            throw new LexicalException("Missing f in float types  " + lexeme.ToString() + "  Line: " + line +
+                                       " Column: " + col);
         }
 
         private Token GetExponent(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme, int col, int line)
