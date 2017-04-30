@@ -1,6 +1,4 @@
-﻿using System.Text;
-using LexerProject.Exceptions;
-using LexerProject.Tokens;
+﻿using LexerProject.Exceptions;
 using LexerProject.Extensions;
 
 namespace LexerProject.States
@@ -15,10 +13,14 @@ namespace LexerProject.States
                 if (currentSymbol.Character.Equals('/'))
                 {
                     currentSymbol = inputString.GetNextSymbol();
-                    while (!currentSymbol.Character.Equals('\r') && !currentSymbol.Character.Equals('\n') && !currentSymbol.Character.IsEof())
+                    while (true)
                     {
+                        if (currentSymbol.Character.Equals('\r') || currentSymbol.Character.Equals('\n') ||
+                            currentSymbol.Character.IsEof())
+                            break;
                         currentSymbol = inputString.GetNextSymbol();
                     }
+
 
                 }
                 else if (currentSymbol.Character.Equals('*'))
@@ -40,11 +42,6 @@ namespace LexerProject.States
                         }
                         currentSymbol = inputString.GetNextSymbol();
                     }
-                }
-                else{
-                    inputString.ResetCurrentIndexByOne();
-                    inputString.ResetCurrentIndexByOne();
-                    currentSymbol = inputString.GetNextSymbol();
                 }
             }
 
