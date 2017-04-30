@@ -1,5 +1,5 @@
-﻿using LexerProject.Exceptions;
-using LexerProject.Extensions;
+﻿using LexerProject.Extensions;
+using LexerProject.Exceptions;
 
 namespace LexerProject.States
 {
@@ -8,20 +8,22 @@ namespace LexerProject.States
 
         public void ConsumeComments(ref Symbol currentSymbol,InputString inputString)
         {
-            if(currentSymbol.Character.Equals('/')){
+            if (currentSymbol.Character.Equals('/'))
+            {
                 currentSymbol = inputString.GetNextSymbol();
                 if (currentSymbol.Character.Equals('/'))
                 {
                     currentSymbol = inputString.GetNextSymbol();
-                    while (true)
+                    while (!currentSymbol.Character.Equals('\r') && !currentSymbol.Character.Equals('\n') &&
+                           !currentSymbol.Character.IsEof())
                     {
-                        if (currentSymbol.Character.Equals('\r') || currentSymbol.Character.Equals('\n') ||
-                            currentSymbol.Character.IsEof())
-                            break;
                         currentSymbol = inputString.GetNextSymbol();
                     }
-
-
+                    while (currentSymbol.Character.IsWhiteSpace())
+                    {
+                        currentSymbol = inputString.GetNextSymbol();
+                    }
+                    ConsumeComments(ref currentSymbol,inputString);
                 }
                 else if (currentSymbol.Character.Equals('*'))
                 {
@@ -42,13 +44,19 @@ namespace LexerProject.States
                         }
                         currentSymbol = inputString.GetNextSymbol();
                     }
+                    while (currentSymbol.Character.IsWhiteSpace())
+                    {
+                        currentSymbol = inputString.GetNextSymbol();
+                    }
+                    ConsumeComments(ref currentSymbol, inputString);
+                }
+                else
+                {
+                    inputString.RemoveConsumedCaracters(2);
+                    currentSymbol = inputString.GetNextSymbol();
                 }
             }
-
-            while (currentSymbol.Character.IsWhiteSpace())
-            {
-                currentSymbol = inputString.GetNextSymbol();
-            }
+          
         }
     }
 }
