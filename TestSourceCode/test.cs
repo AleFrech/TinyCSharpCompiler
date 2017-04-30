@@ -1,4 +1,5 @@
-var txt=" Hola \" Mundo \" esto esta chido";
+var txt=" Hola \" Mundo \" esto est
+ chido";
 testing= 3 .14;
 char a= 't';
 char b= '\n';
@@ -41,3 +42,5 @@ varx =0b01010cwefwfwef;
 
 
 var exp= 3675e10f;
+
+var exp1= 123.315e10f;

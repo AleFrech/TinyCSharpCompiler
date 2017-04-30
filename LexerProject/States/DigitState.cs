@@ -86,13 +86,17 @@ namespace LexerProject.States
                 lexeme.Append(currentSymbol.Character);
                 currentSymbol = inputString.GetNextSymbol();
             }
+            if (currentSymbol.Character.Equals('E') || currentSymbol.Character.Equals('e'))
+            {
+                return GetExponent(ref currentSymbol, inputString, ref lexeme, col, line);
+            }
             if ((currentSymbol.Character.Equals(('f')) || currentSymbol.Character.Equals(('F'))) && int.TryParse(lexeme[lexeme.Length - 1].ToString(), out result))
             {
                 lexeme.Append(currentSymbol.Character);
                 currentSymbol = inputString.GetNextSymbol();
                 return new Token
                 {
-                    Type = TokenType.LitNum,
+                    Type = TokenType.LitFloat,
                     Lexeme = lexeme.ToString(),
                     Column = col,
                     Line = line
@@ -132,7 +136,7 @@ namespace LexerProject.States
                 currentSymbol = inputString.GetNextSymbol();
                 return new Token
                 {
-                    Type = TokenType.LitNum,
+                    Type = TokenType.LitFloat,
                     Lexeme = lexeme.ToString(),
                     Column = col,
                     Line = line
