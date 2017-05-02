@@ -43,14 +43,12 @@ namespace LexerProject.States
                 lexeme.Append(currentSymbol.Character);
                  currentSymbol = inputString.GetNextSymbol();
             }
-            if (currentSymbol.Character.Equals('.'))
-            {
+            if (currentSymbol.Character.Equals('.') || currentSymbol.Character.Equals('F') || currentSymbol.Character.Equals('f'))
                 return GetFloatNumber(ref currentSymbol, inputString, ref lexeme, col, line);
-            }
+            
             if (currentSymbol.Character.Equals('E') || currentSymbol.Character.Equals('e'))
-            {
                 return GetExponent(ref currentSymbol, inputString, ref lexeme, col, line);
-            }
+            
             return new Token
             {
                 Type = TokenType.LitNum,
@@ -63,12 +61,15 @@ namespace LexerProject.States
         private Token GetFloatNumber(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme, int col, int line)
         {
             int result;
-            lexeme.Append(currentSymbol.Character);
-            currentSymbol = inputString.GetNextSymbol();
-            while (currentSymbol.Character.IsDigit())
+            if (currentSymbol.Character.Equals('.'))
             {
                 lexeme.Append(currentSymbol.Character);
                 currentSymbol = inputString.GetNextSymbol();
+				while (currentSymbol.Character.IsDigit())
+				{
+					lexeme.Append(currentSymbol.Character);
+					currentSymbol = inputString.GetNextSymbol();
+				}
             }
             if (currentSymbol.Character.Equals('E') || currentSymbol.Character.Equals('e'))
             {
