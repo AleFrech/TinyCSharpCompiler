@@ -1,4 +1,4 @@
-﻿﻿﻿using System.Text;
+using System.Text;
 using LexerProject.Exceptions;
 using LexerProject.Extensions;
 using LexerProject.Tokens;
