@@ -155,6 +155,27 @@
         RwVar,
         OpCoalescing,
         RwAs,
-        RwIs
+        RwIs,
+        RwBase,
+        RwByte,
+        RwChecked,
+        RwDecimal,
+        RwDelegate,
+        RwEvent,
+        RwFixed,
+        RwImplicit,
+        RwIn,
+        RwLock,
+        RwOut,
+        RwParams,
+        RwReadonly,
+        RwRef,
+        RwSbyte,
+        RwSealed,
+        RwUint,
+        RwUlong,
+        RwUnchecked,
+        RwUnsafe,
+        RwUshort
     }
 }

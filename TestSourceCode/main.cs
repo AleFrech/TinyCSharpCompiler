@@ -14,12 +14,14 @@ namespace Compiler
                 Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/main.cs"));
             try
             {
-/*                var x = @"testing
- this is new line
-"" internal string """;
-                var y = "testing\n this is new line\n\" internal string \"";*/
+//                var x = @"testing
+//  this is new line
+var div= er/r;
+// "" internal string """;
+//                 var y = "testing\n this is new line\n\" internal string \"";
                 var z = x == y;
                 float mierda = 2e-12f;
+
                 var lex = new Lexer(new InputString(sourceCode));
                 var currentToken = lex.GetNextToken();
                 while (currentToken.Type != TokenType.Eof)

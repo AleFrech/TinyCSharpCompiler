@@ -11,7 +11,7 @@ namespace Compiler
         {
             var file = new FileManager();
             var sourceCode = file.GetSourceCode(Path.Combine(AppContext.BaseDirectory.
-                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/main.cs"));
+                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/varbatinTest.cs"));
             try
             {
                 var x = @"testing

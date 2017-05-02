@@ -1,0 +1,1 @@
+var x=@"hola "" que onda"" "" adios"" " 

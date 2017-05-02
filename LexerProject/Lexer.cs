@@ -56,7 +56,7 @@ namespace LexerProject
             if(_currentSymbol.Character.IsSingleQuotes())
                 return _charState.GetChar(ref _currentSymbol, _inputString);
             
-            if (_currentSymbol.Character.IsDoubleQuotes()|| _currentSymbol.Character.Equals('@'))
+            if (_currentSymbol.Character.IsDoubleQuotes())
 				return _stringState.GetString(ref _currentSymbol, _inputString);
             
 			if (_symbolState.IsValid(_currentSymbol.Character.ToString()))

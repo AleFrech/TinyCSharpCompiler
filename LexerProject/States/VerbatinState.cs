@@ -29,7 +29,41 @@ namespace LexerProject.States
                     Line = line
                 };
             }
+            if (currentSymbol.Character.IsDoubleQuotes())
+            {
+
+                return GetVerbatinString(ref currentSymbol, inputString, ref lexeme, col, line);
+
+            }
             throw new LexicalException("Cannot resolve symbol  " + lexeme.ToString() + "  Line: " + line + " Column: " + col);
         }
+
+
+        public Token GetVerbatinString(ref Symbol currentSymbol, InputString inputString,ref StringBuilder lexeme, int col, int line)
+        {
+            lexeme.Append(currentSymbol.Character);
+            currentSymbol = inputString.GetNextSymbol();
+            while (!currentSymbol.Character.IsDoubleQuotes() && !currentSymbol.Character.IsEof())
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+            }
+            if (currentSymbol.Character.IsDoubleQuotes())
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+                if(currentSymbol.Character.IsDoubleQuotes())
+                    return GetVerbatinString(ref currentSymbol, inputString, ref lexeme, col, line);
+                return new Token
+                {
+                    Type = TokenType.LitString,
+                    Lexeme = lexeme.ToString(),
+                    Column = col,
+                    Line = line
+                };
+            }
+            throw new LexicalException("Cannot resolve symbol  " + lexeme.ToString() + "  Line: " + line + " Column: " + col);
+        }
+
     }
 }
