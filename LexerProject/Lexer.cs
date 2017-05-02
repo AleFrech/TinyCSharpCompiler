@@ -55,7 +55,7 @@ namespace LexerProject
             
             if (_currentSymbol.Character.IsDoubleQuotes())
 				return _stringState.GetString(ref _currentSymbol, _inputString);
-            
+
 			if (_symbolState.IsValid(_currentSymbol.Character.ToString()))
                 return _symbolState.GetSymbol(ref _currentSymbol, _inputString);
 
