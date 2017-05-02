@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using LexerProject.Tokens;
 using LexerProject.Tables;
 using LexerProject.Extensions;

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using LexerProject.Tokens;
 using LexerProject.Tables;
-using LexerProject.Exceptions;
+
 namespace LexerProject.States
 {
     public class SymbolState

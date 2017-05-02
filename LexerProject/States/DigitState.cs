@@ -1,4 +1,4 @@
-﻿﻿using System.Text;
+﻿﻿﻿using System.Text;
 using LexerProject.Exceptions;
 using LexerProject.Extensions;
 using LexerProject.Tokens;
@@ -25,29 +25,13 @@ namespace LexerProject.States
                 }
                 if (currentSymbol.Character.Equals(('B')) || currentSymbol.Character.Equals(('b')))
                 {
-                    lexeme.Append(currentSymbol.Character);
-                    currentSymbol = inputString.GetNextSymbol();
-                    while (currentSymbol.Character.Equals('0') || currentSymbol.Character.Equals('1'))
-                    {
-                        lexeme.Append(currentSymbol.Character);
-                        currentSymbol = inputString.GetNextSymbol();
-                    }
-                    if(lexeme[lexeme.Length-1].Equals('0') && lexeme[lexeme.Length-1].Equals('1'))
-                        return new Token
-                        {
-                            Type = TokenType.LitNum,
-                            Lexeme = lexeme.ToString(),
-                            Column = col,
-                            Line = line
-                        };
-                    lexeme.Length -= 2;
-                    inputString.ResetCurrentIndexByOne();
-                    inputString.ResetCurrentIndexByOne();
-                    inputString.ResetCurrentIndexByOne();
-                    currentSymbol = inputString.GetNextSymbol();
+                    var t= GetBinaryNumber(ref currentSymbol, inputString,ref lexeme,col,line);
+                    if (t != null)
+                        return t;
                 }
 
             }
+
             return GetDecimalNumber(ref currentSymbol, inputString, ref lexeme, col, line);
         }
 
@@ -165,9 +149,31 @@ namespace LexerProject.States
                 };
             }
             lexeme.Length-=2;
-            inputString.ResetCurrentIndexByOne();
-			inputString.ResetCurrentIndexByOne();
-            inputString.ResetCurrentIndexByOne();
+            inputString.RemoveConsumedCaracters(3);
+            currentSymbol = inputString.GetNextSymbol();
+            return null;
+        }
+
+        private Token GetBinaryNumber(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme,
+            int col, int line)
+        {
+            lexeme.Append(currentSymbol.Character);
+            currentSymbol = inputString.GetNextSymbol();
+            while (currentSymbol.Character.Equals('0') || currentSymbol.Character.Equals('1'))
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+            }
+            if(lexeme[lexeme.Length-1].Equals('0') || lexeme[lexeme.Length-1].Equals('1'))
+                return new Token
+                {
+                    Type = TokenType.LitNum,
+                    Lexeme = lexeme.ToString(),
+                    Column = col,
+                    Line = line
+                };
+            lexeme.Length -= 2;
+            inputString.RemoveConsumedCaracters(3);
             currentSymbol = inputString.GetNextSymbol();
             return null;
         }

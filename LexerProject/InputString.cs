@@ -1,59 +1,52 @@
-﻿using LexerProject.Extensions;
-using LexerProject.Interfaces;
+﻿using LexerProject.Interfaces;
 
 namespace LexerProject
 {
         public class InputString : IInput
         {
-            private string SourceCode;
-            private int CurrentChar;
-            private int Column;
-            private int Line;
+            private readonly string _sourceCode;
+            private int _currentChar;
+            private int _column;
+            private int _line;
 
             public InputString(string input)
             {
-                SourceCode = input;
-                Line = 1;
-                Column = 1;
-                CurrentChar = 0;
+                _sourceCode = input;
+                _line = 1;
+                _column = 1;
+                _currentChar = 0;
             }
 
             
             public Symbol GetNextSymbol()
             {
-                if (CurrentChar < SourceCode.Length)
+                if (_currentChar < _sourceCode.Length)
                 {
-                    if (SourceCode[CurrentChar]=='\r')
+                    if (_sourceCode[_currentChar]=='\r')
                     {
-                        CurrentChar++;
-                        Line++;
-                        Column = 1;
-                        return new Symbol { Character = SourceCode[CurrentChar++], Column = Column, Line = Line };
+                        _currentChar++;
+                        _line++;
+                        _column = 1;
+                        return new Symbol { Character = _sourceCode[_currentChar++], Column = _column, Line = _line };
                  
                     }
-                    if (SourceCode[CurrentChar] == '\n')
+                    if (_sourceCode[_currentChar] == '\n')
                     {
-                        Line ++;
-                        Column = 1;
-                        return new Symbol { Character = SourceCode[CurrentChar ++], Column = Column, Line = Line };
+                        _line ++;
+                        _column = 1;
+                        return new Symbol { Character = _sourceCode[_currentChar ++], Column = _column, Line = _line };
                     }
 
-                    return new Symbol { Character = SourceCode[CurrentChar++], Column = Column++, Line = Line };
+                    return new Symbol { Character = _sourceCode[_currentChar++], Column = _column++, Line = _line };
                 }
-                return new Symbol {Character = '\0', Column = Column, Line = Line};
-            }
-
-            public void ResetCurrentIndexByOne(){
-                CurrentChar--;
-                Column--;
+                return new Symbol {Character = '\0', Column = _column, Line = _line};
             }
 
             public void RemoveConsumedCaracters(int count)
             {
-                CurrentChar -= count;
-                Column -= count;
+                _currentChar -= count;
+                _column -= count;
             }
-
 
         }
 }

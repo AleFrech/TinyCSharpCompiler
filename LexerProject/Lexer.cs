@@ -1,10 +1,7 @@
-﻿﻿﻿﻿using System;
-using System.Text;
-using LexerProject.Extensions;
+﻿using LexerProject.Extensions;
 using LexerProject.States;
 using LexerProject.Tokens;
 using LexerProject.Exceptions;
-using LexerProject.Tables;
 
 namespace LexerProject
 {
