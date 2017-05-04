@@ -21,6 +21,7 @@ namespace Compiler
                     Console.WriteLine(currentToken);
                     currentToken = lex.GetNextToken();
                 }
+                Console.WriteLine(currentToken);
             }
             catch (Exception e)
             {

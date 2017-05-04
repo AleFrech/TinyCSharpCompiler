@@ -39,7 +39,7 @@ namespace LexerProject
             _commentState.ConsumeComments(ref _currentSymbol,_inputString);
 
             if (_currentSymbol.Character.IsEof())
-                return new Token { Type = TokenType.Eof };
+                return new Token { Type = TokenType.Eof ,Column = _currentSymbol.Column,Line = _currentSymbol.Line};
 
             if (_currentSymbol.Character.Equals('@'))
                 return _verbatinState.GetToken(ref _currentSymbol, _inputString);
