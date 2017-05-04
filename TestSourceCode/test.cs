@@ -45,3 +45,5 @@ var exp1= 123.315e10f;
 
 
 int bin = 0b10101fwfwe
+
+0B01Ab;s

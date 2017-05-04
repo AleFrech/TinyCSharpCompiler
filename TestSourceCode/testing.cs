@@ -1,184 +1,294 @@
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using System.Web.Security;
+using AutoMapper;
+using StackOverflow.Data;
+using StackOverflow.Domain.Entities;
+using StackOverflow.Web.Controllers;
+using StackOverflow.Web.Models;
 
-using System.Drawing;
-using Spire.Doc;
-using Spire.Doc.Documents;
-using Spire.Doc.Fields;
-using VinculacionBackend.Interfaces;
-
-namespace VinculacionBackend.Services
+namespace StackOverflow.Web.Controllers
 {
-    public class TextDocumentServices:ITextDocumentServices
+    public class QuestionController : Controller
     {
-        private readonly ITextDoucment _textDoucment;
-
-        public TextDocumentServices(ITextDoucment textDoucment)
+         private readonly IMappingEngine _mappingEngine;
+        public QuestionController(IMappingEngine mappingEngine)
         {
-            _textDoucment = textDoucment;
+            _mappingEngine = mappingEngine;
         }
-
-        public void AddDataToTable(Table table, string[][] data, string font, float fontsize, int offset)
+        
+        public ActionResult Index(string order,int cant=25)
         {
+            ViewData["cant"] = cant;
 
-            for (int r = 0; r < data.Length; r++)
+            List<QuestionListModel>models =new List<QuestionListModel>();
+            var context = new StackOverflowContext();
+            foreach (var q in context.Questions)
             {
-                TableRow dataRow = table.Rows[r + offset];
-                dataRow.Height = 20;
-                for (int c = 0; c < data[r].Length; c++)
-                {
-                    dataRow.Cells[c].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                    Paragraph p2 = dataRow.Cells[c].AddParagraph();
-                    TextRange tr2 = p2.AppendText(data[r][c]);
-                    p2.Format.HorizontalAlignment = HorizontalAlignment.Left;
-                    tr2.CharacterFormat.FontName = font;
-                    tr2.CharacterFormat.FontSize = fontsize;
-                    tr2.CharacterFormat.Bold = true;
-                }
+              
+                QuestionListModel question = new QuestionListModel();
+                question.Title = q.Title;
+                question.OwnerID = q.Owner.Id;
+                question.OwnerName = q.Owner.Name+" "+q.Owner.LastName;
+                question.CreationDate = q.CreationDate;
+                question.Votes = q.Votes;
+                question.Views = q.Views;
+                question.Answers = q.Answers;
+                question.QuestionID = q.Id;
+                question.ImageUrl = context.Accounts.Find(q.Owner.Id).ImageUrl;
+                models.Add(question);
 
             }
-            table.TableFormat.Borders.BorderType = BorderStyle.Single;
-            table.TableFormat.HorizontalAlignment = RowAlignment.Left;
-            table.TableFormat.LeftIndent = 8f;
-        }
-
-        public void AddDataToTableWithHeader(Table table, string[] header, string[][] data, int columnCount, string font, float fontsize)
-        {
-            table.ResetCells(data.Length + 1, columnCount);
-
-            TableRow frow = table.Rows[0];
-            frow.Height = 30;
-
-            frow.HeightType = TableRowHeightType.Exactly;
-            frow.RowFormat.BackColor = Color.LightGray;
-            for (int i = 0; i < header.Length; i++)
+          
+            models = models.OrderByDescending(x => x.CreationDate).ToList();
+            if (cant > models.Count)
             {
-                frow.Cells[i].CellFormat.VerticalAlignment = VerticalAlignment.Middle;
-                Paragraph p = frow.Cells[i].AddParagraph();
-                p.Format.HorizontalAlignment = HorizontalAlignment.Center;
-                TextRange txtRange = p.AppendText(header[i]);
-                txtRange.CharacterFormat.FontName = font;
-                txtRange.CharacterFormat.FontSize = fontsize;
-                if (i == header.Length - 1)
-                {
-                    txtRange.CharacterFormat.Bold = true;
-                    txtRange.CharacterFormat.TextColor = Color.Red;
-                }
+                ViewBag.botton = "Hide";
             }
-            AddDataToTable(table, data, font, fontsize, 1);
-        }
-
-        public ParagraphStyle CreateParagraphStyle(Document doc, string styleName, string fontName, float fontSize, bool bold)
-        {
-            return new ParagraphStyle(doc)
+            models = models.Take(cant).ToList();
+            ViewBag.filter = "Date";
+            if (order != null)
             {
-                Name = styleName,
-                CharacterFormat =
+                if (order.Equals("Date"))
                 {
-                    FontName = fontName,
-                    FontSize =fontSize,
-                    Bold = bold,
+                    models = models.OrderByDescending(x => x.CreationDate).ToList();
+                    ViewBag.filter = "Date";
                 }
-            };
+                if (order.Equals("Vote"))
+                {
+                    models = models.OrderByDescending(x => x.Votes).ToList();
+                    ViewBag.filter = "Vote";
+                }
+                if (order.Equals("View"))
+                {
+                    ViewBag.filter = "View";
+                    models = models.OrderByDescending(x => x.Views).ToList();
+                }
+                if (order.Equals("Answer"))
+                {
+                    ViewBag.filter = "Answer";
+                    models = models.OrderByDescending(x => x.Answers).ToList();
+                }
+
+
+
+            } 
+          
+            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName]; 
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid ownerId = Guid.Parse(ticket.Name);
+                ViewData["loginUser"] = ownerId; 
+            }
+           
+ 
+            return View(models);
         }
-
-
-        public void AddImageToParagraph(Paragraph paragraph, Bitmap image, float height, float width, TextWrappingStyle textWrappingStyle)
+        [Authorize]
+        public ActionResult NewQuestion()
         {
-            var picture = CreateImage(paragraph, image);
-            picture.Height = height;
-            picture.Width = width;
-            picture.VerticalPosition = picture.VerticalPosition + 45;
-            picture.TextWrappingStyle = textWrappingStyle;
+            return View(new NewQuestionModel());
         }
 
-        public DocPicture AppendPictureToHeader(Paragraph headParagraph,Bitmap image,float height,float width,float horizontalPosition,float verticalPosition)
+        [HttpPost]
+        public ActionResult NewQuestion(NewQuestionModel model)
         {
-            var picture= CreateImage(headParagraph, image);
-            picture.TextWrappingStyle=TextWrappingStyle.Tight;
-            picture.TextWrappingType=TextWrappingType.Both;
-            picture.HorizontalOrigin = HorizontalOrigin.Page;
-            picture.HorizontalPosition = horizontalPosition;
-            picture.VerticalOrigin=VerticalOrigin.Paragraph;
-            picture.VerticalPosition = verticalPosition;
-            picture.Height = height;
-            picture.Width = width;
-            return picture;
-        }
+            if (ModelState.IsValid)
+            {
+                var question = _mappingEngine.Map<NewQuestionModel,Question>(model);
+                var context = new StackOverflowContext();
+                 HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                if(cookie!=null)
+                {
+                     FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                     Guid ownerId = Guid.Parse(ticket.Name);
+                     question.CreationDate = DateTime.Now;
+                     question.ModififcationnDate = DateTime.Now;
+                     question.Votes = 0;
+                     question.Views = 0;
+                     question.Answers = 0;
+                     question.Owner = context.Accounts.FirstOrDefault(x=>x.Id==ownerId);
+                     context.Questions.Add(question);        
+                     context.SaveChanges();
+                }
+              
+               return RedirectToAction("Index");            
+                
+            }
+            return View(model);
 
-        public void AppendTextToFooter(Paragraph footerParagraph, string text,string fontName,float fontSize)
+       
+        }
+        [AllowAnonymous]
+        public ActionResult QuestionDetail( Guid ID)
         {
-            var textRange=footerParagraph.AppendText(text);
-            textRange.CharacterFormat.FontName = fontName;
-            textRange.CharacterFormat.FontSize = fontSize;
+            ViewData["id"] = ID.ToString();
+            TempData["qID"] = ID;
+            if (TempData["AnswerBelow5word"] != null)
+                ViewData["AnswerBelow5word"] = TempData["AnswerBelow5word"];
+            
+            addQuestionViews(ID);
+            QuestionDetailModel model = new QuestionDetailModel();
+            if (ModelState.IsValid)
+            {
+                var context = new StackOverflowContext();
+                HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+                if (cookie != null)
+                {
+                    
+                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                    Guid ownerId = Guid.Parse(ticket.Name);
+                    ViewData["logUser"] = ownerId;
+                    foreach (var v in context.Votes)
+                    {
+                        if (v.AccountID == ownerId && v.FatherID == ID)
+                            ViewBag.Voted = "You alredy voted for this Question";
+                    }
+                }
+                var md = new MarkdownDeep.Markdown();
+                model.Title = context.Questions.FirstOrDefault(x => x.Id == ID).Title;
+                model.Decription = md.Transform(context.Questions.FirstOrDefault(x => x.Id == ID).Description);
+                model.QuestionId = ID;
+                model.Owner = context.Questions.FirstOrDefault(x => x.Id == ID).Owner;
+                model.Votes = context.Questions.FirstOrDefault(x => x.Id == ID).Votes;
+                model.Views = context.Questions.FirstOrDefault(x => x.Id == ID).Views;
+                int cont = Enumerable.Count(context.Answers, a => a.QuestionId == ID);
+                context.Questions.Find(ID).Answers=cont;
+                context.SaveChanges();
+                model.Answers = context.Questions.FirstOrDefault(x => x.Id == ID).Answers;
+                return View(model);
+
+            }
+            
+            return View(model);
         }
 
-
-        public void SetPageMArgins(Section page,float top, float bottom, float left, float right)
+        [Authorize]
+        public ActionResult UpVote(Guid ID)
         {
-            page.PageSetup.Margins.Top = top;
-            page.PageSetup.Margins.Bottom = bottom;
-            page.PageSetup.Margins.Left = left;
-            page.PageSetup.Margins.Right = right;
+            var context = new StackOverflowContext();
+            var question = context.Questions.Find(ID);
+            var votes = context.Votes;
+            var vote = new Vote();
+             HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid ownerID = Guid.Parse(ticket.Name);
 
+                foreach (var v in votes)
+                {
+                    if(v.AccountID==ownerID&&v.FatherID==ID)
+                        return RedirectToAction("QuestionDetail", new { ID = ID });
+                }
+                vote.AccountID = ownerID;
+                vote.FatherID = ID;
+                votes.Add(vote);
+                question.Votes++;
+            }
+
+            context.SaveChanges();
+            return RedirectToAction("QuestionDetail", new { ID = ID });
+           
         }
 
-
-        public TextRange AddTextToParagraph(string text, Paragraph paragraph, ParagraphStyle style, Document document,HorizontalAlignment aligment=HorizontalAlignment.Left,float linespacing=0)
+        [Authorize]
+        public ActionResult DownVote(Guid ID)
         {
-            var textrange=paragraph.AppendText(text);
-            document.Styles.Add(style);
-            paragraph.ApplyStyle(style.Name);
-            if(linespacing!=0)
-                paragraph.Format.LineSpacing =linespacing;
-            paragraph.Format.HorizontalAlignment=aligment;
-            return textrange;
+            var context = new StackOverflowContext();
+            var question = context.Questions.Find(ID);
+            var votes = context.Votes;
+            var vote = new Vote();
+            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid ownerID = Guid.Parse(ticket.Name);
+
+                foreach (var v in votes)
+                {
+                    if (v.AccountID == ownerID && v.FatherID == ID)
+                        return RedirectToAction("QuestionDetail", new { ID = ID });
+                }
+                vote.AccountID = ownerID;
+                vote.FatherID = ID;
+                votes.Add(vote);
+                question.Votes--;
+            }
+
+            context.SaveChanges();
+            return RedirectToAction("QuestionDetail", new { ID = ID });
         }
 
-
-        public Paragraph CreateHeaderParagraph(HeaderFooter header)
+        [Authorize]
+        public ActionResult DeleteQuestion(Guid ID)
         {
-            return header.AddParagraph();
+            var context = new StackOverflowContext();
+            var question = context.Questions.Find(ID);
+            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
+                Guid ownerId = Guid.Parse(ticket.Name);
+                if (question.Owner.Id == ownerId)
+                {
+                    foreach (Answer a in context.Answers)
+                    {
+                        if (a.QuestionId == ID)
+                        {
+                            context.Answers.Remove(a);
+                        } 
+                    }
+                    foreach (Comment c in context.Comments)
+                    {
+                        if (c.FatherId == ID)
+                        {
+                            context.Comments.Remove(c);
+                        }
+                    }
+                    context.Questions.Remove(question);
+
+                    context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                
+
+            }
+
+            return RedirectToAction("QuestionDetail", new { ID = ID });
+
         }
 
-        public Paragraph CreateFooterParagraph(HeaderFooter footer)
+        private void addQuestionViews(Guid qId)
         {
-            return footer.AddParagraph();
+            var context = new StackOverflowContext();
+            context.Questions.Find(qId).Views++;
+            context.SaveChanges();         
         }
 
-        public DocPicture CreateImage(Paragraph p,Bitmap image)
+        public ActionResult OrerByDate()
         {
-            return _textDoucment.AddImage(p, image);
+            return RedirectToAction("Index",new{order="Date"});
         }
-
-        public Paragraph CreateParagraph(Section page)
+        public ActionResult OrerByVotes()
         {
-            return _textDoucment.CreateParagraph(page);
+            return RedirectToAction("Index", new { order = "Vote" });
         }
-
-        public Section CreatePage(Document doc)
+        public ActionResult OrerByAnswers()
         {
-            return _textDoucment.CreatePage(doc);
+            return RedirectToAction("Index", new { order = "Answer" });
         }
-
-
-        public Document CreaDocument()
+        public ActionResult OrerByViews()
         {
-            return _textDoucment.CreateDocument();
+            return RedirectToAction("Index", new { order = "View" });
         }
 
-        public Table CreateTable(Section page)
-        {
-            return _textDoucment.CreateTable(page);
-        }
 
-        public HeaderFooter CreateHeader(Document doc)
-        {
-            return _textDoucment.CreateHeader(doc);
-        }
-
-        public HeaderFooter CreaFooter(Document doc)
-        {
-            return _textDoucment.CreaFooter(doc);
-        }
-
+     
     }
 }

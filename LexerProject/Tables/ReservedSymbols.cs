@@ -55,7 +55,7 @@ namespace LexerProject.Tables
                 {"[", TokenType.BraOpen},
                 {"]", TokenType.BraClose},
                 {":", TokenType.Colon},
-                {"->", TokenType.Arrow},
+                {"=>", TokenType.Arrow},
             };
         }
 
