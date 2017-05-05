@@ -1,294 +1,182 @@
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Security;
-using AutoMapper;
-using StackOverflow.Data;
-using StackOverflow.Domain.Entities;
-using StackOverflow.Web.Controllers;
-using StackOverflow.Web.Models;
+using System.Text;
+using LexerProject.Exceptions;
+using LexerProject.Extensions;
+using LexerProject.Tokens;
 
-namespace StackOverflow.Web.Controllers
+namespace LexerProject.States
 {
-    public class QuestionController : Controller
+    public class DigitState
     {
-         private readonly IMappingEngine _mappingEngine;
-        public QuestionController(IMappingEngine mappingEngine)
+
+        public Token GetDigit(ref Symbol currentSymbol, InputString inputString)
         {
-            _mappingEngine = mappingEngine;
+            var line = currentSymbol.Line;
+            var col = currentSymbol.Column;
+            var lexeme = new StringBuilder();
+            if (currentSymbol.Character.Equals('0'))
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+                if (currentSymbol.Character.Equals('x') || currentSymbol.Character.Equals('X'))
+                {
+                    var t = GetHeximalNumber(ref currentSymbol, inputString,ref lexeme,col,line);
+                    if (t != null)
+                        return t;
+                }
+                if (currentSymbol.Character.Equals(('B')) || currentSymbol.Character.Equals(('b')))
+                {
+                    var t= GetBinaryNumber(ref currentSymbol, inputString,ref lexeme,col,line);
+                    if (t != null)
+                        return t;
+                }
+
+            }
+
+            return GetDecimalNumber(ref currentSymbol, inputString, ref lexeme, col, line);
         }
-        
-        public ActionResult Index(string order,int cant=25)
+
+        private Token GetDecimalNumber(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme, int col, int line)
         {
-            ViewData["cant"] = cant;
-
-            List<QuestionListModel>models =new List<QuestionListModel>();
-            var context = new StackOverflowContext();
-            foreach (var q in context.Questions)
-            {
-              
-                QuestionListModel question = new QuestionListModel();
-                question.Title = q.Title;
-                question.OwnerID = q.Owner.Id;
-                question.OwnerName = q.Owner.Name+" "+q.Owner.LastName;
-                question.CreationDate = q.CreationDate;
-                question.Votes = q.Votes;
-                question.Views = q.Views;
-                question.Answers = q.Answers;
-                question.QuestionID = q.Id;
-                question.ImageUrl = context.Accounts.Find(q.Owner.Id).ImageUrl;
-                models.Add(question);
-
-            }
-          
-            models = models.OrderByDescending(x => x.CreationDate).ToList();
-            if (cant > models.Count)
-            {
-                ViewBag.botton = "Hide";
-            }
-            models = models.Take(cant).ToList();
-            ViewBag.filter = "Date";
-            if (order != null)
-            {
-                if (order.Equals("Date"))
-                {
-                    models = models.OrderByDescending(x => x.CreationDate).ToList();
-                    ViewBag.filter = "Date";
-                }
-                if (order.Equals("Vote"))
-                {
-                    models = models.OrderByDescending(x => x.Votes).ToList();
-                    ViewBag.filter = "Vote";
-                }
-                if (order.Equals("View"))
-                {
-                    ViewBag.filter = "View";
-                    models = models.OrderByDescending(x => x.Views).ToList();
-                }
-                if (order.Equals("Answer"))
-                {
-                    ViewBag.filter = "Answer";
-                    models = models.OrderByDescending(x => x.Answers).ToList();
-                }
-
-
-
-            } 
-          
-            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName]; 
-            if (cookie != null)
-            {
-                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
-                Guid ownerId = Guid.Parse(ticket.Name);
-                ViewData["loginUser"] = ownerId; 
-            }
-           
  
-            return View(models);
-        }
-        [Authorize]
-        public ActionResult NewQuestion()
-        {
-            return View(new NewQuestionModel());
-        }
-
-        [HttpPost]
-        public ActionResult NewQuestion(NewQuestionModel model)
-        {
-            if (ModelState.IsValid)
+            while (currentSymbol.Character.IsDigit())
             {
-                var question = _mappingEngine.Map<NewQuestionModel,Question>(model);
-                var context = new StackOverflowContext();
-                 HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                if(cookie!=null)
-                {
-                     FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
-                     Guid ownerId = Guid.Parse(ticket.Name);
-                     question.CreationDate = DateTime.Now;
-                     question.ModififcationnDate = DateTime.Now;
-                     question.Votes = 0;
-                     question.Views = 0;
-                     question.Answers = 0;
-                     question.Owner = context.Accounts.FirstOrDefault(x=>x.Id==ownerId);
-                     context.Questions.Add(question);        
-                     context.SaveChanges();
-                }
-              
-               return RedirectToAction("Index");            
-                
+                lexeme.Append(currentSymbol.Character);
+                 currentSymbol = inputString.GetNextSymbol();
             }
-            return View(model);
-
-       
-        }
-        [AllowAnonymous]
-        public ActionResult QuestionDetail( Guid ID)
-        {
-            ViewData["id"] = ID.ToString();
-            TempData["qID"] = ID;
-            if (TempData["AnswerBelow5word"] != null)
-                ViewData["AnswerBelow5word"] = TempData["AnswerBelow5word"];
+            if (currentSymbol.Character.Equals('.') || currentSymbol.Character.Equals('F') || currentSymbol.Character.Equals('f'))
+                return GetFloatNumber(ref currentSymbol, inputString, ref lexeme, col, line);
             
-            addQuestionViews(ID);
-            QuestionDetailModel model = new QuestionDetailModel();
-            if (ModelState.IsValid)
-            {
-                var context = new StackOverflowContext();
-                HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                if (cookie != null)
-                {
-                    
-                    FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
-                    Guid ownerId = Guid.Parse(ticket.Name);
-                    ViewData["logUser"] = ownerId;
-                    foreach (var v in context.Votes)
-                    {
-                        if (v.AccountID == ownerId && v.FatherID == ID)
-                            ViewBag.Voted = "You alredy voted for this Question";
-                    }
-                }
-                var md = new MarkdownDeep.Markdown();
-                model.Title = context.Questions.FirstOrDefault(x => x.Id == ID).Title;
-                model.Decription = md.Transform(context.Questions.FirstOrDefault(x => x.Id == ID).Description);
-                model.QuestionId = ID;
-                model.Owner = context.Questions.FirstOrDefault(x => x.Id == ID).Owner;
-                model.Votes = context.Questions.FirstOrDefault(x => x.Id == ID).Votes;
-                model.Views = context.Questions.FirstOrDefault(x => x.Id == ID).Views;
-                int cont = Enumerable.Count(context.Answers, a => a.QuestionId == ID);
-                context.Questions.Find(ID).Answers=cont;
-                context.SaveChanges();
-                model.Answers = context.Questions.FirstOrDefault(x => x.Id == ID).Answers;
-                return View(model);
-
-            }
+            if (currentSymbol.Character.Equals('E') || currentSymbol.Character.Equals('e'))
+                return GetExponent(ref currentSymbol, inputString, ref lexeme, col, line);
             
-            return View(model);
+            return new Token
+            {
+                Type = TokenType.LitNum,
+                Lexeme = lexeme.ToString(),
+                Column = col,
+                Line = line
+            };
         }
 
-        [Authorize]
-        public ActionResult UpVote(Guid ID)
+        private Token GetFloatNumber(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme, int col, int line)
         {
-            var context = new StackOverflowContext();
-            var question = context.Questions.Find(ID);
-            var votes = context.Votes;
-            var vote = new Vote();
-             HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-            if (cookie != null)
+            int result;
+            if (currentSymbol.Character.Equals('.'))
             {
-                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
-                Guid ownerID = Guid.Parse(ticket.Name);
-
-                foreach (var v in votes)
-                {
-                    if(v.AccountID==ownerID&&v.FatherID==ID)
-                        return RedirectToAction("QuestionDetail", new { ID = ID });
-                }
-                vote.AccountID = ownerID;
-                vote.FatherID = ID;
-                votes.Add(vote);
-                question.Votes++;
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+				while (currentSymbol.Character.IsDigit())
+				{
+					lexeme.Append(currentSymbol.Character);
+					currentSymbol = inputString.GetNextSymbol();
+				}
             }
-
-            context.SaveChanges();
-            return RedirectToAction("QuestionDetail", new { ID = ID });
-           
-        }
-
-        [Authorize]
-        public ActionResult DownVote(Guid ID)
-        {
-            var context = new StackOverflowContext();
-            var question = context.Questions.Find(ID);
-            var votes = context.Votes;
-            var vote = new Vote();
-            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-            if (cookie != null)
+            if (currentSymbol.Character.Equals('E') || currentSymbol.Character.Equals('e'))
             {
-                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
-                Guid ownerID = Guid.Parse(ticket.Name);
-
-                foreach (var v in votes)
-                {
-                    if (v.AccountID == ownerID && v.FatherID == ID)
-                        return RedirectToAction("QuestionDetail", new { ID = ID });
-                }
-                vote.AccountID = ownerID;
-                vote.FatherID = ID;
-                votes.Add(vote);
-                question.Votes--;
+                return GetExponent(ref currentSymbol, inputString, ref lexeme, col, line);
             }
-
-            context.SaveChanges();
-            return RedirectToAction("QuestionDetail", new { ID = ID });
+            if ((currentSymbol.Character.Equals(('f')) || currentSymbol.Character.Equals(('F'))) && int.TryParse(lexeme[lexeme.Length - 1].ToString(), out result))
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+                return new Token
+                {
+                    Type = TokenType.LitFloat,
+                    Lexeme = lexeme.ToString(),
+                    Column = col,
+                    Line = line
+                };
+            }
+            throw new LexicalException("Invalid float syntax  " + lexeme.ToString() + "  Line: " + line +
+                                       " Column: " + col);
         }
 
-        [Authorize]
-        public ActionResult DeleteQuestion(Guid ID)
+        private Token GetExponent(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme, int col,
+            int line)
         {
-            var context = new StackOverflowContext();
-            var question = context.Questions.Find(ID);
-            HttpCookie cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-            if (cookie != null)
+            int result;
+            lexeme.Append(currentSymbol.Character);
+            currentSymbol = inputString.GetNextSymbol();
+            while (currentSymbol.Character.IsDigit())
             {
-                FormsAuthenticationTicket ticket = FormsAuthentication.Decrypt(cookie.Value);
-                Guid ownerId = Guid.Parse(ticket.Name);
-                if (question.Owner.Id == ownerId)
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+            }
+            if (lexeme[lexeme.Length - 1].Equals('e') || lexeme[lexeme.Length - 1].Equals('E'))
+            {
+                if (currentSymbol.Character.Equals('-'))
                 {
-                    foreach (Answer a in context.Answers)
+                    lexeme.Append(currentSymbol.Character);
+                    currentSymbol = inputString.GetNextSymbol();
+                    while (currentSymbol.Character.IsDigit())
                     {
-                        if (a.QuestionId == ID)
-                        {
-                            context.Answers.Remove(a);
-                        } 
+                        lexeme.Append(currentSymbol.Character);
+                        currentSymbol = inputString.GetNextSymbol();
                     }
-                    foreach (Comment c in context.Comments)
-                    {
-                        if (c.FatherId == ID)
-                        {
-                            context.Comments.Remove(c);
-                        }
-                    }
-                    context.Questions.Remove(question);
-
-                    context.SaveChanges();
-                    return RedirectToAction("Index");
                 }
-                
-
             }
-
-            return RedirectToAction("QuestionDetail", new { ID = ID });
-
+            if ((currentSymbol.Character.Equals(('f')) || currentSymbol.Character.Equals(('F'))) && int.TryParse(lexeme[lexeme.Length - 1].ToString(), out result))
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+                return new Token
+                {
+                    Type = TokenType.LitFloat,
+                    Lexeme = lexeme.ToString(),
+                    Column = col,
+                    Line = line
+                };
+            }
+            throw new LexicalException("Invalid float syntax  " + lexeme.ToString() + "  Line: " + line +
+                                       " Column: " + col);
         }
-
-        private void addQuestionViews(Guid qId)
+        private Token GetHeximalNumber(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme,int col,int line)
         {
-            var context = new StackOverflowContext();
-            context.Questions.Find(qId).Views++;
-            context.SaveChanges();         
+            lexeme.Append(currentSymbol.Character);
+            currentSymbol = inputString.GetNextSymbol();
+            while (currentSymbol.Character.IsHexValidLetter() || currentSymbol.Character.IsHexValidNumber())
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+            }
+            if (!lexeme[lexeme.Length - 1].Equals('x') && !lexeme[lexeme.Length - 1].Equals('X'))
+            {
+                return new Token
+                {
+                    Type = TokenType.LitNum,
+                    Lexeme = lexeme.ToString(),
+                    Column = col,
+                    Line = line
+                };
+            }
+            lexeme.Length-=2;
+            inputString.RemoveConsumedCaracters(3);
+            currentSymbol = inputString.GetNextSymbol();
+            return null;
         }
 
-        public ActionResult OrerByDate()
+        private Token GetBinaryNumber(ref Symbol currentSymbol, InputString inputString, ref StringBuilder lexeme,
+            int col, int line)
         {
-            return RedirectToAction("Index",new{order="Date"});
+            lexeme.Append(currentSymbol.Character);
+            currentSymbol = inputString.GetNextSymbol();
+            while (currentSymbol.Character.Equals('0') || currentSymbol.Character.Equals('1'))
+            {
+                lexeme.Append(currentSymbol.Character);
+                currentSymbol = inputString.GetNextSymbol();
+            }
+            if(lexeme[lexeme.Length-1].Equals('0') || lexeme[lexeme.Length-1].Equals('1'))
+                return new Token
+                {
+                    Type = TokenType.LitNum,
+                    Lexeme = lexeme.ToString(),
+                    Column = col,
+                    Line = line
+                };
+            lexeme.Length -= 2;
+            inputString.RemoveConsumedCaracters(3);
+            currentSymbol = inputString.GetNextSymbol();
+            return null;
         }
-        public ActionResult OrerByVotes()
-        {
-            return RedirectToAction("Index", new { order = "Vote" });
-        }
-        public ActionResult OrerByAnswers()
-        {
-            return RedirectToAction("Index", new { order = "Answer" });
-        }
-        public ActionResult OrerByViews()
-        {
-            return RedirectToAction("Index", new { order = "View" });
-        }
-
-
-     
     }
 }
