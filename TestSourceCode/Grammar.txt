@@ -1,0 +1,80 @@
+
+Code -> StatementList
+
+StatementList -> Statement StatementList
+                | ~E
+
+If_Statement -> if (boolean_expression) embeded_statement else_statement
+
+Else_Statement -> else embeded_statement
+                | ~E
+
+While_Statement -> while(boolean_expression) embeded_statement
+
+doWhile_Statement -> do embeded_statement while (boolean_expression) ;
+
+Break_Statement -> break;
+
+Continue_Statement -> continue;
+
+boolean_expression -> expression
+constant_expression -> expression
+
+expression -> non_assignment_expression
+            | assignment
+
+non_assignment_expression ->  conditional_expression
+
+conditional_expression -> null_coalescing_expression ternary
+
+ternary -> ? expression : expression
+        | ~ E
+
+null_coalescing_expression -> conditional_or_expression null_coalescing_expression_Prime
+                            
+
+
+null_coalescing_expression_Prime ->  ?? null_coalescing_expression
+                                 | ~ E
+
+conditional_or_expression -> conditional_and_expression conditional_or_expression_Prime
+
+conditional_or_expression_Prime -> || conditional_and_expression
+                                | ~ E
+
+conditional_and_expression -> inclusive_or_expression conditional_and_expression_Prime
+
+conditional_and_expression_Prime -> && inclusive_or_expression
+                                 | ~ E
+
+inclusive_or_expression -> exclusive_or_expression inclusive_or_expression_Prime
+
+inclusive_or_expression_Prime -> | exclusive_or_expression
+                              | ~ E
+
+exclusive_or_expression -> and_expression exclusive_or_expression_Prime
+
+exclusive_or_expression_Prime -> ^ and_expression
+                              | ~ E
+
+
+and_expression -> equality_expression and_expression_Prime
+
+and_expression_Prime -> & equality_expression
+                              | ~ E
+
+equality_expression -> relational_expression equality_expression_Prime
+
+equality_expression_Prime -> == relational_expression
+                           | != relational_expression
+                           | ~ E
+
+relational_expression -> shift-expression relational_expression_Prime
+
+relational_expression_Prime -> < shift-expression
+                           | > shift-expression
+                           | <= shift-expression
+                           | >= shift-expression
+                           | is type
+                           | as type
+                           | ~ E
