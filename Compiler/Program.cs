@@ -19,9 +19,6 @@ namespace Compiler
                 parser.Parse();
                 Console.WriteLine("SUCCESS");
             }
-
-
-
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);

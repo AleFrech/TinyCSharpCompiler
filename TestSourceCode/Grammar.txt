@@ -32,49 +32,164 @@ ternary -> ? expression : expression
 
 null_coalescing_expression -> conditional_or_expression null_coalescing_expression_Prime
                             
-
-
 null_coalescing_expression_Prime ->  ?? null_coalescing_expression
                                  | ~ E
 
 conditional_or_expression -> conditional_and_expression conditional_or_expression_Prime
 
-conditional_or_expression_Prime -> || conditional_and_expression
+conditional_or_expression_Prime -> || conditional_and_expression conditional_or_expression_Prime
                                 | ~ E
 
 conditional_and_expression -> inclusive_or_expression conditional_and_expression_Prime
 
-conditional_and_expression_Prime -> && inclusive_or_expression
+conditional_and_expression_Prime -> && inclusive_or_expression conditional_and_expression_Prime
                                  | ~ E
 
 inclusive_or_expression -> exclusive_or_expression inclusive_or_expression_Prime
 
-inclusive_or_expression_Prime -> | exclusive_or_expression
+inclusive_or_expression_Prime -> | exclusive_or_expression inclusive_or_expression_Prime
                               | ~ E
 
 exclusive_or_expression -> and_expression exclusive_or_expression_Prime
 
-exclusive_or_expression_Prime -> ^ and_expression
+exclusive_or_expression_Prime -> ^ and_expression exclusive_or_expression_Prime
                               | ~ E
 
 
 and_expression -> equality_expression and_expression_Prime
 
-and_expression_Prime -> & equality_expression
+and_expression_Prime -> & equality_expression and_expression_Prime
                               | ~ E
 
 equality_expression -> relational_expression equality_expression_Prime
 
-equality_expression_Prime -> == relational_expression
-                           | != relational_expression
+equality_expression_Prime -> == relational_expression equality_expression_Prime
+                           | != relational_expression equality_expression_Prime
                            | ~ E
 
 relational_expression -> shift-expression relational_expression_Prime
 
-relational_expression_Prime -> < shift-expression
-                           | > shift-expression
-                           | <= shift-expression
-                           | >= shift-expression
-                           | is type
-                           | as type
+relational_expression_Prime -> < shift-expression relational_expression_Prime
+                           | > shift-expression relational_expression_Prime
+                           | <= shift-expression relational_expression_Prime
+                           | >= shift-expression relational_expression_Prime
+                           | is type relational_expression_Prime
+                           | as type relational_expression_Prime
                            | ~ E
+
+shift_expression -> additive_expression shift_expression_Prime
+
+shift_expression_Prime -> << additive_expression shift_expression_Prime
+                        | >> additive_expression shift_expression_Prime
+                        | ~ E
+
+additive_expression -> multiplicative_expression additive_expression_Prime
+
+additive_expression_Prime -> + multiplicative_expression additive_expression_Prime
+                           | - multiplicative_expression additive_expression_Prime
+                           | ~ E
+
+multiplicative_expression -> unary_expression multiplicative_expression_Prime
+
+multiplicative_expression_Prime -> * unary_expression multiplicative_expression_Prime
+                                 | / unary_expression multiplicative_expression_Prime
+                                 | % unary_expression multiplicative_expression_Prime
+                                 | ~E
+
+unary_expression -> primary_expression
+                  | +
+                  | -
+                  | !
+                  | ~
+                  | pre_increment_expression
+                  | pre_decrement_expression
+                  | cast_expression
+
+pre_increment_expression -> ++ unary_expression
+
+pre_decrement_expression -> -- unary_expression
+
+cast_expression -> (type) unary_expression
+
+primary_expression -> primary_no_array_creation_expression
+                    | array_creation_expression
+                        
+primary_no_array_creation_expression -> literal
+                                       | simple_name
+                                       | parenthesized_expression
+                                       | member_access
+                                       | invocation_expression
+                                       | element_access
+                                       | this_access
+                                       | base_access
+                                       | post_increment_expression
+                                       | post_decrement_expression
+                falta                       object_creation_expression
+                falta                        delegate_creation_expression
+                falta                        anonymous_object_creation_expression
+                falta                        typeof_expression
+                falta                        checked_expression
+                falta                        unchecked_expression
+                falta                        default_value_expression
+                falta                        anonymous_method_expression
+
+literal -> LitChar
+        | LitFloat
+        | LitNum
+        | LitBool
+        | LitString
+
+simple _name -> Id type_argument_list
+
+type_argument_list -> < type_arguments >
+
+type_arguments - > type_argument type_arguments_Prime
+
+type_arguments_Prime -> , type_arguments
+                     | ~ E
+
+type_argument -> type
+
+type_parameter -> Id
+
+parenthesized_expression -> (expression)
+
+member_access -> primary_expression . Id type_argument_list
+               | predifined_type . Id type_argument_list
+
+predifined_type -> bool
+                | int
+                | char
+                | string
+                | float
+
+invocation_expression -> primary_expression ( argument_list )
+
+element_access -> primary_no_array_creation_expression [expression_list]
+
+expression_list -> expression expression_list_Prime
+
+expression expression_list_Prime -> , expression  expression_list_Prime
+                                 | ~E
+
+this_access -> this
+
+base_access -> base base_access_Prime
+
+base_access_Prime -> . Id
+                   | [expression_list]
+
+post_increment_expression -> primary_expression ++
+
+post_decrement_expression -> primary_expression --
+
+object_creation_expression -> new type object_creation_expression_Prime
+
+object_creation_expression_Prime -> (argument_list) 
+                                  | object_or_collection_initializer
+
+object_or_collection_initializer -> object_initializer
+                                  | collection_initializer
+
+
+                
