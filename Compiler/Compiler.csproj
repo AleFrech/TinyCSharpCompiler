@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\LexerProject\LexerProject.csproj" />
+    <ProjectReference Include="..\ParserProject\ParserProject.csproj">
+      <Project>{f6eeed97-0a5c-4864-9702-8427a7f8cbe8}</Project>
+      <Name>ParserProject</Name>
+    </ProjectReference>
   </ItemGroup>
-
 </Project>

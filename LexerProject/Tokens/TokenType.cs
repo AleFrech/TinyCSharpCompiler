@@ -176,6 +176,8 @@
         RwUlong,
         RwUnchecked,
         RwUnsafe,
-        RwUshort
+        RwUshort,
+        RwGet,
+        RwSet
     }
 }

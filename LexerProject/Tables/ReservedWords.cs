@@ -87,7 +87,9 @@ namespace LexerProject.Tables
                 {"volatile",TokenType.RwVolatile},
                 {"void",TokenType.RwVoid},
                 {"while",TokenType.RwWhile},
-                {"var",TokenType.RwVar}
+                {"var",TokenType.RwVar},
+                {"get",TokenType.RwGet},
+                {"set",TokenType.RwSet}
             };
 
         }

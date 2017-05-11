@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using LexerProject;
-using LexerProject.Tokens;
+using ParserProject;
 
 namespace Compiler
 {
@@ -11,18 +11,17 @@ namespace Compiler
         {
             var file = new FileManager();
             var sourceCode = file.GetSourceCode(Path.Combine(AppContext.BaseDirectory.
-                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/varbatinTest.cs"));
+                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/testing.cs"));
             try
             {
                 var lex = new Lexer(new InputString(sourceCode));
-                var currentToken = lex.GetNextToken();
-                while (currentToken.Type != TokenType.Eof)
-                {
-                    Console.WriteLine(currentToken);
-                    currentToken = lex.GetNextToken();
-                }
-                Console.WriteLine(currentToken);
+                var parser = new Parser(lex);
+                parser.Parse();
+                Console.WriteLine("SUCCESS");
             }
+
+
+
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
