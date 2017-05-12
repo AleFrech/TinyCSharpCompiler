@@ -10,7 +10,7 @@ namespace ParserProject.Extensions
         {
             return (tokenType == TokenType.RwUsing || tokenType.IsPrivacyModifier() ||
                     tokenType == TokenType.RwAbstract || tokenType == TokenType.RwStatic
-                    || tokenType == TokenType.RwInterface || tokenType == TokenType.RwEnum);
+                    || tokenType == TokenType.RwInterface || tokenType == TokenType.RwEnum || tokenType==TokenType.RwNamespace);
         }
 
         public static bool IsPrivacyModifier(this TokenType tokenType)

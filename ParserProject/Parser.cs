@@ -142,31 +142,9 @@ namespace ParserProject
                throw new SintacticalException("Expected Namespace Line " + _currentToken.Line + " Col " +
                                               _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            QualifiedIdentifiers();
+            TypeName();
             NameSpaceBody();
 
-         }
-
-         private void QualifiedIdentifiers()
-         {
-            if (_currentToken.Type != TokenType.Id)
-               throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
-                                              _currentToken.Column);
-            _currentToken = _lexer.GetNextToken();
-            QualifiedIdentifiersPrime();
-         }
-
-         private void QualifiedIdentifiersPrime()
-         {
-            if (_currentToken.Type == TokenType.Period)
-            {
-               _currentToken = _lexer.GetNextToken();
-               QualifiedIdentifiers();
-            }
-            else
-            {
-
-            }
          }
 
          private void NameSpaceBody()
