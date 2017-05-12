@@ -30,7 +30,7 @@ namespace ParserProject
 
          private void NameSpaceList()
          {
-            if (_currentToken.Type == TokenType.RwUsing)
+            if (_currentToken.Type.IsNameSpace())
             {
                NameSpace();
                NameSpaceList();
