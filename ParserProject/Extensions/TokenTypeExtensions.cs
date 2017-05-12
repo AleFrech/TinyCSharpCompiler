@@ -1,9 +1,18 @@
-﻿using LexerProject.Tokens;
+﻿using System.Net;
+using LexerProject.Tokens;
 
 namespace ParserProject.Extensions
 {
     public static class TokenTypeExtensions
     {
+
+        public static bool IsNameSpace(this TokenType tokenType)
+        {
+            return (tokenType == TokenType.RwUsing || tokenType.IsPrivacyModifier() ||
+                    tokenType == TokenType.RwAbstract || tokenType == TokenType.RwStatic
+                    || tokenType == TokenType.RwInterface || tokenType == TokenType.RwEnum);
+        }
+
         public static bool IsPrivacyModifier(this TokenType tokenType)
         {
             return tokenType == TokenType.RwPrivate || tokenType == TokenType.RwPublic ||
