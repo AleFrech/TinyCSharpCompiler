@@ -34,5 +34,9 @@ namespace ParserProject.Extensions
             return tokenType == TokenType.RwFloat || tokenType == TokenType.RwInt || tokenType == TokenType.RwString ||
                    tokenType == TokenType.RwBool;
         }
+
+        public static bool IsMethodModifiers(this TokenType tokenType){
+            return tokenType == TokenType.RwOverride || tokenType == TokenType.RwVirtual || tokenType == TokenType.RwAbstract;
+        }
     }
 }

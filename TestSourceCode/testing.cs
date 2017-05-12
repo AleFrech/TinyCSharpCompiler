@@ -11,14 +11,26 @@ namespace mierda.mierda
    {
       using LexerProject;
 
-      public class Mierda : IMierda
+      public class Mierda : IMierda,ITucu
       {
         
       }
 
       public interface IName:IMierda,System.ITest
       {
-    
+            string Name
+            {
+                private get;
+                set;
+            }
+
+            int Counter
+            {
+                protected get;
+            }
+
+         bool Equals(T obj,int param);
+         void MethodToImplement();
       }
 
       public enum tortas
