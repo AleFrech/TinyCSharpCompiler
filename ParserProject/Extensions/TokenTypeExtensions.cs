@@ -31,7 +31,7 @@ namespace ParserProject.Extensions
 
         public static bool IsPredifinedType(this TokenType tokenType)
         {
-            return tokenType == TokenType.RwFloat || tokenType == TokenType.RwInt || tokenType == TokenType.RwString ||
+            return tokenType == TokenType.RwFloat || tokenType == TokenType.RwInt || tokenType == TokenType.RwString || tokenType ==TokenType.RwChar ||
                    tokenType == TokenType.RwBool;
         }
 

@@ -31,6 +31,6 @@ namespace Compiler
     {
         public int x = 1;
         public int[] y = {};
-        public int z = y[1] = 2;
     }
+
 }
