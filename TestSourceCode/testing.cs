@@ -19,49 +19,12 @@ namespace mierda.mierda
 
       private  class Tucu : Mierda
       {
-        protected static  string Name
-            {
-                private get;
-                set;
-            }
-         
-           private  string Name2
-            {
-                private get;
-                set;
-            }
-         
-
-         private static char label;
-         public static int c=1,d=2;
-
-         private  char label2;
-         public  int c2=1,d2=2;
-
-
-         private static Tucu(){
-
-         }
 
          private Tucu(int x){
 
          }
 
-         public static void DoShit(int x, string y){
-             
-         }
-
-         public  void DoShit2(int x, string y){
-             
-         }
-
-         protected static int[][,,,]  DoMoreShit(float x, Mierda mierda){
-
-         }
-
-         protected  int[][,,,]  DoMoreShit2(float x, Mierda mierda){
-
-         }
+   
         
       }
 

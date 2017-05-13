@@ -546,7 +546,7 @@ namespace ParserProject
                 MethodModifiers();
                 MethodReturn();
             }
-            else
+            else if(_currentToken.Type == TokenType.Id)
             {
                 TypeName();
                 Mierda3();
@@ -555,9 +555,6 @@ namespace ParserProject
 
           private void Mierda3()
           {
-            //mierda_3-> (formal_parameter_list) constructor_initializer block
-            //      | Id field_method_property_declaration
-
               if (_currentToken.Type == TokenType.Id)
               {
                   _currentToken = _lexer.GetNextToken();
