@@ -523,44 +523,17 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
                 StaticOptions();
             }
-            else if(_currentToken.Type.IsType()|| _currentToken.Type==TokenType.RwVoid){
-                //NonMethodModifiersMethodReturn();                
-            }
-            else if (_currentToken.Type.IsMethodModifiers()){
-                MethodModifiers();
-                //MethodReturn();
-            }
-            else{
-                //ConstructDeclaration();
-            }
-        }
-
-        private void StaticOptions()
-        {
-            if(_currentToken.Type==TokenType.Id){
-                
-                _currentToken = _lexer.GetNextToken();
-
-                if(_currentToken.Type==TokenType.Id){
-                    _currentToken = _lexer.GetNextToken();
-                    FieldMethodPropertyDeclaration();
-                }else if(_currentToken.Type==TokenType.ParOpen){
-                    _currentToken = _lexer.GetNextToken();
-                    if (_currentToken.Type != TokenType.ParClose)
-                        throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
-                                                       _currentToken.Column);
-                    _currentToken = _lexer.GetNextToken();
-                    Block();
-                }
-            }
-            if(_currentToken.Type.IsType()){
-                _currentToken = _lexer.GetNextToken();
+            else if(_currentToken.Type.IsPredifinedType()|| _currentToken.Type == TokenType.RwEnum)
+            {
+                CustomTypeProduction();
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 FieldMethodPropertyDeclaration();
-            }else if(_currentToken.Type==TokenType.RwVoid){
+            }
+            else if (_currentToken.Type==TokenType.RwVoid)
+            {
                 _currentToken = _lexer.GetNextToken();
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
@@ -568,9 +541,179 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
                 MethodDeclaration();
             }
+            else if (_currentToken.Type.IsMethodModifiers())
+            {
+                MethodModifiers();
+                MethodReturn();
+            }
+            else
+            {
+                TypeName();
+                Mierda3();
+            }
         }
 
-        private void FieldMethodPropertyDeclaration()
+          private void Mierda3()
+          {
+            //mierda_3-> (formal_parameter_list) constructor_initializer block
+            //      | Id field_method_property_declaration
+
+              if (_currentToken.Type == TokenType.Id)
+              {
+                  _currentToken = _lexer.GetNextToken();
+                  FieldMethodPropertyDeclaration();
+              }
+              else
+              {
+                if (_currentToken.Type != TokenType.ParOpen)
+                      throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                   FormalParameterList();
+                  if (_currentToken.Type != TokenType.ParClose)
+                      throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  ConstructorInitializer();
+                  Block();
+              }
+
+          }
+
+          private void ConstructorInitializer()
+          {
+              if (_currentToken.Type == TokenType.Colon)
+              {
+                  _currentToken = _lexer.GetNextToken();
+                ConstructorInitializerPrime();
+              }
+              else
+              {
+                  
+              }
+          }
+
+          private void ConstructorInitializerPrime()
+          {
+              if (_currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis)
+              {
+                if (_currentToken.Type != TokenType.ParOpen)
+                      throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  //ArgumentList();
+                  if (_currentToken.Type != TokenType.ParClose)
+                      throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+            }
+          }
+
+          private void ArgumentList()
+          {
+              throw new NotImplementedException();
+          }
+
+          private void MethodReturn()
+          {
+              if (_currentToken.Type == TokenType.RwVoid)
+              {
+                  _currentToken = _lexer.GetNextToken();
+                  if (_currentToken.Type != TokenType.Id)
+                      throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  MethodDeclaration();
+              }
+              else
+              {
+                  TypeProduction();
+                  if (_currentToken.Type != TokenType.Id)
+                      throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  MethodPropertyDeclaration();
+            }
+          }
+
+          private void MethodPropertyDeclaration()
+          {
+              if (_currentToken.Type == TokenType.KeyOpen)
+              {
+                  PropertyDeclaration();
+              }
+              else
+              {
+                  MethodDeclaration();
+              }
+          }
+
+          private void StaticOptions()
+        {
+            if (_currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
+            {
+                CustomTypeProduction();
+                if (_currentToken.Type != TokenType.Id)
+                    throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                FieldMethodPropertyDeclaration();
+            }
+            else if (_currentToken.Type == TokenType.RwVoid)
+            {
+                _currentToken = _lexer.GetNextToken();
+                if (_currentToken.Type != TokenType.Id)
+                    throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                MethodDeclaration();
+            }
+            else if(_currentToken.Type==TokenType.Id)
+            {
+                TypeName();
+                Mierda2();
+            }
+        }
+
+          private void Mierda2()
+          {
+              if (_currentToken.Type == TokenType.ParOpen)
+              {
+                  _currentToken = _lexer.GetNextToken();
+                  if (_currentToken.Type != TokenType.ParClose)
+                      throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  Block();
+              }
+              else
+              {
+                if (_currentToken.Type != TokenType.Id)
+                      throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  FieldMethodPropertyDeclaration();
+            }
+          }
+
+          private void CustomTypeProduction()
+          {
+              if (_currentToken.Type.IsPredifinedType())
+              {
+                  PredifinedType();
+                  TypeProductionPrime();
+              }
+              else
+              {
+                if (_currentToken.Type != TokenType.RwEnum)
+                    throw new SintacticalException("Expected Enum Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  TypeProductionPrime();
+              }
+          }
+
+          private void FieldMethodPropertyDeclaration()
         {
             if (_currentToken.Type == TokenType.ParOpen)
             {
@@ -648,10 +791,7 @@ namespace ParserProject
             _currentToken = _lexer.GetNextToken();
         }
 
-        private void VaraibleInitializerListOpt()
-        {
-            throw new NotImplementedException();
-        }
+
 
         private void MethodDeclaration()
         {
@@ -711,17 +851,7 @@ namespace ParserProject
          private void TypeProduction()
          {
             if (_currentToken.Type == TokenType.Id)
-            {
-                //consume()
-                //if(next = id){
-                //    consume();
-                //}else if(next = [)
-                //{
-                //    consume()
-                //}else if(next = ())
-                //{
-                //    consume()
-                //}
+            { 
                TypeName();
                TypeProductionPrime();
             }else if (_currentToken.Type.IsPredifinedType())
@@ -829,17 +959,25 @@ namespace ParserProject
                 throw new SintacticalException("Expected { Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            StatementList
+            //StatementList();
             if (_currentToken.Type != TokenType.KeyClose)
                 throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
         }
 
+          private void StatementList()
+          {
+              throw new NotImplementedException();
+          }
+
+          private void VaraibleInitializerListOpt()
+          {
+              throw new NotImplementedException();
+          }
 
 
-
-         private void Expresion()
+        private void Expresion()
          {
             if (_currentToken.Type == TokenType.LitNum)
                _currentToken = _lexer.GetNextToken();

@@ -17,9 +17,15 @@ namespace mierda.mierda
       }
 
 
-      private static class Tucu : Mierda
+      private  class Tucu : Mierda
       {
         protected static  string Name
+            {
+                private get;
+                set;
+            }
+         
+           private  string Name2
             {
                 private get;
                 set;
@@ -29,7 +35,15 @@ namespace mierda.mierda
          private static char label;
          public static int c=1,d=2;
 
+         private  char label2;
+         public  int c2=1,d2=2;
+
+
          private static Tucu(){
+
+         }
+
+         private Tucu(int x){
 
          }
 
@@ -37,7 +51,15 @@ namespace mierda.mierda
              
          }
 
-         protected static int DoMoreShit(float x, Mierda mierda){
+         public  void DoShit2(int x, string y){
+             
+         }
+
+         protected static int[][,,,]  DoMoreShit(float x, Mierda mierda){
+
+         }
+
+         protected  int[][,,,]  DoMoreShit2(float x, Mierda mierda){
 
          }
         
