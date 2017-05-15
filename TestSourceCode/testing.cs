@@ -55,7 +55,11 @@ namespace mierda.mierda
                return 5; 
                ;
               }
-              do{}while(1);
+              do{
+                foreach(var x in 5){
+                  break;
+                }
+              }while(1);
             
          }
 
