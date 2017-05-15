@@ -52,6 +52,8 @@ namespace mierda.mierda
                while(2){
 
                }
+               return 5; 
+               ;
               }
               do{}while(1);
             
