@@ -17,14 +17,57 @@ namespace mierda.mierda
       }
 
 
-      private  class Tucu : Mierda
+    private  class Tucu : Mierda
       {
+        protected static  string Name
+            {
+                private get;
+                set;
+            }
+         
+           private  string Name2
+            {
+                private get;
+                set;
+            }
+         
+
+         private static char label;
+         public static int c=1,d=2;
+
+         private  char label2;
+         public  int c2=1,d2=6;
+
+
+         private static Tucu(){
+
+         }
 
          private Tucu(int x){
 
          }
 
-   
+         public static void DoShit(int x, string y){
+              if(1){
+               while(2){
+
+               }
+              }
+              do{}while(1);
+            
+         }
+
+         private override float[][,] DoShit2(int x, string y){
+             
+         }
+
+         protected static int[][,,,]  DoMoreShit(float x, Mierda mierda){
+
+         }
+
+         protected  int[][,,,]  DoMoreShit2(float x, Mierda mierda){
+
+         }
         
       }
 

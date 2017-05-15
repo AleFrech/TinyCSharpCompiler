@@ -38,5 +38,17 @@ namespace ParserProject.Extensions
         public static bool IsMethodModifiers(this TokenType tokenType){
             return tokenType == TokenType.RwOverride || tokenType == TokenType.RwVirtual || tokenType == TokenType.RwAbstract;
         }
+
+        public static bool IsStatements(this TokenType tokenType){
+            return (tokenType == TokenType.RwIf || tokenType == TokenType.RwWhile || tokenType == TokenType.RwDo || tokenType == TokenType.RwSwitch ||
+                tokenType == TokenType.RwFor || tokenType == TokenType.RwForeach || tokenType==TokenType.RwReturn || tokenType==TokenType.RwBreak ||
+                tokenType == TokenType.RwContinue);
+        }
+
+		public static bool IsExpression(this TokenType tokenType)
+		{
+            return tokenType == TokenType.LitNum ;
+		}
+
     }
 }
