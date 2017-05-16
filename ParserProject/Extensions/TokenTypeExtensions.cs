@@ -47,8 +47,26 @@ namespace ParserProject.Extensions
 
 		public static bool IsExpression(this TokenType tokenType)
 		{
-            return tokenType == TokenType.LitNum ;
+            return IsLiteral(tokenType);
 		}
+
+		public static bool IsUnaryExpression(this TokenType tokenType)
+		{
+            return tokenType == TokenType.OpSum || tokenType == TokenType.OpSub || tokenType == TokenType.OpInc || tokenType == TokenType.OpDec ||
+                                         tokenType == TokenType.OpBinaryComplement || tokenType==TokenType.OpLogicalNot;
+		}
+
+		public static bool IsLiteral(this TokenType tokenType)
+		{
+            return tokenType == TokenType.LitNum || tokenType == TokenType.LitChar || tokenType == TokenType.LitString || tokenType == TokenType.LitFloat ||
+                                         tokenType == TokenType.LitBool;
+		}
+
+		public static bool IsPrimaryNoArrayCreationExpression(this TokenType tokenType)
+		{
+			return IsLiteral(tokenType);
+		}
+
 
     }
 }

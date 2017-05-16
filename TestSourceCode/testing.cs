@@ -48,7 +48,7 @@ namespace mierda.mierda
          }
 
          public static void DoShit(int x, string y){
-              if(1){
+              if(1>5){
                while(2){
 
                }

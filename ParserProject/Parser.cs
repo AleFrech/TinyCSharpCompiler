@@ -1401,8 +1401,6 @@ namespace ParserProject
         private void Expresion()
          {
             ConditionalExpression();
-            //if (_currentToken.Type == TokenType.LitNum)
-               //_currentToken = _lexer.GetNextToken();
          }
 
         private void ConditionalExpression()
@@ -1541,13 +1539,184 @@ namespace ParserProject
 
         private void EqualityExpressionPrime()
         {
-            throw new NotImplementedException();
+            if(_currentToken.Type==TokenType.OpEquals){
+                _currentToken = _lexer.GetNextToken();
+                RelationalExpresion();
+                EqualityExpressionPrime();
+            }else if(_currentToken.Type == TokenType.OpNotEquals){
+				_currentToken = _lexer.GetNextToken();
+				RelationalExpresion();
+				EqualityExpressionPrime();
+            }else{
+                
+            }
         }
 
         private void RelationalExpresion()
         {
-            throw new NotImplementedException();
+            ShiftExpression();
+            RelationalExpresionPrime();
         }
+
+        private void RelationalExpresionPrime()
+        {
+            if(_currentToken.Type==TokenType.OpLessThan  ||_currentToken.Type == TokenType.OpGrtThan || _currentToken.Type == TokenType.OpLessThanOrEqual ||
+               _currentToken.Type == TokenType.OpGrtThanOrEqual){
+                _currentToken = _lexer.GetNextToken();
+                ShiftExpression();
+                RelationalExpresionPrime();
+            }else if(_currentToken.Type== TokenType.RwAs || _currentToken.Type ==TokenType.RwIs){
+                _currentToken = _lexer.GetNextToken();
+                TypeProduction();
+                RelationalExpresionPrime();
+            }else{
+                
+            }
+        }
+
+        private void ShiftExpression()
+        {
+            AdditiveExpression();
+            ShiftExpressionPrime();
+        }
+
+        private void ShiftExpressionPrime()
+        {
+            if (_currentToken.Type == TokenType.OpRghtShft || _currentToken.Type == TokenType.OpLftShft){
+                AdditiveExpression();
+                ShiftExpressionPrime();
+            }else{
+                
+            }
+        }
+
+        private void AdditiveExpression()
+        {
+            MultiplicativeExpression();
+            AdditiveExpressionPrime();
+        }
+
+        private void AdditiveExpressionPrime()
+        {
+            if (_currentToken.Type == TokenType.OpSum || _currentToken.Type == TokenType.OpSub)
+			{
+                MultiplicativeExpression();
+				AdditiveExpressionPrime();
+			}
+			else
+			{
+
+			}
+        }
+
+        private void MultiplicativeExpression()
+        {
+            UnaryExpression();
+            CastOrExpression();
+            MultiplicativeExpressionPrime();
+        }
+
+        private void MultiplicativeExpressionPrime()
+        {
+            if (_currentToken.Type == TokenType.OpMul || _currentToken.Type == TokenType.OpDiv || _currentToken.Type == TokenType.OpMod)
+            {
+                _currentToken = _lexer.GetNextToken();
+                UnaryExpression();
+                CastOrExpression();
+                MultiplicativeExpressionPrime();
+            }
+            else
+            {
+
+            }
+        }
+
+        private void UnaryExpression()
+		{
+			if (_currentToken.Type.IsUnaryExpression())
+				_currentToken = _lexer.GetNextToken();
+			else
+			{
+
+			}
+		}
+
+        private void CastOrExpression()
+        {
+            if(_currentToken.Type==TokenType.ParOpen){
+                _currentToken = _lexer.GetNextToken();
+                CastOrExpressionPrime();
+            }else{
+                PrimaryExpression();
+            }
+        }
+
+       
+
+        private void CastOrExpressionPrime()
+        {
+            if(_currentToken.Type.IsType()){
+                TypeProduction();
+                if (_currentToken.Type != TokenType.ParClose)
+                    throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+												   _currentToken.Column);
+				_currentToken = _lexer.GetNextToken();
+				PrimaryExpression();
+
+            }else if(_currentToken.Type.IsExpression()){
+                Expresion();
+				if (_currentToken.Type != TokenType.ParClose)
+					throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+												   _currentToken.Column);
+				_currentToken = _lexer.GetNextToken();
+                IdExpression();
+            }else{
+				throw new SintacticalException("Expected type or expression Line " + _currentToken.Line + " Col " +
+												   _currentToken.Column);
+            }
+        }
+
+        private void IdExpression()
+        {
+            if(_currentToken.Type==TokenType.Period){
+                _currentToken = _lexer.GetNextToken();
+				if (_currentToken.Type != TokenType.Id)
+					throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+												   _currentToken.Column);
+				_currentToken = _lexer.GetNextToken();
+                IdExpression();
+            }else if(_currentToken.Type== TokenType.BraOpen){
+				_currentToken = _lexer.GetNextToken();
+                ExpresionList();
+                if (_currentToken.Type != TokenType.BraClose)
+					throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
+												   _currentToken.Column);
+				_currentToken = _lexer.GetNextToken();
+				IdExpression();
+			}
+            else if (_currentToken.Type == TokenType.ParOpen)
+			{
+				_currentToken = _lexer.GetNextToken();
+                ArgumentList();
+                if (_currentToken.Type != TokenType.ParClose)
+                    throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+												   _currentToken.Column);
+				_currentToken = _lexer.GetNextToken();
+				IdExpression();
+            }else{
+                
+            }
+        }
+
+        private void PrimaryExpression()
+		{
+            if(_currentToken.Type==TokenType.RwNew){
+                _currentToken = _lexer.GetNextToken();
+                //ArrayOrObject();
+            }else if(_currentToken.Type.IsPrimaryNoArrayCreationExpression()){
+                _currentToken = _lexer.GetNextToken();
+            }
+		}
     }
 
 
