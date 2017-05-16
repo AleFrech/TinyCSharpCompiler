@@ -1400,12 +1400,155 @@ namespace ParserProject
 
         private void Expresion()
          {
-            if (_currentToken.Type == TokenType.LitNum)
-               _currentToken = _lexer.GetNextToken();
+            ConditionalExpression();
+            //if (_currentToken.Type == TokenType.LitNum)
+               //_currentToken = _lexer.GetNextToken();
          }
 
+        private void ConditionalExpression()
+        {
+            NullCoalescingExpression();
+            Ternary();
+        }
 
-      }
+		private void Ternary()
+		{
+			if (_currentToken.Type == TokenType.OpTernario)
+			{
+				_currentToken = _lexer.GetNextToken();
+				Expresion();
+				if (_currentToken.Type != TokenType.Colon)
+					throw new SintacticalException("Expected : Line " + _currentToken.Line + " Col " +
+												   _currentToken.Column);
+				_currentToken = _lexer.GetNextToken();
+				Expresion();
+			}
+			else
+			{
+
+			}
+		}
+
+        private void NullCoalescingExpression()
+        {
+            ConditionalOrExpression();
+            NullCoalescingExpressionPrime();
+        }
+
+		private void NullCoalescingExpressionPrime()
+		{
+			if (_currentToken.Type == TokenType.OpCoalescing)
+			{
+				_currentToken = _lexer.GetNextToken();
+				NullCoalescingExpressionPrime();
+			}
+			else
+			{
+
+			}
+		}
+
+        private void ConditionalOrExpression()
+        {
+            ConditionalAndExpression();
+            ConditionalOrExpressionPrime();
+        }
+
+        private void ConditionalOrExpressionPrime()
+        {
+            if(_currentToken.Type==TokenType.OpLogicalOr){
+                _currentToken = _lexer.GetNextToken();
+                ConditionalAndExpression();
+                ConditionalOrExpressionPrime();
+            }else{
+                
+            }
+        }
+
+		private void ConditionalAndExpression()
+		{
+            InclusiveOrExpression();
+            ConditionalAndExpressionPrime();
+		}
+
+        private void ConditionalAndExpressionPrime()
+        {
+            if(_currentToken.Type==TokenType.OpLogicalAnd){
+                _currentToken = _lexer.GetNextToken();
+                InclusiveOrExpression();
+                ConditionalAndExpression();
+            }else{
+                
+            }
+        }
+
+        private void InclusiveOrExpression()
+        {
+            ExclusiveOrExpression();
+            InclusiveOrExpressionPrime();
+        }
+
+        private void InclusiveOrExpressionPrime()
+        {
+            if(_currentToken.Type==TokenType.OpBinaryOr){
+                _currentToken = _lexer.GetNextToken();
+                ExclusiveOrExpression();
+                InclusiveOrExpressionPrime();
+            }else{
+                
+            }
+        }
+
+        private void ExclusiveOrExpression()
+        {
+            AndExpression();
+            ExclusiveOrExpressionPrime();
+        }
+
+        private void ExclusiveOrExpressionPrime()
+        {
+            if(_currentToken.Type==TokenType.OpBinaryXor){
+                _currentToken = _lexer.GetNextToken();
+                AndExpression();
+                ExclusiveOrExpressionPrime();
+            }else{
+                
+            }
+        }
+
+        private void AndExpression()
+        {
+            EqualityExpression();
+			AndExpressionPrime();
+        }
+
+        private void AndExpressionPrime()
+        {
+            if(_currentToken.Type==TokenType.OpLogicalAnd){
+                _currentToken = _lexer.GetNextToken();
+                EqualityExpression();
+                AndExpressionPrime();
+            }else{
+                
+            }
+        }
+
+        private void EqualityExpression()
+        {
+            RelationalExpresion();
+            EqualityExpressionPrime();
+        }
+
+        private void EqualityExpressionPrime()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RelationalExpresion()
+        {
+            throw new NotImplementedException();
+        }
+    }
 
 
 }

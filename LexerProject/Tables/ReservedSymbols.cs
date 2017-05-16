@@ -27,6 +27,7 @@ namespace LexerProject.Tables
                 {"<=", TokenType.OpLessThanOrEqual},
                 {"&&", TokenType.OpLogicalAnd},
                 {"&", TokenType.OpBinaryAnd},
+                {"||",TokenType.OpLogicalOr},
                 {"|", TokenType.OpBinaryOr},
                 {"^", TokenType.OpBinaryXor},
                 {"~", TokenType.OpBinaryComplement},
