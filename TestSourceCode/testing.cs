@@ -48,18 +48,6 @@ namespace mierda.mierda
          }
 
          public static void DoShit(int x, string y){
-              if(1>5){
-               while(2){
-
-               }
-               return 5; 
-               ;
-              }
-              do{
-                foreach(var x in 5){
-                  break;
-                }
-              }while(1);
             
          }
 
@@ -72,7 +60,20 @@ namespace mierda.mierda
          }
 
          protected  int[][,,,]  DoMoreShit2(float x, Mierda mierda){
+            int x=1,y=2,z=1=2;
+            var z=10f;
+            if(1>5){
+               while(2){
 
+               }
+               return 5; 
+               ;
+              }
+              do{
+                foreach(var x in 5){
+                  break;
+                }
+              }while(1);
          }
         
       }

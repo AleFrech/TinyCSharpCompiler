@@ -1095,10 +1095,68 @@ namespace ParserProject
 			{
 				ForStatement();
 			}
+            else if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsType())
+			{
+                DeclarationStatement();
+				if (_currentToken.Type != TokenType.EndStatement)
+					throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
+												   _currentToken.Column);
+				_currentToken = _lexer.GetNextToken();
+			}
             else{
 				throw new SintacticalException("Expected Statement Line " + _currentToken.Line + " Col " +
 											   _currentToken.Column);
             }
+        }
+
+        private void DeclarationStatement()
+        {
+            LocalVariableType();
+            DeclaratorsList();
+        }
+
+        private void DeclaratorsList()
+        {
+            Declarator();
+            DeclaratorsListPrime();
+        }
+
+        private void DeclaratorsListPrime()
+        {
+            if(_currentToken.Type==TokenType.Comma){
+                _currentToken=_lexer.GetNextToken();
+                Declarator();
+                DeclaratorsListPrime();
+            }else if(_currentToken.Type==TokenType.OpAsgn){
+				_currentToken = _lexer.GetNextToken();
+                VaraibleInitializer();
+				DeclaratorsListPrime();
+            }else{
+                
+            }
+        }
+
+        private void Declarator()
+        {
+            if (_currentToken.Type != TokenType.Id)
+
+				throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+											   _currentToken.Column);
+			_currentToken = _lexer.GetNextToken();
+            DeclaratorPrime();
+        }
+
+        private void DeclaratorPrime()
+        {
+			if (_currentToken.Type == TokenType.OpAsgn)
+			{
+				_currentToken = _lexer.GetNextToken();
+				VaraibleInitializer();
+			}
+			else
+			{
+
+			}
         }
 
         private void ForStatement()
@@ -1133,7 +1191,7 @@ namespace ParserProject
         private void ForInitalizer()
         {
             if(_currentToken.Type==TokenType.RwVar || _currentToken.Type.IsType()){
-             //   DeclarationStatement();
+               DeclarationStatement();
             }else{
              //   AsignationSatement();
             }
