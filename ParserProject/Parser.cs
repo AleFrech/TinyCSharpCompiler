@@ -1760,13 +1760,41 @@ namespace ParserProject
                     throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
 												   _currentToken.Column);
 				_currentToken = _lexer.GetNextToken();
-				IdExpression();
-            }else{
+			    ParentesisExpression();
+
+			}else{
                 
             }
         }
 
-        private void PrimaryExpression()
+          private void ParentesisExpression()
+          {
+            if (_currentToken.Type == TokenType.Period)
+            {
+                _currentToken = _lexer.GetNextToken();
+                if (_currentToken.Type != TokenType.Id)
+                    throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                IdExpression();
+            }
+            else if (_currentToken.Type == TokenType.BraOpen)
+            {
+                _currentToken = _lexer.GetNextToken();
+                ExpresionList();
+                if (_currentToken.Type != TokenType.BraClose)
+                    throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                IdExpression();
+            }
+            else
+            {
+                
+            }
+        }
+
+          private void PrimaryExpression()
 		{
             if(_currentToken.Type==TokenType.RwNew){
                 _currentToken = _lexer.GetNextToken();

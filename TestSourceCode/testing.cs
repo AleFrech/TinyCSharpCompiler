@@ -47,6 +47,10 @@ namespace mierda.mierda
 
          }
 
+          private Tucu(int x,int y){
+
+         }
+
          public static void DoShit(int x, string y){
             
          }
@@ -74,6 +78,15 @@ namespace mierda.mierda
                   break;
                 }
               }while(1);
+
+              switch(5){
+                  case: if(1<5)
+                            return 5;
+                        break;
+                  default:
+              }
+
+
          }
         
       }

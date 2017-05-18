@@ -27,14 +27,4 @@ namespace Compiler
             Console.ReadLine();
         }
     }
-
-    public class Mierda
-    {
-        //public int c=0;
-        //public int x = 1;
-        //private int b = 3;
-        //public int z = 1,=2,=3
-        //public int[] y = {};
-    }
-
 }
