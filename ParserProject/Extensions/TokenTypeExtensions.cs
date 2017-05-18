@@ -42,7 +42,8 @@ namespace ParserProject.Extensions
         public static bool IsStatements(this TokenType tokenType){
             return (tokenType == TokenType.RwIf || tokenType == TokenType.RwWhile || tokenType == TokenType.RwDo || tokenType == TokenType.RwSwitch ||
                 tokenType == TokenType.RwFor || tokenType == TokenType.RwForeach || tokenType==TokenType.RwReturn || tokenType==TokenType.RwBreak ||
-                    tokenType == TokenType.RwContinue || tokenType==TokenType.EndStatement || tokenType==TokenType.RwVar || IsType(tokenType));
+                    tokenType == TokenType.RwContinue || tokenType==TokenType.EndStatement || tokenType==TokenType.RwVar || IsType(tokenType)
+                    || tokenType == TokenType.OpDec || tokenType == TokenType.OpInc);
         }
 
 		public static bool IsExpression(this TokenType tokenType)
