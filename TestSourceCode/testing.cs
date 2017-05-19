@@ -70,10 +70,20 @@ namespace mierda.mierda
              this.y=100=200;
              base.z=300;
 
+
+             z=10008*20;
+
              --z;
              ++x.someInt(1,2);
              --y[5];
              char a='b';
+
+             for(int i=0;5<10;5*6){
+
+             }
+
+
+
             if(1>5){
                while(2){
 

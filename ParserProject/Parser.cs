@@ -1,4 +1,4 @@
-﻿using LexerProject;
+﻿﻿using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
@@ -1306,11 +1306,7 @@ namespace ParserProject
 
         private void ForInitalizer()
         {
-            if(_currentToken.Type==TokenType.RwVar || _currentToken.Type.IsType()){
-               DeclarationStatement();
-            }else{
-             //   AsignationSatement();
-            }
+            DeclarationAsignationStatement();
         }
 
         private void ExpresionList()
