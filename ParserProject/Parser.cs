@@ -1137,11 +1137,15 @@ namespace ParserProject
 
           private void DeclarationAsignationStatement()
           {
-              if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
+              if (_currentToken.Type == TokenType.RwVar)
               {
                   _currentToken = _lexer.GetNextToken();
                   DeclaratorsList();
 
+              }else if (_currentToken.Type.IsPredifinedType() || _currentToken.Type==TokenType.RwEnum)
+              {
+                  CustomTypeProduction();
+                  DeclaratorsList();
               }else if (_currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis )
               {
                 _currentToken = _lexer.GetNextToken();
@@ -1188,7 +1192,37 @@ namespace ParserProject
 
           private void WWWWW()
           {
-              throw new System.NotImplementedException();
+              TypeNamePrime();
+              YYYYY();
+          }
+
+          private void YYYYY()
+          {
+              if (_currentToken.Type == TokenType.Period || _currentToken.Type == TokenType.ParOpen ||
+                  _currentToken.Type == TokenType.BraOpen || _currentToken.Type == TokenType.OpDec
+                  || _currentToken.Type == TokenType.OpInc || _currentToken.Type.IsAssignationOperator())
+              {
+                  IdExpression();
+                  XXXX();
+              }
+              else if (_currentToken.Type == TokenType.Id)
+              {
+                  DeclaratorsList();
+              }
+          }
+
+          private void XXXX()
+          {
+              if (_currentToken.Type == TokenType.OpDec
+                  || _currentToken.Type == TokenType.OpInc)
+              {
+                  _currentToken = _lexer.GetNextToken();
+              }else if (_currentToken.Type.IsAssignationOperator())
+              {
+                  _currentToken = _lexer.GetNextToken();
+                 Expresion();
+                AssignmentStatementList();
+              }
           }
 
           private void DeclarationStatement()

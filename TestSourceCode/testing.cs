@@ -66,7 +66,10 @@ namespace mierda.mierda
          protected  int[][,,,]  DoMoreShit2(float x, Mierda mierda){
             int x=1,y=2,z=1=2;
             var z=10f;
-             int []x;
+             int []x=1;
+             this.y=100=200;
+             base.z=300;
+
              --z;
              ++x.someInt(1,2);
              --y[5];
