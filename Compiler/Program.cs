@@ -7,6 +7,7 @@ namespace Compiler
 {
     public class Program
     {
+
         static void Main(string[] args)
         {
             var file = new FileManager();
@@ -26,8 +27,6 @@ namespace Compiler
             Console.ReadLine();
         }
 
-        public static  int testing(){
-            return 5;
-        }
+
     }
 }

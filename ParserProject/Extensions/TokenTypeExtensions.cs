@@ -68,6 +68,16 @@ namespace ParserProject.Extensions
 			return IsLiteral(tokenType);
 		}
 
+        public static bool IsAssignationOperator(this TokenType tokenType)
+        {
+            return tokenType == TokenType.OpAsgn || tokenType == TokenType.OpAddAsgn ||
+                   tokenType == TokenType.OpSubAsgn || tokenType == TokenType.OpMulAsgn ||
+                   tokenType == TokenType.OpDivAsgn || tokenType == TokenType.OpModAsgn ||
+                   tokenType == TokenType.OpAndAsgn || tokenType == TokenType.OpOrAsgn ||
+                   tokenType == TokenType.OpXorAsgn || tokenType == TokenType.OpLftShftAsgn ||
+                   tokenType == TokenType.OpRghtShftAsgn;
+        }
+    }
 
     }
 }

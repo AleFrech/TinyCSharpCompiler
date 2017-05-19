@@ -1,12 +1,11 @@
-﻿﻿﻿using System;
-using LexerProject;
+﻿using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
 
 namespace ParserProject
 {
-      public class Parser
+    public class Parser
       {
          private readonly Lexer _lexer;
          private Token _currentToken;
@@ -1121,9 +1120,10 @@ namespace ParserProject
 												   _currentToken.Column);
 				_currentToken = _lexer.GetNextToken();
 			}
-            else if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsType())
+            else if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsPredifinedType() || _currentToken.Type==TokenType.RwEnum 
+                || _currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis || _currentToken.Type==TokenType.Id)
 			{
-                DeclarationStatement();
+                DeclarationAsignationStatement();
 				if (_currentToken.Type != TokenType.EndStatement)
 					throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
 												   _currentToken.Column);
@@ -1135,7 +1135,63 @@ namespace ParserProject
             }
         }
 
-        private void DeclarationStatement()
+          private void DeclarationAsignationStatement()
+          {
+              if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
+              {
+                  _currentToken = _lexer.GetNextToken();
+                  DeclaratorsList();
+
+              }else if (_currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis )
+              {
+                _currentToken = _lexer.GetNextToken();
+                  if (_currentToken.Type != TokenType.Period)
+                      throw new SintacticalException("Expected . Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                 _currentToken = _lexer.GetNextToken();
+                  if (_currentToken.Type != TokenType.Id)
+                      throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                IdExpression();
+                if(!_currentToken.Type.IsAssignationOperator())
+                      throw new SintacticalException("Expected assignment opertaor  Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  Expresion();
+                  AssignmentStatementList();
+
+              }else if (_currentToken.Type == TokenType.Id)
+              {
+                  _currentToken = _lexer.GetNextToken();
+                  WWWWW();
+              }else
+              {
+                throw new SintacticalException("Expected declaration asignation Statement Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
+              }
+          }
+
+          private void AssignmentStatementList()
+          {
+              if (_currentToken.Type.IsAssignationOperator())
+              {
+                  _currentToken = _lexer.GetNextToken();
+                  Expresion();
+                  AssignmentStatementList();
+              }
+              else
+              {
+                  
+              }
+          }
+
+          private void WWWWW()
+          {
+              throw new System.NotImplementedException();
+          }
+
+          private void DeclarationStatement()
         {
             LocalVariableType();
             DeclaratorsList();
@@ -1839,4 +1895,3 @@ namespace ParserProject
 
 
 }
-
