@@ -19,17 +19,7 @@ namespace mierda.mierda
 
     private  class Tucu : Mierda
       {
-        protected static  string Name
-            {
-                private get;
-                set;
-            }
-         
-           private  string Name2
-            {
-                private get;
-                set;
-            }
+        protected static  string Name;
          
 
          private static char label;
@@ -111,16 +101,7 @@ namespace mierda.mierda
 
       public interface IName:IMierda,System.ITest
       {
-            string Name
-            {
-                private get;
-                set;
-            }
-
-            int Counter
-            {
-                protected get;
-            }
+        string Name();
 
          bool[,][,][,][,][,][,][,] Equals(T obj,int param);
          void MethodToImplement();
