@@ -1,4 +1,5 @@
-﻿﻿using LexerProject;
+﻿﻿using System;
+ using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
@@ -1038,8 +1039,8 @@ namespace ParserProject
 
               }else if (_currentToken.Type.IsPredifinedType() || _currentToken.Type==TokenType.RwEnum)
               {
-                  CustomTypeProduction();
-                  DeclaratorsList();
+                _currentToken = _lexer.GetNextToken();
+                DeclaratorsListOrPrimitiveAccessor();
               }else if (_currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis )
               {
                 _currentToken = _lexer.GetNextToken();
@@ -1067,6 +1068,24 @@ namespace ParserProject
               {
                 throw new SintacticalException("Expected declaration asignation Statement Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
+              }
+          }
+
+          private void DeclaratorsListOrPrimitiveAccessor()
+          {
+              if (_currentToken.Type == TokenType.Period)
+              {
+                  _currentToken = _lexer.GetNextToken();
+                if (_currentToken.Type != TokenType.Id)
+                      throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                IdExpression();
+              }
+              else
+              {
+                  TypeProductionPrime();
+                  DeclaratorsList();
               }
           }
 
@@ -1220,6 +1239,7 @@ namespace ParserProject
         {
             if(_currentToken.Type==TokenType.Comma){
                 _currentToken = _lexer.GetNextToken();
+                Expresion();
                 ExpresionListPrime();
             }else{
                 
@@ -1676,7 +1696,7 @@ namespace ParserProject
         private void MultiplicativeExpression()
         {
             UnaryExpression();
-            CastOrExpression();
+            PrimaryExpression();
             MultiplicativeExpressionPrime();
         }
 
@@ -1686,7 +1706,7 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 UnaryExpression();
-                CastOrExpression();
+                PrimaryExpression();
                 MultiplicativeExpressionPrime();
             }
             else
@@ -1705,40 +1725,7 @@ namespace ParserProject
 			}
 		}
 
-        private void CastOrExpression()
-        {
-            if(_currentToken.Type==TokenType.ParOpen){
-                _currentToken = _lexer.GetNextToken();
-                CastOrExpressionPrime();
-            }else{
-                PrimaryExpression();
-            }
-        }
-
        
-
-        private void CastOrExpressionPrime()
-        {
-            if(_currentToken.Type.IsType()){
-                TypeProduction();
-                if (_currentToken.Type != TokenType.ParClose)
-                    throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
-												   _currentToken.Column);
-				_currentToken = _lexer.GetNextToken();
-				PrimaryExpression();
-
-            }else if(_currentToken.Type.IsExpression()){
-                Expresion();
-				if (_currentToken.Type != TokenType.ParClose)
-					throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
-												   _currentToken.Column);
-				_currentToken = _lexer.GetNextToken();
-                IdExpression();
-            }else{
-				throw new SintacticalException("Expected type or expression Line " + _currentToken.Line + " Col " +
-												   _currentToken.Column);
-            }
-        }
 
         private void IdExpression()
         {
@@ -1811,10 +1798,70 @@ namespace ParserProject
             if(_currentToken.Type==TokenType.RwNew){
                 _currentToken = _lexer.GetNextToken();
                 //ArrayOrObject();
-            }else if(_currentToken.Type.IsPrimaryNoArrayCreationExpression()){
-                _currentToken = _lexer.GetNextToken();
+            }else if(_currentToken.Type.IsPrimaryNoArrayCreationExpression())
+            {
+                PrimaryNoArrayCreationExpression();
             }
 		}
+
+          private void PrimaryNoArrayCreationExpression()
+          {
+              if (_currentToken.Type.IsLiteral())
+              {
+                  _currentToken = _lexer.GetNextToken();
+              }else if (_currentToken.Type==TokenType.RwThis || _currentToken.Type==TokenType.RwBase || _currentToken.Type == TokenType.Id)
+              {
+                  PreIdExpression();
+                if (_currentToken.Type != TokenType.Id)
+                      throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  IdExpression();
+                  PostIncrementExpression();
+
+              }else if (_currentToken.Type.IsPredifinedType() || _currentToken.Type==TokenType.RwEnum)
+              {
+                  _currentToken = _lexer.GetNextToken();
+                  if (_currentToken.Type != TokenType.Period)
+                      throw new SintacticalException("Expected . Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                if (_currentToken.Type != TokenType.Id)
+                      throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                IdExpression();
+                  PostIncrementExpression();
+            }
+          }
+
+          private void PreIdExpression()
+          {
+              if (_currentToken.Type == TokenType.RwThis || _currentToken.Type == TokenType.RwBase)
+              {
+                  _currentToken = _lexer.GetNextToken();
+                  if (_currentToken.Type != TokenType.Period)
+                      throw new SintacticalException("Expected . Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+              }
+              else
+              {
+                  
+              }
+          }
+
+          private void PostIncrementExpression()
+          {
+            if (_currentToken.Type == TokenType.OpInc || _currentToken.Type == TokenType.OpDec)
+            {
+                _currentToken = _lexer.GetNextToken();
+            }
+            else
+            {
+
+            }
+        }
     }
 
 

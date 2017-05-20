@@ -58,7 +58,9 @@ namespace mierda.mierda
             var z=10f;
              int []x=1;
              this.y=100=200;
-             base.z=300;
+             base.z=int.maxValue();
+
+             int.ToString();
 
 
              z=10008*20;
@@ -68,7 +70,8 @@ namespace mierda.mierda
              --y[5];
              char a='b';
 
-             for(int i=0;5<10;5*6){
+            
+             for(int i=0;5<10;i++,--i){
 
              }
 
@@ -88,9 +91,10 @@ namespace mierda.mierda
               }while(1);
 
               switch(5){
-                  case: if(1<5)
-                            return 5;
-                        break;
+                  case 1:
+                    if(1<5)
+                        return 5;
+                    break;
                   default:
               }
 

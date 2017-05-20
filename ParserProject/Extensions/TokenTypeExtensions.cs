@@ -48,10 +48,16 @@ namespace ParserProject.Extensions
 
 		public static bool IsExpression(this TokenType tokenType)
 		{
-            return IsLiteral(tokenType);
+            return IsUnaryExpression(tokenType) || IsPrimaryExpression(tokenType);
 		}
 
-		public static bool IsUnaryExpression(this TokenType tokenType)
+        public static bool IsPrimaryExpression(this TokenType tokenType)
+        {
+            return IsPrimaryNoArrayCreationExpression(tokenType) || tokenType==TokenType.RwNew;
+        }
+
+
+        public static bool IsUnaryExpression(this TokenType tokenType)
 		{
             return tokenType == TokenType.OpSum || tokenType == TokenType.OpSub || tokenType == TokenType.OpInc || tokenType == TokenType.OpDec ||
                                          tokenType == TokenType.OpBinaryComplement || tokenType==TokenType.OpLogicalNot;
@@ -65,7 +71,8 @@ namespace ParserProject.Extensions
 
 		public static bool IsPrimaryNoArrayCreationExpression(this TokenType tokenType)
 		{
-			return IsLiteral(tokenType);
+			return IsLiteral(tokenType) || tokenType==TokenType.RwThis || tokenType==TokenType.RwBase || tokenType==TokenType.Id || IsPredifinedType(tokenType)
+                || tokenType==TokenType.RwEnum;
 		}
 
         public static bool IsAssignationOperator(this TokenType tokenType)
