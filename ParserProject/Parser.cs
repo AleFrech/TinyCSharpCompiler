@@ -417,6 +417,7 @@ namespace ParserProject
 
             if(_currentToken.Type.IsPrivacyModifier() || _currentToken.Type == TokenType.RwStatic || _currentToken.Type.IsType() || _currentToken.Type == TokenType.RwVoid
               ||_currentToken.Type.IsMethodModifiers() ){
+
                 ClassMemberDeclaration();
 
                 ClassMemberDeclarations();
@@ -428,7 +429,15 @@ namespace ParserProject
         private void ClassMemberDeclaration()
         {
             PrivacyModifier();
-            FieldMethodPropertyConstructor();
+            if (_currentToken.Type == TokenType.RwAbstract)
+            {
+                _currentToken = _lexer.GetNextToken();
+                InterfaceElement();
+            }
+            else
+            {
+                FieldMethodPropertyConstructor();
+            }
         }
 
         private void FieldMethodPropertyConstructor()

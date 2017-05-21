@@ -67,7 +67,7 @@ namespace ParserProject.Extensions
 		public static bool IsLiteral(this TokenType tokenType)
 		{
             return tokenType == TokenType.LitNum || tokenType == TokenType.LitChar || tokenType == TokenType.LitString || tokenType == TokenType.LitFloat ||
-                                         tokenType == TokenType.LitBool;
+                                         tokenType == TokenType.LitBool  || tokenType==TokenType.RwNull;
 		}
 
 		public static bool IsPrimaryNoArrayCreationExpression(this TokenType tokenType)
