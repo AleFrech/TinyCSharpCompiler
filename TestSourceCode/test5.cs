@@ -4,16 +4,16 @@ public class Counting_sort
 {  
  public static void Main()  
     {  
- int[] array; //= new int[10]
-// {
-//     2, 5, -4, 11, 0, 8, 22, 67, 51, 6
-// };
+ int[] array= new int[10]
+{
+    2, 5, -4, 11, 0, 8, 22, 67, 51, 6
+};
  
     Console.WriteLine("\n"+"Original array :");
            foreach (int aa in array)                       
            Console.Write(aa + " "); 
 
-    int[] sortedArray; //= new int[array.Length];
+    int[] sortedArray= new int[array.Length];
  
     // find smallest and largest value
     int minVal = array[0];
@@ -25,7 +25,7 @@ public class Counting_sort
     }
  
     // init array of frequencies
-    int[] counts; //= new int[maxVal - minVal + 1];
+    int[] counts = new int[maxVal - minVal + 1];
  
     // init the frequencies
     for (int i = 0; i < array.Length; i++)

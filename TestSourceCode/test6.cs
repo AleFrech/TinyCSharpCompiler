@@ -16,21 +16,21 @@ namespace Server336
         {
 
                 IPAddress ipAd = IPAddress.Parse("10.18.227.162");
-                TcpListener myList; //= new TcpListener(ipAd, 8001);
+                TcpListener myList = new TcpListener(ipAd, 8001);
                 myList.Start();
                 Console.WriteLine("The server is running at port 8001...");
                 Console.WriteLine("The local End point is  :" + myList.LocalEndpoint);
                 Console.WriteLine("Waiting for a connection.....");
                 Socket s = myList.AcceptSocket();
                 Console.WriteLine("Connection accepted from " + s.RemoteEndPoint);
-                bytes[] b; //= new byte[100];
+                byte[] b = new byte[100];
                 int k = s.Receive(b);
                 Console.WriteLine("Recieved...");
                 for (int i = 0; i < k; i++)
                 {
                     Console.Write(Convert.ToChar(b[i]));
                 }
-                ASCIIEncoding asen; //= new ASCIIEncoding();
+                ASCIIEncoding asen = new ASCIIEncoding();
                 s.Send(asen.GetBytes("The string was recieved by the server."));
                 Console.WriteLine("\nSent Acknowledgement");
                 s.Close();
@@ -56,18 +56,18 @@ namespace Client336
         static void Main(string[] args)
         {
 
-                TcpClient tcpclnt; //= new TcpClient();
+                TcpClient tcpclnt = new TcpClient();
                 Console.WriteLine("Connecting.....");
                 tcpclnt.Connect("10.18.227.162", 8001);                
                 Console.WriteLine("Connected");
                 Console.Write("Enter the string to be transmitted : ");
                 String str = Console.ReadLine();
                 Stream stm = tcpclnt.GetStream();
-                ASCIIEncoding asen;// = new ASCIIEncoding();
-                bytes[] ba = asen.GetBytes(str);
+                ASCIIEncoding asen  = new ASCIIEncoding();
+                byte[] ba = asen.GetBytes(str);
                 Console.WriteLine("Transmitting.....");
                 stm.Write(ba, 0, ba.Length);
-                bytes[] bb; //= new byte[100];
+                byte[] bb = new byte[100];
                 int k = stm.Read(bb, 0, 100);
                 for (int i = 0; i < k; i++)
                     Console.Write(Convert.ToChar(bb[i]));

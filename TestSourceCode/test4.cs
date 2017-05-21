@@ -6,11 +6,11 @@ namespace Heap_sort
 	{
 		public static void Main (string[] args)
 		{
-			int[] mykeys;  //= new int[] {2, 5, -4, 11, 0, 18, 22, 67, 51, 6};
+			int[] mykeys = new int[] {2f, 5f, -4f, 11f, 0f, 18f, 22f, 67f, 51f, 6f};
 
-			//double[] mykeys = new double[] {2.22, 0.5, 2.7, -1.0, 11.2};
+			double[] mykeys = new double[] {2.22f, 0.5f, 2.7f, -1.0f, 11.2f};
 
-		    //string[] mykeys = new string[] {"Red", "White", "Black", "Green", "Orange"};
+		    string[] mykeys = new string[] {"Red", "White", "Black", "Green", "Orange"};
               
 			Console.WriteLine("\nOriginal Array Elements :");  
 			printArray (mykeys);

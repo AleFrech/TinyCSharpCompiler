@@ -6,7 +6,7 @@ using System;
         static void Sort(int[] arr)
         {
             int i, j;
-            int[] tmp; //= new int[arr.Length];
+            int[] tmp= new int[arr.Length];
             for (int shift = 31; shift > -1; --shift)
             {
                 j = 0;
@@ -24,7 +24,7 @@ using System;
         static void Main(string[] args)
         {
             
-			int[] arr; //= new int[] { 2, 5, -4, 11, 0, 18, 22, 67, 51, 6  };
+			int[] arr= new int[] { 2, 5, -4, 11, 0, 18, 22, 67, 51, 6  };
 			Console.WriteLine("\nOriginal array : ");
 			foreach (var item in arr)
             {

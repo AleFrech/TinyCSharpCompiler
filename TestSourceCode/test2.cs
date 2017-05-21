@@ -9,7 +9,7 @@ namespace Selection_Sort
     {
         static void Main(string[] args)
         {
-            Selection_Sort selection;// = new Selection_Sort(10);
+            Selection_Sort selection = new Selection_Sort(10);
             selection.Sort();
         }
     }
@@ -17,11 +17,11 @@ namespace Selection_Sort
     class Selection_Sort
     {
         private int[] data;
-        private static Random generator; //= new Random();
+        private static Random generator= new Random();
         //Create an array of 10 random numbers
            public Selection_Sort(int size)
         {
-            data ; //= new int[size];
+            data = new int[size];
             for (int i = 0; i < size; i++)
             {
                 data[i] = generator.Next(20, 90);
