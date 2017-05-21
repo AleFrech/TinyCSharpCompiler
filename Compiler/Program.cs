@@ -14,7 +14,7 @@ namespace Compiler
         {
             var file = new FileManager();
             var sourceCode = file.GetSourceCode(Path.Combine(AppContext.BaseDirectory.
-                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/array.cs"));
+                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/test5.cs"));
             try
             {
                 var lex = new Lexer(new InputString(sourceCode));

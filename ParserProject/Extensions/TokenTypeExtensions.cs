@@ -43,7 +43,8 @@ namespace ParserProject.Extensions
             return (tokenType == TokenType.RwIf || tokenType == TokenType.RwWhile || tokenType == TokenType.RwDo || tokenType == TokenType.RwSwitch ||
                 tokenType == TokenType.RwFor || tokenType == TokenType.RwForeach || tokenType==TokenType.RwReturn || tokenType==TokenType.RwBreak ||
                     tokenType == TokenType.RwContinue || tokenType==TokenType.EndStatement || tokenType==TokenType.RwVar || IsType(tokenType)
-                    || tokenType == TokenType.OpDec || tokenType == TokenType.OpInc || tokenType == TokenType.RwBase || tokenType == TokenType.RwThis);
+                    || tokenType == TokenType.OpDec || tokenType == TokenType.OpInc || tokenType == TokenType.RwBase || tokenType == TokenType.RwThis
+                    || tokenType == TokenType.ParOpen);
         }
 
 		public static bool IsExpression(this TokenType tokenType)

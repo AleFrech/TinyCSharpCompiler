@@ -25,3 +25,50 @@ class Program
         Console.WriteLine(array[1, 1]);
     }
 }
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string[,] words = new string[,]
+        {
+            {"ONE", "TWO"},
+            {"THREE", "FOUR"},
+            {"FIVE", "SIX"}
+        };
+
+        // Loop based on length.
+        // ... Assumes each subarray is two elements long.
+        for (int i = 0; i < words.Length / 2; i++)
+        {
+            string s1 = words[i, 0];
+            string s2 = words[i, 1];
+            Console.WriteLine("{0}, {1}", s1, s2);
+        }
+    }
+}
+
+
+
+
+
+using System;
+
+class Program
+{
+    static void PrintFirstElement(bool[,] values)
+    {
+        // Display value of first element in first row.
+        Console.WriteLine(values[0, 0]);
+    }
+
+    static void Main()
+    {
+        // Any array size of the right element type can be used.
+        bool[,] values = new bool[100, 100];
+        values[0, 0] = true;
+        PrintFirstElement(values);
+    }
+}
