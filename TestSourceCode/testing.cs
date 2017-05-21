@@ -62,6 +62,7 @@ namespace mierda.mierda
 
              int.ToString();
 
+             x=++y;
 
              z=10008*20;
 
@@ -69,6 +70,10 @@ namespace mierda.mierda
              ++x.someInt(1,2);
              --y[5];
              char a='b';
+
+             for(;;){
+                 
+             }
 
             
              for(int i=0;5<10;i++,--i){

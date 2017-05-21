@@ -102,7 +102,8 @@ namespace ParserProject
 
          private void NameSpaceDeclarations()
          {
-            if (_currentToken.Type.IsPrivacyModifier() || _currentToken.Type == TokenType.RwNamespace)
+            if (_currentToken.Type.IsPrivacyModifier() || _currentToken.Type == TokenType.RwNamespace || _currentToken.Type.IsClassModifier() || _currentToken.Type==TokenType.RwClass
+                || _currentToken.Type==TokenType.RwInterface || _currentToken.Type==TokenType.RwEnum)
             {
                NameSpaceDeclaration();
                NameSpaceDeclarations();
@@ -1082,11 +1083,13 @@ namespace ParserProject
                   _currentToken = _lexer.GetNextToken();
                 IdExpression();
               }
-              else
+              else 
               {
                   TypeProductionPrime();
                   DeclaratorsList();
               }
+
+            
           }
 
           private void AssignmentStatementList()
@@ -1111,18 +1114,94 @@ namespace ParserProject
 
           private void YYYYY()
           {
-              if (_currentToken.Type == TokenType.Period || _currentToken.Type == TokenType.ParOpen ||
-                  _currentToken.Type == TokenType.BraOpen || _currentToken.Type == TokenType.OpDec
-                  || _currentToken.Type == TokenType.OpInc || _currentToken.Type.IsAssignationOperator())
+              if (_currentToken.Type == TokenType.BraOpen)
               {
-                  IdExpression();
-                  XXXX();
+                  _currentToken = _lexer.GetNextToken();
+                  YYYYYPrime();
               }
               else if (_currentToken.Type == TokenType.Id)
               {
                   DeclaratorsList();
               }
+              else
+              {
+                  IdExpressionWithoutOpenBra();
+                  XXXX();
+              }
+              //if (_currentToken.Type == TokenType.Period || _currentToken.Type == TokenType.ParOpen ||
+              //    _currentToken.Type == TokenType.BraOpen || _currentToken.Type == TokenType.OpDec
+              //    || _currentToken.Type == TokenType.OpInc || _currentToken.Type.IsAssignationOperator())
+              //{
+              //    IdExpression();
+              //    XXXX();
+              //}
+              //else if (_currentToken.Type == TokenType.Id)
+              //{
+              //    DeclaratorsList();
+              //}
+        }
+
+          private void IdExpressionWithoutOpenBra()
+          {
+            if (_currentToken.Type == TokenType.Period)
+            {
+                _currentToken = _lexer.GetNextToken();
+                if (_currentToken.Type != TokenType.Id)
+                    throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                IdExpression();
+            }
+            else if (_currentToken.Type == TokenType.ParOpen)
+            {
+                _currentToken = _lexer.GetNextToken();
+                ArgumentList();
+                if (_currentToken.Type != TokenType.ParClose)
+                    throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                ParentesisExpression();
+
+            }
+            else
+            {
+
+            }
+        }
+
+          private void YYYYYPrime()
+          {
+              if (_currentToken.Type.IsExpression())
+              {
+                  Mierda4();
+                  XXXX();
+              }else
+              {
+                  RankSpecifierDec();
+                  TypeProductionPrime();
+                  DeclaratorsList();
+              }
           }
+
+          private void Mierda4()
+          {
+              ExpresionList();
+              if (_currentToken.Type != TokenType.BraClose)
+                  throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
+                                                 _currentToken.Column);
+              _currentToken = _lexer.GetNextToken();
+              IdExpression();
+        }
+
+          private void RankSpecifierDec()
+          {
+              DimSpearetorsOpt();
+              if (_currentToken.Type != TokenType.BraClose)
+                  throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
+                                                 _currentToken.Column);
+              _currentToken = _lexer.GetNextToken();
+
+        }
 
           private void XXXX()
           {
@@ -1204,12 +1283,14 @@ namespace ParserProject
                 throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
 											   _currentToken.Column);
 			_currentToken = _lexer.GetNextToken();
-            Expresion();
+            if(_currentToken.Type.IsExpression())
+                Expresion();
 			if (_currentToken.Type != TokenType.EndStatement)
 				throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
 											   _currentToken.Column);
 			_currentToken = _lexer.GetNextToken();
-            ExpresionList();
+            if(_currentToken.Type.IsExpression())
+                ExpresionList();
             if (_currentToken.Type != TokenType.ParClose)
                 throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
 											   _currentToken.Column);
@@ -1219,7 +1300,13 @@ namespace ParserProject
 
         private void ForInitalizer()
         {
-            DeclarationAsignationStatement();
+            if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum
+                || _currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis || _currentToken.Type == TokenType.Id)
+                DeclarationAsignationStatement();
+            else
+            {
+                
+            }
         }
 
         private void ExpresionList()
@@ -1666,7 +1753,9 @@ namespace ParserProject
 
         private void ShiftExpressionPrime()
         {
-            if (_currentToken.Type == TokenType.OpRghtShft || _currentToken.Type == TokenType.OpLftShft){
+            if (_currentToken.Type == TokenType.OpRghtShft || _currentToken.Type == TokenType.OpLftShft)
+            {
+                _currentToken = _lexer.GetNextToken();
                 AdditiveExpression();
                 ShiftExpressionPrime();
             }else{
@@ -1684,6 +1773,7 @@ namespace ParserProject
         {
             if (_currentToken.Type == TokenType.OpSum || _currentToken.Type == TokenType.OpSub)
 			{
+			    _currentToken = _lexer.GetNextToken();
                 MultiplicativeExpression();
 				AdditiveExpressionPrime();
 			}
@@ -1801,8 +1891,58 @@ namespace ParserProject
             }else if(_currentToken.Type.IsPrimaryNoArrayCreationExpression())
             {
                 PrimaryNoArrayCreationExpression();
+            }else if (_currentToken.Type == TokenType.ParOpen)
+            {
+                _currentToken = _lexer.GetNextToken();
+                CastOrExpression();
+            }
+            else
+            {
+               throw new SintacticalException("Expected valid Primary Expression Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
             }
 		}
+
+          private void CastOrExpression()
+          {
+              if (_currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
+              {
+                  CustomTypeProduction();
+                  if (_currentToken.Type != TokenType.ParClose)
+                      throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  PrimaryExpression();
+              }else if (_currentToken.Type.IsExpression())
+              {
+                  Expresion();
+                  if (_currentToken.Type != TokenType.ParClose)
+                      throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+                                                     _currentToken.Column);
+                  _currentToken = _lexer.GetNextToken();
+                  CastOrExpressionPrime();
+              }
+              else
+              {
+                throw new SintacticalException("Expected primitive type or Expression Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
+            }
+          }
+
+          private void CastOrExpressionPrime()
+          {
+              if (_currentToken.Type.IsPrimaryExpression())
+              {
+                  PrimaryExpression();
+              }else if (_currentToken.Type==TokenType.Period || _currentToken.Type==TokenType.ParOpen || _currentToken.Type==TokenType.BraOpen)
+              {
+                IdExpression();
+              }
+              else
+              {
+                  
+              }
+          }
 
           private void PrimaryNoArrayCreationExpression()
           {
@@ -1826,11 +1966,11 @@ namespace ParserProject
                       throw new SintacticalException("Expected . Line " + _currentToken.Line + " Col " +
                                                      _currentToken.Column);
                   _currentToken = _lexer.GetNextToken();
-                if (_currentToken.Type != TokenType.Id)
+                  if (_currentToken.Type != TokenType.Id)
                       throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                      _currentToken.Column);
                   _currentToken = _lexer.GetNextToken();
-                IdExpression();
+                  IdExpression();
                   PostIncrementExpression();
             }
           }

@@ -1,6 +1,8 @@
 ﻿﻿﻿using System;
 using System.IO;
-using LexerProject;
+  using System.Security.Cryptography.X509Certificates;
+  using System.Threading;
+  using LexerProject;
 using ParserProject;
 
 namespace Compiler
@@ -26,7 +28,5 @@ namespace Compiler
             }
             Console.ReadLine();
         }
-
-
-    }
+     }
 }

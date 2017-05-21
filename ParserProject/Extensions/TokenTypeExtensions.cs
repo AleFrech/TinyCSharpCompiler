@@ -53,7 +53,7 @@ namespace ParserProject.Extensions
 
         public static bool IsPrimaryExpression(this TokenType tokenType)
         {
-            return IsPrimaryNoArrayCreationExpression(tokenType) || tokenType==TokenType.RwNew;
+            return IsPrimaryNoArrayCreationExpression(tokenType) || tokenType==TokenType.RwNew || tokenType==TokenType.ParOpen ;
         }
 
 
