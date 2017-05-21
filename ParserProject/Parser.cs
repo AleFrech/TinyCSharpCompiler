@@ -706,7 +706,7 @@ namespace ParserProject
 
         private void VaraibleInitializer()
         {
-            if(_currentToken.Type==TokenType.BraOpen){
+            if(_currentToken.Type==TokenType.KeyOpen){
                 ArrayInitalizer();
             }else if(_currentToken.Type.IsExpression()){
                 Expresion();
