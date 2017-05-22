@@ -1,4 +1,5 @@
-﻿using LexerProject;
+﻿using System;
+using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
@@ -864,9 +865,8 @@ namespace ParserProject
 
          private void RankSpecifiersPrime()
          {
-            if (_currentToken.Type == TokenType.Comma)
+            if (_currentToken.Type == TokenType.BraOpen)
             {
-               _currentToken = _lexer.GetNextToken();
                RankSpecifier();
                RankSpecifiersPrime();
             }
@@ -1076,6 +1076,9 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
 
+            }
+            else if(_currentToken.Type==TokenType.KeyOpen){
+                Block();
             }
             else{
 				throw new SintacticalException("Expected Statement Line " + _currentToken.Line + " Col " +
@@ -2112,29 +2115,46 @@ namespace ParserProject
 
           private void ObjectCollectionInitalizerBody()
           {
-
-              if (_currentToken.Type.IsExpression() || _currentToken.Type == TokenType.KeyOpen)
-              {
-                  ElementInitalizerList();
-                  if (_currentToken.Type != TokenType.KeyClose)
-                      throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
-                                                     _currentToken.Column);
-                  _currentToken = _lexer.GetNextToken();
-              }
-              else
-              {
-                  MemberInitalizerListOpt();
-                  if (_currentToken.Type != TokenType.KeyClose)
-                      throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
-                                                     _currentToken.Column);
-                  _currentToken = _lexer.GetNextToken();
-              }
+            if(_currentToken.Type==TokenType.Id){
+                MemberOrElement();
+            }else{
+				ElementInitalizerList();
+				if (_currentToken.Type != TokenType.KeyClose)
+				    throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
+				                                       _currentToken.Column);
+			    _currentToken = _lexer.GetNextToken();
+			}
           }
 
+        private void MemberOrElement()
+        {
+            if (_currentToken.Type == TokenType.Id)
+            {
+                _currentToken = _lexer.GetNextToken();
+                MemberInitalizerList();
+                if (_currentToken.Type != TokenType.KeyClose)
+                    throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
+                                                       _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+            }
+            else if (_currentToken.Type.IsExpression() || _currentToken.Type==TokenType.ParOpen)
+            {
+                ElementInitalizerList();
+                if (_currentToken.Type != TokenType.KeyClose)
+                    throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
+                                                       _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+            }else{
+				if (_currentToken.Type != TokenType.KeyClose)
+					throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
+													   _currentToken.Column);
+				_currentToken = _lexer.GetNextToken();
+            }
+        }
 
         private void MemberInitalizerListOpt()
         {
-            if (_currentToken.Type == TokenType.Id)
+            if (_currentToken.Type == TokenType.OpAsgn)
             {
                 MemberInitalizerList();
             }
@@ -2155,17 +2175,19 @@ namespace ParserProject
               if (_currentToken.Type == TokenType.Comma)
               {
                   _currentToken = _lexer.GetNextToken();
+                if (_currentToken.Type != TokenType.Id)
+					throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+													   _currentToken.Column);
+				_currentToken = _lexer.GetNextToken();
                   MemberInitalizer();
                   MemberInitalizerListPrime();
-              }
+            }else{
+                
+            }
           }
 
         private void MemberInitalizer()
         {
-            if (_currentToken.Type != TokenType.Id)
-                throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
-                                               _currentToken.Column);
-            _currentToken = _lexer.GetNextToken();
             if (_currentToken.Type != TokenType.OpAsgn)
                 throw new SintacticalException("Expected = Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
@@ -2199,6 +2221,7 @@ namespace ParserProject
           {
               if (_currentToken.Type == TokenType.Comma)
               {
+                  _currentToken = _lexer.GetNextToken();
                   ElementInitalizer();
                   ElementInitalizerListPrime();
               }

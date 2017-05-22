@@ -1,4 +1,4 @@
-﻿﻿﻿using System;
+﻿﻿﻿﻿using System;
 using System.IO;
 using LexerProject;
 using ParserProject;
@@ -12,7 +12,7 @@ namespace Compiler
         {
             var file = new FileManager();
             var sourceCode = file.GetSourceCode(Path.Combine(AppContext.BaseDirectory.
-                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/testing2.cs"));
+                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/testing3.cs"));
             try
             {
                 var lex = new Lexer(new InputString(sourceCode));
@@ -25,6 +25,14 @@ namespace Compiler
                 Console.WriteLine(e.Message);
             }
             Console.ReadLine();
+
+            {
+                ;;;;{}{}{
+                    {};;;
+                }
+            }
+
         }
+
      }
 }

@@ -1,4 +1,4 @@
-﻿using LexerProject.Tokens;
+﻿﻿using LexerProject.Tokens;
 
 namespace ParserProject.Extensions
 {
@@ -9,7 +9,7 @@ namespace ParserProject.Extensions
         {
             return (tokenType == TokenType.RwUsing || tokenType.IsPrivacyModifier() ||
                     tokenType == TokenType.RwAbstract || tokenType == TokenType.RwStatic
-                    || tokenType == TokenType.RwInterface || tokenType == TokenType.RwEnum || tokenType==TokenType.RwNamespace);
+                    || tokenType == TokenType.RwInterface || tokenType == TokenType.RwEnum || tokenType==TokenType.RwNamespace  || tokenType ==TokenType.RwClass);
         }
 
         public static bool IsPrivacyModifier(this TokenType tokenType)
@@ -43,7 +43,7 @@ namespace ParserProject.Extensions
                 tokenType == TokenType.RwFor || tokenType == TokenType.RwForeach || tokenType==TokenType.RwReturn || tokenType==TokenType.RwBreak ||
                     tokenType == TokenType.RwContinue || tokenType==TokenType.EndStatement || tokenType==TokenType.RwVar || IsType(tokenType)
                     || tokenType == TokenType.OpDec || tokenType == TokenType.OpInc || tokenType == TokenType.RwBase || tokenType == TokenType.RwThis
-                    || tokenType == TokenType.ParOpen);
+                    || tokenType == TokenType.ParOpen || tokenType==TokenType.KeyOpen);
         }
 
 		public static bool IsExpression(this TokenType tokenType)
