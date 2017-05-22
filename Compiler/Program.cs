@@ -1,8 +1,6 @@
 ﻿﻿﻿using System;
 using System.IO;
-  using System.Security.Cryptography.X509Certificates;
-  using System.Threading;
-  using LexerProject;
+using LexerProject;
 using ParserProject;
 
 namespace Compiler
@@ -14,7 +12,7 @@ namespace Compiler
         {
             var file = new FileManager();
             var sourceCode = file.GetSourceCode(Path.Combine(AppContext.BaseDirectory.
-                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/test16.cs"));
+                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/ultimate.cs"));
             try
             {
                 var lex = new Lexer(new InputString(sourceCode));

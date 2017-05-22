@@ -1,5 +1,4 @@
-﻿﻿using System;
- using LexerProject;
+﻿using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
@@ -472,6 +471,7 @@ namespace ParserProject
             else if(_currentToken.Type == TokenType.Id)
             {
                 TypeName();
+                TypeProductionPrime();
                 Mierda3();
             }else{
 				throw new SintacticalException("Expected Primitive type, enum , void, static , Id or method modifiers Line " + _currentToken.Line + " Col " +
@@ -616,6 +616,7 @@ namespace ParserProject
             else if(_currentToken.Type==TokenType.Id)
             {
                 TypeName();
+                TypeProductionPrime();
                 Mierda2();
             }else{
 				throw new SintacticalException("Expected Primitive type ,enum,void or id Line " + _currentToken.Line + " Col " +

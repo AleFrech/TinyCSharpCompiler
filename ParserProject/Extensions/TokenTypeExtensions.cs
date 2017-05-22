@@ -1,5 +1,4 @@
-﻿using System.Net;
-using LexerProject.Tokens;
+﻿using LexerProject.Tokens;
 
 namespace ParserProject.Extensions
 {
