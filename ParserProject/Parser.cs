@@ -2308,6 +2308,7 @@ namespace ParserProject
                                                      _currentToken.Column);
                   _currentToken = _lexer.GetNextToken();
                   IdExpression();
+                  AssignmentInExpression();
                   PostIncrementExpression();
 
               }else if (_currentToken.Type.IsPredifinedType() || _currentToken.Type==TokenType.RwEnum)
@@ -2326,7 +2327,17 @@ namespace ParserProject
             }
           }
 
-          private void PreIdExpression()
+        private void AssignmentInExpression()
+        {
+            if(_currentToken.Type.IsAssignationOperator()){
+                _currentToken = _lexer.GetNextToken();
+                Expresion();
+            }else{
+                
+            }
+        }
+
+        private void PreIdExpression()
           {
               if (_currentToken.Type == TokenType.RwThis || _currentToken.Type == TokenType.RwBase)
               {
