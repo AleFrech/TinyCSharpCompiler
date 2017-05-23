@@ -4,8 +4,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\LexerProject\LexerProject.csproj">
-      <Project>{A550888A-BD54-41CD-8B3E-2673734F9F91}</Project>
-      <Name>LexerProject</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -16,5 +14,6 @@
   <ItemGroup>
     <Folder Include="Nodes\ExpressionNodes\" />
     <Folder Include="Nodes\StatementNodes\" />
+    <Folder Include="Nodes\ExpressionNodes\BinaryOperators\" />
   </ItemGroup>
 </Project>

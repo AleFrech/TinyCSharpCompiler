@@ -3,6 +3,8 @@ using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
+using ParserProject.Nodes.ExpressionNodes;
+using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
 
 namespace ParserProject
 {
@@ -1665,228 +1667,256 @@ namespace ParserProject
             }
         }
 
-        private void Expresion()
+        private ExpressionNode Expresion()
          {
-            ConditionalExpression();
+            return ConditionalExpression();
          }
 
-        private void ConditionalExpression()
+        private ExpressionNode ConditionalExpression()
         {
-            NullCoalescingExpression();
-            Ternary();
+            var condition=NullCoalescingExpression();
+            return Ternary(condition);
         }
 
-		private void Ternary()
+        private ExpressionNode Ternary(ExpressionNode condition)
 		{
 			if (_currentToken.Type == TokenType.OpTernario)
 			{
 				_currentToken = _lexer.GetNextToken();
-				Expresion();
+				var @true=Expresion();
 				if (_currentToken.Type != TokenType.Colon)
 					throw new SintacticalException("Expected : Line " + _currentToken.Line + " Col " +
 												   _currentToken.Column);
 				_currentToken = _lexer.GetNextToken();
-				Expresion();
+                var @false=Expresion();
+                return new TeranryExpressionNode { Condition = condition, TrueExpression = @true, FalseExpression = @false};
 			}
 			else
 			{
-
+                return condition;
 			}
 		}
 
-        private void NullCoalescingExpression()
+        private ExpressionNode NullCoalescingExpression()
         {
-            ConditionalOrExpression();
-            NullCoalescingExpressionPrime();
+            var left = ConditionalOrExpression();
+            return NullCoalescingExpressionPrime(left);
         }
 
-		private void NullCoalescingExpressionPrime()
+        private ExpressionNode NullCoalescingExpressionPrime(ExpressionNode param )
 		{
 			if (_currentToken.Type == TokenType.OpCoalescing)
 			{
 				_currentToken = _lexer.GetNextToken();
-				NullCoalescingExpressionPrime();
+                var right = NullCoalescingExpression();
+                return new CoalescingExpressionNode(param, right);
 			}
 			else
 			{
-
+                return param;
 			}
 		}
 
-        private void ConditionalOrExpression()
+        private ExpressionNode ConditionalOrExpression()
         {
-            ConditionalAndExpression();
-            ConditionalOrExpressionPrime();
+            var left=ConditionalAndExpression();
+            return ConditionalOrExpressionPrime(left);
         }
 
-        private void ConditionalOrExpressionPrime()
+        private ExpressionNode ConditionalOrExpressionPrime(ExpressionNode param)
         {
             if(_currentToken.Type==TokenType.OpLogicalOr){
                 _currentToken = _lexer.GetNextToken();
-                ConditionalAndExpression();
-                ConditionalOrExpressionPrime();
+                var right=ConditionalAndExpression();
+                return ConditionalOrExpressionPrime(new LogicalOrExpressionNode(param,right));
             }else{
-                
+                return param;           
             }
         }
 
-		private void ConditionalAndExpression()
+        private ExpressionNode ConditionalAndExpression()
 		{
-            InclusiveOrExpression();
-            ConditionalAndExpressionPrime();
+            var left =InclusiveOrExpression();
+            return ConditionalAndExpressionPrime(left);
 		}
 
-        private void ConditionalAndExpressionPrime()
+        private ExpressionNode ConditionalAndExpressionPrime(ExpressionNode param)
         {
             if(_currentToken.Type==TokenType.OpLogicalAnd){
                 _currentToken = _lexer.GetNextToken();
-                InclusiveOrExpression();
-                ConditionalAndExpression();
+                var right =InclusiveOrExpression();
+                return ConditionalAndExpressionPrime(new LogicalAndExpressionNode(param,right));
             }else{
-                
+                return param;
             }
         }
 
-        private void InclusiveOrExpression()
+        private ExpressionNode InclusiveOrExpression()
         {
-            ExclusiveOrExpression();
-            InclusiveOrExpressionPrime();
+            var left=ExclusiveOrExpression();
+            return InclusiveOrExpressionPrime(left);
         }
 
-        private void InclusiveOrExpressionPrime()
+        private ExpressionNode InclusiveOrExpressionPrime(ExpressionNode param)
         {
             if(_currentToken.Type==TokenType.OpBinaryOr){
                 _currentToken = _lexer.GetNextToken();
-                ExclusiveOrExpression();
-                InclusiveOrExpressionPrime();
+                var right=ExclusiveOrExpression();
+                return InclusiveOrExpressionPrime(new BitOrExpressionNode(param, right));
             }else{
-                
+                return param;
             }
         }
 
-        private void ExclusiveOrExpression()
+        private ExpressionNode ExclusiveOrExpression()
         {
-            AndExpression();
-            ExclusiveOrExpressionPrime();
+            var left=AndExpression();
+            return ExclusiveOrExpressionPrime(left);
         }
 
-        private void ExclusiveOrExpressionPrime()
+        private ExpressionNode ExclusiveOrExpressionPrime(ExpressionNode param)
         {
             if(_currentToken.Type==TokenType.OpBinaryXor){
                 _currentToken = _lexer.GetNextToken();
-                AndExpression();
-                ExclusiveOrExpressionPrime();
+                var right=AndExpression();
+                return ExclusiveOrExpressionPrime(new BitXorExpressionNode(param,right));
             }else{
-                
+                return param;
             }
         }
 
-        private void AndExpression()
+        private ExpressionNode AndExpression()
         {
-            EqualityExpression();
-			AndExpressionPrime();
+            var left=EqualityExpression();
+			return AndExpressionPrime(left);
         }
 
-        private void AndExpressionPrime()
+        private ExpressionNode AndExpressionPrime(ExpressionNode param)
         {
             if(_currentToken.Type==TokenType.OpLogicalAnd){
                 _currentToken = _lexer.GetNextToken();
-                EqualityExpression();
-                AndExpressionPrime();
+                var right=EqualityExpression();
+                return AndExpressionPrime(new BitAndExpressionNode(param,right));
             }else{
-                
+                return param;
             }
         }
 
-        private void EqualityExpression()
+        private ExpressionNode EqualityExpression()
         {
-            RelationalExpresion();
-            EqualityExpressionPrime();
+            var left=RelationalExpresion();
+            return EqualityExpressionPrime(left);
         }
 
-        private void EqualityExpressionPrime()
+        private ExpressionNode EqualityExpressionPrime(ExpressionNode param)
         {
             if(_currentToken.Type==TokenType.OpEquals){
                 _currentToken = _lexer.GetNextToken();
-                RelationalExpresion();
-                EqualityExpressionPrime();
+                var right=RelationalExpresion();
+                return EqualityExpressionPrime(new EqualExpressionNode(param,right));
             }else if(_currentToken.Type == TokenType.OpNotEquals){
 				_currentToken = _lexer.GetNextToken();
-				RelationalExpresion();
-				EqualityExpressionPrime();
+				var right=RelationalExpresion();
+                return EqualityExpressionPrime(new NotEqualExpressionNode(param,right));
             }else{
-                
+                return param;
             }
         }
 
-        private void RelationalExpresion()
+        private ExpressionNode RelationalExpresion()
         {
-            ShiftExpression();
-            RelationalExpresionPrime();
+            var left=ShiftExpression();
+            return RelationalExpresionPrime(left);
         }
 
-        private void RelationalExpresionPrime()
+        private ExpressionNode RelationalExpresionPrime(ExpressionNode param)
         {
-            if(_currentToken.Type==TokenType.OpLessThan  ||_currentToken.Type == TokenType.OpGrtThan || _currentToken.Type == TokenType.OpLessThanOrEqual ||
-               _currentToken.Type == TokenType.OpGrtThanOrEqual){
-                _currentToken = _lexer.GetNextToken();
-                ShiftExpression();
-                RelationalExpresionPrime();
-            }else if(_currentToken.Type== TokenType.RwAs || _currentToken.Type ==TokenType.RwIs){
-                _currentToken = _lexer.GetNextToken();
-                TypeProduction();
-                RelationalExpresionPrime();
-            }else{
-                
-            }
-        }
-
-        private void ShiftExpression()
-        {
-            AdditiveExpression();
-            ShiftExpressionPrime();
-        }
-
-        private void ShiftExpressionPrime()
-        {
-            if (_currentToken.Type == TokenType.OpRghtShft || _currentToken.Type == TokenType.OpLftShft)
+            if (_currentToken.Type == TokenType.OpLessThan)
             {
                 _currentToken = _lexer.GetNextToken();
-                AdditiveExpression();
-                ShiftExpressionPrime();
-            }else{
-                
+                var right=ShiftExpression();
+                return RelationalExpresionPrime(new LessThanExpressionNode(param,right));
+            }
+            else if (_currentToken.Type == TokenType.OpGrtThan)
+            {
+				_currentToken = _lexer.GetNextToken();
+				var right = ShiftExpression();
+				return RelationalExpresionPrime(new GreaterThanExpressionNode(param, right));
+            }else if(_currentToken.Type == TokenType.OpLessThanOrEqual) {
+				_currentToken = _lexer.GetNextToken();
+				var right = ShiftExpression();
+				return RelationalExpresionPrime(new LessThanOrEqualExpressionNode(param, right));
+			}else if(_currentToken.Type == TokenType.OpGrtThanOrEqual){
+				_currentToken = _lexer.GetNextToken();
+				var right = ShiftExpression();
+				return RelationalExpresionPrime(new GreaterThanOrEqualExpressionNode(param, right));
+                    }else if(_currentToken.Type== TokenType.RwAs){
+				_currentToken = _lexer.GetNextToken();
+				var right=TypeProduction();
+                        return RelationalExpresionPrime(new AsExpressionNode(param,right)); 
+                    }else if(_currentToken.Type ==TokenType.RwIs){
+				_currentToken = _lexer.GetNextToken();
+				var right =TypeProduction();
+				return RelationalExpresionPrime(new IsExpressionNode(param,right));
+			}else{
+                return param;
             }
         }
 
-        private void AdditiveExpression()
+        private ExpressionNode ShiftExpression()
         {
-            MultiplicativeExpression();
-            AdditiveExpressionPrime();
+            var left=AdditiveExpression();
+            return ShiftExpressionPrime(left);
         }
 
-        private void AdditiveExpressionPrime()
+        private ExpressionNode ShiftExpressionPrime(ExpressionNode param)
         {
-            if (_currentToken.Type == TokenType.OpSum || _currentToken.Type == TokenType.OpSub)
+            if (_currentToken.Type == TokenType.OpRghtShft){
+				_currentToken = _lexer.GetNextToken();
+				var right=AdditiveExpression();
+				return ShiftExpressionPrime(new RightShiftExpressionNode(param,right));
+                    }else if(_currentToken.Type == TokenType.OpLftShft)
+            {
+                _currentToken = _lexer.GetNextToken();
+                var right=AdditiveExpression();
+                        return ShiftExpressionPrime(new LeftShiftExpressionNode(param,right));
+            }else{
+                return param;
+            }
+        }
+
+        private ExpressionNode AdditiveExpression()
+        {
+            var left=MultiplicativeExpression();
+            return AdditiveExpressionPrime(left);
+        }
+
+        private ExpressionNode AdditiveExpressionPrime(ExpressionNode param)
+        {
+            if (_currentToken.Type == TokenType.OpSum)
 			{
 			    _currentToken = _lexer.GetNextToken();
-                MultiplicativeExpression();
-				AdditiveExpressionPrime();
+                var right=MultiplicativeExpression();
+				return AdditiveExpressionPrime(new SumExpressionNode(param,right));
 			}
-			else
+			else if(_currentToken.Type == TokenType.OpSub)
 			{
-
-			}
+				_currentToken = _lexer.GetNextToken();
+				var right=MultiplicativeExpression();
+				return AdditiveExpressionPrime(new SubExpressionNode(param,right));
+			}else{
+                return param;
+                    }
         }
 
-        private void MultiplicativeExpression()
+        private ExpressionNode MultiplicativeExpression()
         {
-            UnaryExpression();
-            PrimaryExpression();
-            MultiplicativeExpressionPrime();
+            var unary = UnaryExpression();
+            var left = PrimaryExpression(unary);
+            return MultiplicativeExpressionPrime(left);
         }
 
-        private void MultiplicativeExpressionPrime()
+        private ExpressionNode MultiplicativeExpressionPrime(ExpressionNode param)
         {
             if (_currentToken.Type == TokenType.OpMul || _currentToken.Type == TokenType.OpDiv || _currentToken.Type == TokenType.OpMod)
             {
