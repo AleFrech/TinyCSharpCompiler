@@ -14,7 +14,7 @@ namespace LexerProject.States
             var col = currentSymbol.Column;
             var lexeme = new StringBuilder();
             if (currentSymbol.Character.Equals('0'))
-            {
+            { 
                 lexeme.Append(currentSymbol.Character);
                 currentSymbol = inputString.GetNextSymbol();
                 if (currentSymbol.Character.Equals('x') || currentSymbol.Character.Equals('X'))

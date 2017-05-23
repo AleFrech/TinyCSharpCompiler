@@ -27,7 +27,7 @@ namespace LexerProject.States
 
             return new Token
             {
-                Type = _reservedWords.Collection.ContainsKey(lexeme.ToString().ToLower()) ? _reservedWords.Collection[lexeme.ToString().ToLower()] : TokenType.Id,
+                Type = _reservedWords.Collection.ContainsKey(lexeme.ToString()) ? _reservedWords.Collection[lexeme.ToString()] : TokenType.Id,
                 Lexeme = lexeme.ToString(),
                 Column = col,
                 Line = line

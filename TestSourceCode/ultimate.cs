@@ -374,7 +374,7 @@ namespace Server336
                 s.Close();
                 myList.Stop();
 
-            Console.ReadLine();
+            Console.ReadLine().forEach();
         }
     }
 }
