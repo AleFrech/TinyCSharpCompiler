@@ -146,4 +146,32 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 		}
 	}
 
+	public class MultExpressionNode : BinaryOperatorNode
+	{
+		public MultExpressionNode(ExpressionNode leftOperand, ExpressionNode rightOperand)
+		{
+			LeftOperand = leftOperand;
+			RightOperand = rightOperand;
+		}
+	}
+
+
+	public class DivExpressionNode : BinaryOperatorNode
+	{
+		public DivExpressionNode(ExpressionNode leftOperand, ExpressionNode rightOperand)
+		{
+			LeftOperand = leftOperand;
+			RightOperand = rightOperand;
+		}
+	}
+
+    public class ModExpressionNode : BinaryOperatorNode
+	{
+		public ModExpressionNode(ExpressionNode leftOperand, ExpressionNode rightOperand)
+		{
+			LeftOperand = leftOperand;
+			RightOperand = rightOperand;
+		}
+	}
+
 }
