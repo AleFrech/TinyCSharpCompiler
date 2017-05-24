@@ -13,5 +13,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Nodes\StatementNodes\" />
+    <Folder Include="Nodes\ExpressionNodes\LiteralNodes\" />
+    <Folder Include="Nodes\ExpressionNodes\AccesorNodes\" />
+    <Folder Include="Nodes\ExpressionNodes\AssignationNodes\" />
+    <Folder Include="Nodes\ExpressionNodes\PreIdNodes\" />
+    <Folder Include="Nodes\ExpressionNodes\PostIdNodes\" />
+    <Folder Include="Nodes\ExpressionNodes\PrimitiveTypeNodes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Nodes\ExpressionNodes\IdExpressionNode.cs" />
   </ItemGroup>
 </Project>
