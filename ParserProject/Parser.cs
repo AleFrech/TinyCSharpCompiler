@@ -1,10 +1,12 @@
 ﻿using System;
 using LexerProject;
 using LexerProject.Tokens;
+using ParserProject.BinaryOperators.ExpressionNodes.Nodes;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
 using ParserProject.Nodes.ExpressionNodes;
 using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
+using ParserProject.Nodes.ExpressionNodes.UnaryNodes;
 
 namespace ParserProject
 {
@@ -1913,6 +1915,7 @@ namespace ParserProject
         {
             var unary = UnaryExpression();
             var left = PrimaryExpression();
+            left.unaryNode = unary;
             return MultiplicativeExpressionPrime(left);
         }
 
@@ -1923,6 +1926,7 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
 				var unary = UnaryExpression();
 				var right = PrimaryExpression();
+                right.unaryNode = unary;
                 return MultiplicativeExpressionPrime(new MultExpressionNode(param,right));
             }
             else if(_currentToken.Type == TokenType.OpDiv)
@@ -1930,18 +1934,20 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
                 var unary=UnaryExpression();
                 var right=PrimaryExpression();
+                right.unaryNode = unary;
                 return MultiplicativeExpressionPrime(new DivExpressionNode(param, right));
             }else if(_currentToken.Type == TokenType.OpMod){
 				_currentToken = _lexer.GetNextToken();
 				var unary=UnaryExpression();
                 var right=PrimaryExpression();
-				return MultiplicativeExpressionPrime(new ModExpressionNode(param, right));
+                right.unaryNode = unary;
+                return MultiplicativeExpressionPrime(new ModExpressionNode(param, right));
             }else{
                 return param;
             }
         }
 
-        private ExpressionNode UnaryExpression()
+        private UnaryExpressionNode UnaryExpression()
 		{
             if (_currentToken.Type == TokenType.OpSum){
                 var unary = _currentToken.Lexeme;
@@ -1980,7 +1986,7 @@ namespace ParserProject
                 return null;
             }
 		}
-          private void PrimaryExpression()
+          private PrimaryExpressionNode PrimaryExpression()
 		{
             if(_currentToken.Type==TokenType.RwNew){
                 _currentToken = _lexer.GetNextToken();
@@ -2438,6 +2444,4 @@ namespace ParserProject
             }
         }
     }
-
-
 }

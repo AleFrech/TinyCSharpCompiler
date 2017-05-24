@@ -12,8 +12,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Nodes\ExpressionNodes\" />
     <Folder Include="Nodes\StatementNodes\" />
-    <Folder Include="Nodes\ExpressionNodes\BinaryOperators\" />
   </ItemGroup>
 </Project>
