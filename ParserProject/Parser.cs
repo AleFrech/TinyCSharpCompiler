@@ -5,8 +5,10 @@ using ParserProject.BinaryOperators.ExpressionNodes.Nodes;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
 using ParserProject.Nodes.ExpressionNodes;
+using ParserProject.Nodes.StatementNodes;
 using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
 using ParserProject.Nodes.ExpressionNodes.UnaryNodes;
+using System.Collections.Generic;
 
 namespace ParserProject
 {
@@ -982,17 +984,18 @@ namespace ParserProject
         }
 
 
-        private void Block()
+        private List<StatementNode> Block()
         {
             if (_currentToken.Type != TokenType.KeyOpen)
                 throw new SintacticalException("Expected { Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            StatementList();
+            var list=StatementList();
             if (_currentToken.Type != TokenType.KeyClose)
                 throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
+            return list;
         }
 
 
@@ -1029,40 +1032,42 @@ namespace ParserProject
             }
         }
 
-        private void StatementList()
+        private List<StatementNode> StatementList()
         {
             if (_currentToken.Type.IsStatements())
             {
-                Statement();
-                StatementList();
+                var statement=Statement();
+                var list=StatementList();
+                list.Insert(0,statement);
+                return list;
             }
             else
             {
-
+                return new List<StatementNode>();
             }
         }
 
-        private void Statement()
+        private StatementNode Statement()
         {
             if (_currentToken.Type == TokenType.RwIf)
             {
-                IfStatement();
+                return IfStatement();
             }
             else if (_currentToken.Type == TokenType.RwWhile)
             {
-                WhileStatement();
+                return WhileStatement();
             }
             else if (_currentToken.Type == TokenType.RwDo)
             {
-                DoStatement();
+                return DoStatement();
             }
             else if (_currentToken.Type == TokenType.RwSwitch)
             {
-                SwitchStatement();
+                return SwitchStatement();
             }
             else if (_currentToken.Type == TokenType.RwReturn)
             {
-                ReturnStatement();
+                return ReturnStatement();
             }
             else if (_currentToken.Type == TokenType.RwBreak)
             {
@@ -1071,6 +1076,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                return new BreakNodeStatement();
             }
             else if (_currentToken.Type == TokenType.RwContinue)
             {
@@ -1079,14 +1085,16 @@ namespace ParserProject
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                return new ContinueNodeStatement();
             }
             else if (_currentToken.Type == TokenType.EndStatement)
             {
                 _currentToken = _lexer.GetNextToken();
+                return new EndNodeStatement();
             }
             else if (_currentToken.Type == TokenType.RwForeach)
             {
-                ForEachStatement();
+                return ForEachStatement();
             }
             else if (_currentToken.Type == TokenType.RwFor)
             {
@@ -1146,7 +1154,8 @@ namespace ParserProject
             }
             else if (_currentToken.Type == TokenType.KeyOpen)
             {
-                Block();
+                var list=Block();
+                return new BlockNodeStatement(list);
             }
             else
             {
@@ -1514,7 +1523,7 @@ namespace ParserProject
             }
         }
 
-        private void ForEachStatement()
+        private ForEachNodeStatement ForEachStatement()
         {
             if (_currentToken.Type != TokenType.RwForeach)
 
@@ -1559,30 +1568,31 @@ namespace ParserProject
             }
         }
 
-        private void ReturnStatement()
+        private ReturnNodeStatement ReturnStatement()
         {
             if (_currentToken.Type != TokenType.RwReturn)
                 throw new SintacticalException("Expected return Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            ReturnBody();
+            var exp=ReturnBody();
             if (_currentToken.Type != TokenType.EndStatement)
                 throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
+            return new ReturnNodeStatement(exp);
         }
 
-        private void ReturnBody()
+        private ExpressionNode ReturnBody()
         {
             if (_currentToken.Type.IsExpression())
-                Expresion();
+                return Expresion();
             else
             {
-
+                return null;
             }
         }
 
-        private void SwitchStatement()
+        private StatementNode SwitchStatement()
         {
             if (_currentToken.Type != TokenType.RwSwitch)
                 throw new SintacticalException("Expected switch Line " + _currentToken.Line + " Col " +
@@ -1592,7 +1602,7 @@ namespace ParserProject
                 throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            Expresion();
+            var expToEvaluate=Expresion();
             if (_currentToken.Type != TokenType.ParClose)
                 throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
@@ -1601,35 +1611,55 @@ namespace ParserProject
                 throw new SintacticalException("Expected { Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            SwitchSections();
+            var cases=SwitchSections();
+            var @default = DefaultStatement();
             if (_currentToken.Type != TokenType.KeyClose)
                 throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-
+            return new SwitchStatementNode(expToEvaluate, cases,@default);
         }
 
-        private void SwitchSections()
+        private DefaultCaseNodeStatement DefaultStatement()
         {
-            if (_currentToken.Type == TokenType.RwCase || _currentToken.Type == TokenType.RwDefault)
+            if(_currentToken.Type==TokenType.RwDefault){
+					_currentToken = _lexer.GetNextToken();
+					if (_currentToken.Type != TokenType.Colon)
+						throw new SintacticalException("Expected : Line " + _currentToken.Line + " Col " +
+													   _currentToken.Column);
+					_currentToken = _lexer.GetNextToken();
+                var list = StatementList();
+                var @break = BreakStatement();
+                return new DefaultCaseNodeStatement(list,@break);
+            }else{
+                return null;
+            }
+        }
+
+        private List<CaseNodeStatement> SwitchSections()
+        {
+            if (_currentToken.Type == TokenType.RwCase)
             {
-                SwitchSection();
-                SwitchSections();
+                var @case=SwitchSection();
+                var caseList=SwitchSections();
+                caseList.Insert(0,@case);
+                return caseList;
             }
             else
             {
-
+                return new List<CaseNodeStatement>();
             }
         }
 
-        private void SwitchSection()
+        private CaseNodeStatement SwitchSection()
         {
-            SwitchLables();
-            StatementList();
-            BreakStatement();
+           var exp=SwitchLables();
+            var body=StatementList();
+            var @break=BreakStatement();
+            return new CaseNodeStatement(exp, body,@break);
         }
 
-        private void BreakStatement()
+        private BreakNodeStatement BreakStatement()
         {
             if (_currentToken.Type == TokenType.RwBreak)
             {
@@ -1638,31 +1668,25 @@ namespace ParserProject
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                return new BreakNodeStatement();
             }
             else
             {
-
+                return null;
             }
         }
 
-        private void SwitchLables()
+        private ExpressionNode SwitchLables()
         {
             if (_currentToken.Type == TokenType.RwCase)
             {
                 _currentToken = _lexer.GetNextToken();
-                Expresion();
+                var exp=Expresion();
                 if (_currentToken.Type != TokenType.Colon)
                     throw new SintacticalException("Expected : Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-            }
-            else if (_currentToken.Type == TokenType.RwDefault)
-            {
-                _currentToken = _lexer.GetNextToken();
-                if (_currentToken.Type != TokenType.Colon)
-                    throw new SintacticalException("Expected : Line " + _currentToken.Line + " Col " +
-                                                   _currentToken.Column);
-                _currentToken = _lexer.GetNextToken();
+                return exp;
             }
             else
             {
@@ -1671,13 +1695,13 @@ namespace ParserProject
             }
         }
 
-        private void DoStatement()
+        private StatementNode DoStatement()
         {
             if (_currentToken.Type != TokenType.RwDo)
                 throw new SintacticalException("Expected Do Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            EmbededStatement();
+            var list=EmbededStatement();
             if (_currentToken.Type != TokenType.RwWhile)
                 throw new SintacticalException("Expected while Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
@@ -1686,7 +1710,7 @@ namespace ParserProject
                 throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            Expresion();
+            var condition =Expresion();
             if (_currentToken.Type != TokenType.ParClose)
                 throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
@@ -1696,10 +1720,11 @@ namespace ParserProject
                 throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
+            return new DoWhileNodeStatement(condition, list);
 
         }
 
-        private void WhileStatement()
+        private StatementNode WhileStatement()
         {
             if (_currentToken.Type != TokenType.RwWhile)
                 throw new SintacticalException("Expected While Line " + _currentToken.Line + " Col " +
@@ -1710,15 +1735,16 @@ namespace ParserProject
                 throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            Expresion();
+            var condition=Expresion();
             if (_currentToken.Type != TokenType.ParClose)
                 throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            EmbededStatement();
+            var list=EmbededStatement();
+            return new WhileNodeStatement(condition, list);
         }
 
-        private void IfStatement()
+        private IfNodeStatement IfStatement()
         {
             if (_currentToken.Type != TokenType.RwIf)
                 throw new SintacticalException("Expected If Line " + _currentToken.Line + " Col " +
@@ -1729,43 +1755,45 @@ namespace ParserProject
                 throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            Expresion();
+            var condition =Expresion();
             if (_currentToken.Type != TokenType.ParClose)
                 throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            EmbededStatement();
-            ElseStatement();
+            var trueStatements=EmbededStatement();
+
+			if (_currentToken.Type == TokenType.RwElse)
+			{
+				_currentToken = _lexer.GetNextToken();
+				var falseStatements=EmbededStatement();
+                return new IfNodeStatement(condition, trueStatements, falseStatements);
+			}
+			else
+			{
+                return new IfNodeStatement(condition, trueStatements);
+			}
 
         }
 
-        private void ElseStatement()
-        {
-            if (_currentToken.Type == TokenType.RwElse)
-            {
-                _currentToken = _lexer.GetNextToken();
-                EmbededStatement();
-            }
-            else
-            {
 
-            }
-        }
-
-        private void EmbededStatement()
+        private List<StatementNode> EmbededStatement()
         {
             if (_currentToken.Type == TokenType.KeyOpen)
             {
                 _currentToken = _lexer.GetNextToken();
-                StatementList();
+                var list=StatementList();
                 if (_currentToken.Type != TokenType.KeyClose)
                     throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                return list;
             }
             else if (_currentToken.Type.IsStatements())
             {
-                Statement();
+                var x=Statement();
+                var list = new List<StatementNode>();
+                list.Add(x);
+                return list;
             }
             else
             {

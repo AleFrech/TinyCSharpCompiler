@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
+namespace ParserProject.Nodes.ExpressionNodes
 {
     public class PrimaryExpressionNode:ExpressionNode
     {
