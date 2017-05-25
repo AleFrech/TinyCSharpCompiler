@@ -2262,10 +2262,6 @@ namespace ParserProject
             }
         }
 
-
-
-
-
         private void ArrayOrObject()
         {
             if (_currentToken.Type.IsType())
@@ -2617,9 +2613,7 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var accessors = IdExpression();
-
                 var idLeft= new IdLeftExpressionNode(preIdNode,name,accessors);
-
                 var assgnExp = AssignmentInExpression(idLeft);
                 var postId = PostIncrementExpression();
                 return new IdExpressionNode(idLeft, assgnExp, postId);
@@ -2657,7 +2651,7 @@ namespace ParserProject
                 if (_currentToken.Type != TokenType.Period)
                     throw new SintacticalException("Expected . Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
-                var name = _currentToken = _lexer.GetNextToken();
+                var name=_currentToken = _lexer.GetNextToken();
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
