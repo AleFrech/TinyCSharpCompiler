@@ -1,7 +1,7 @@
 ﻿using System;
 namespace ParserProject.Nodes.NameSpaceNodes
 {
-    public class NameSpaceDeclarationNode
+    public abstract class NameSpaceDeclarationNode
     {
         public NameSpaceDeclarationNode()
         {

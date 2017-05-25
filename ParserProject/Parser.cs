@@ -18,6 +18,7 @@ using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes;
 using ParserProject.Nodes.NameSpaceNodes;
 using ParserProject.Nodes;
+using ParserProject.Nodes.PrivacyModifierNodes;
 
 namespace ParserProject
 {
@@ -147,49 +148,68 @@ namespace ParserProject
         {
             if (_currentToken.Type == TokenType.RwNamespace)
             {
-                NameSpaceStatement();
+                return NameSpaceStatement();
             }
             else
             {
-                PrivacyModifier();
+                var privacyNode=PrivacyModifier();
                 ClassInterfaceEnum();
             }
 
         }
 
-        private void PrivacyModifier()
+
+        private NameSpaceNode NameSpaceStatement()
+		{
+			if (_currentToken.Type != TokenType.RwNamespace)
+				throw new SintacticalException("Expected Namespace Line " + _currentToken.Line + " Col " +
+											   _currentToken.Column);
+			_currentToken = _lexer.GetNextToken();
+			var id = TypeName();
+			var code = NameSpaceBody();
+            return new NameSpaceNode { IdNode = id ,Code=code };
+
+		}
+
+        private CodeNode NameSpaceBody()
+		{
+			if (_currentToken.Type != TokenType.KeyOpen)
+				throw new SintacticalException("Expected { Line " + _currentToken.Line + " Col " +
+											   _currentToken.Column);
+			_currentToken = _lexer.GetNextToken();
+			var codeNode=NameSpace();
+			if (_currentToken.Type != TokenType.KeyClose)
+				throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
+											   _currentToken.Column);
+			_currentToken = _lexer.GetNextToken();
+            return codeNode;
+		}
+
+
+        private PrivacyModifierNode PrivacyModifier()
         {
-            if (_currentToken.Type.IsPrivacyModifier())
+            if (_currentToken.Type == TokenType.RwPublic)
+            {
                 _currentToken = _lexer.GetNextToken();
+                return new PublicNode();
+            }
+            else if (_currentToken.Type == TokenType.RwPrivate)
+            {
+                _currentToken = _lexer.GetNextToken();
+                return new PrivateNode();
+            }
+            else if (_currentToken.Type == TokenType.RwProtected)
+            {
+                _currentToken = _lexer.GetNextToken();
+                return new ProtectedNode();
+            }
             else
             {
-
+                return null;
             }
         }
 
-        private void NameSpaceStatement()
-        {
-            if (_currentToken.Type != TokenType.RwNamespace)
-                throw new SintacticalException("Expected Namespace Line " + _currentToken.Line + " Col " +
-                                               _currentToken.Column);
-            _currentToken = _lexer.GetNextToken();
-            TypeName();
-            NameSpaceBody();
-
-        }
-
-        private void NameSpaceBody()
-        {
-            if (_currentToken.Type != TokenType.KeyOpen)
-                throw new SintacticalException("Expected { Line " + _currentToken.Line + " Col " +
-                                               _currentToken.Column);
-            _currentToken = _lexer.GetNextToken();
-            NameSpace();
-            if (_currentToken.Type != TokenType.KeyClose)
-                throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
-                                               _currentToken.Column);
-            _currentToken = _lexer.GetNextToken();
-        }
+     
 
         private void ClassInterfaceEnum()
         {
