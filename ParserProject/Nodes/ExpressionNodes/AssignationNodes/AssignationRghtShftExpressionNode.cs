@@ -3,7 +3,7 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 {
 	public class AssignationRghtShftExpressionNode : AssignationExpressionNode
 	{
-		public AssignationRghtShftExpressionNode(IdExpressionNode left, ExpressionNode right)
+		public AssignationRghtShftExpressionNode(IdLeftExpressionNode left, ExpressionNode right)
 		{
 			LeftValue = left;
 			RightValue = right;

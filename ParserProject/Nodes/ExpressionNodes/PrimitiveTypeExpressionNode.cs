@@ -5,7 +5,7 @@ using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
 
 namespace ParserProject.Nodes.ExpressionNodes
 {
-    public class PrimitiveTypeExpressionNode:ExpressionNode
+    public class PrimitiveTypeExpressionNode:PrimaryExpressionNode
     {
         public PrimitiveTypeNode PrimitiveType { get; set; }
         public string Name { get; set; }
