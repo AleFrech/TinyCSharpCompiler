@@ -18,6 +18,7 @@ using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes;
 using ParserProject.Nodes.NameSpaceNodes;
 using ParserProject.Nodes;
+using ParserProject.Nodes.ExtendsNodes;
 using ParserProject.Nodes.PrivacyModifierNodes;
 
 namespace ParserProject
@@ -153,7 +154,7 @@ namespace ParserProject
             else
             {
                 var privacyNode=PrivacyModifier();
-                ClassInterfaceEnum();
+                return ClassInterfaceEnum(privacyNode);
             }
 
         }
@@ -211,33 +212,38 @@ namespace ParserProject
 
      
 
-        private void ClassInterfaceEnum()
+        private NameSpaceDeclarationNode ClassInterfaceEnum(PrivacyModifierNode privacyNode)
         {
             if (_currentToken.Type == TokenType.RwInterface)
-                InterfaceDeclaration();
+            {
+                var interfaceStructure=InterfaceDeclaration();
+                return  new InterfaceDeclarationNode{PrivacyModifierNode = privacyNode,InterfaceStructure = interfaceStructure };
+
+            }
             else if (_currentToken.Type == TokenType.RwEnum)
                 EnumDeclaration();
             else if (_currentToken.Type == TokenType.RwClass || _currentToken.Type.IsClassModifier())
                 ClassDeclaration();
             else
-                throw new SintacticalException("Expected inteface,enum,class or class modifiers Line " + _currentToken.Line + " Col " +
-                                                _currentToken.Column);
+                throw new SintacticalException("Expected inteface,enum,class or class modifiers Line " +
+                                               _currentToken.Line + " Col " +
+                                               _currentToken.Column);
         }
 
-        private void InterfaceDeclaration()
+        private InterfaceStructureNode InterfaceDeclaration()
         {
             if (_currentToken.Type != TokenType.RwInterface)
                 throw new SintacticalException("Expected interface Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
-            _currentToken = _lexer.GetNextToken();
+            var idlexeme=_currentToken = _lexer.GetNextToken();
             if (_currentToken.Type != TokenType.Id)
                 throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            Heredance();
-            InterfaceBody();
+            var extendsNode=Heredance();
+            var body=InterfaceBody();
+            return new InterfaceStructureNode(idlexeme.Lexeme, extendsNode);
         }
-
         private void InterfaceBody()
         {
             if (_currentToken.Type != TokenType.KeyOpen)
@@ -854,34 +860,36 @@ namespace ParserProject
         }
 
 
-        private void Heredance()
+        private ExtendsNode Heredance()
         {
             if (_currentToken.Type == TokenType.Colon)
             {
                 _currentToken = _lexer.GetNextToken();
-                TypeName();
-                Base();
+                var idnode=TypeName();
+                var list=Base();
+                list.Insert(0,idnode);
+                return new ExtendsNode(list);
             }
             else
             {
-
+                return null;
             }
         }
 
-        private void Base()
+        private List<IdTypeNode> Base()
         {
             if (_currentToken.Type == TokenType.Comma)
             {
                 _currentToken = _lexer.GetNextToken();
-                TypeName();
-                Base();
+                var idNode = TypeName();
+                var list=Base();
+                list.Insert(0,idNode);
+                return list;
             }
             else
             {
-
+                return new List<IdTypeNode>();
             }
-
-
         }
 
         private void ClassModifier()
