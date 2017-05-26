@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCodeNode xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CodeNode>
+    <UsingDirectiveList>
+      <UsingDirectiveNode>
+        <IdNode>
+          <Name>System</Name>
+        </IdNode>
+      </UsingDirectiveNode>
+      <UsingDirectiveNode>
+        <IdNode>
+          <Name>System</Name>
+          <IdNode>
+            <Name>IO</Name>
+          </IdNode>
+        </IdNode>
+      </UsingDirectiveNode>
+      <UsingDirectiveNode>
+        <IdNode>
+          <Name>LexerProject</Name>
+        </IdNode>
+      </UsingDirectiveNode>
+      <UsingDirectiveNode>
+        <IdNode>
+          <Name>LexerProject</Name>
+          <IdNode>
+            <Name>Tokens</Name>
+          </IdNode>
+        </IdNode>
+      </UsingDirectiveNode>
+    </UsingDirectiveList>
+    <NameSpaceDeclarationList>
+      <NameSpaceDeclarationNode xsi:type="NameSpaceNode">
+        <IdNode>
+          <Name>Compiler</Name>
+        </IdNode>
+        <Code>
+          <UsingDirectiveList />
+          <NameSpaceDeclarationList>
+            <NameSpaceDeclarationNode xsi:type="EnumDeclarationNode">
+              <PrivacyModifierNode xsi:type="PublicNode" />
+              <EnumStructure>
+                <Name>Days</Name>
+                <Body>
+                  <EnumElementList>
+                    <EnumElementNode>
+                      <Name>Sun</Name>
+                      <Expression xsi:type="SumExpressionNode">
+                        <LeftOperand xsi:type="IntLiteralExpressionNode">
+                          <Value>2</Value>
+                        </LeftOperand>
+                        <RightOperand xsi:type="IntLiteralExpressionNode">
+                          <Value>5</Value>
+                        </RightOperand>
+                      </Expression>
+                    </EnumElementNode>
+                    <EnumElementNode>
+                      <Name>Mon</Name>
+                    </EnumElementNode>
+                    <EnumElementNode>
+                      <Name>tue</Name>
+                    </EnumElementNode>
+                    <EnumElementNode>
+                      <Name>Wed</Name>
+                      <Expression xsi:type="IntLiteralExpressionNode">
+                        <Value>4</Value>
+                      </Expression>
+                    </EnumElementNode>
+                    <EnumElementNode>
+                      <Name>thu</Name>
+                    </EnumElementNode>
+                    <EnumElementNode>
+                      <Name>Fri</Name>
+                    </EnumElementNode>
+                    <EnumElementNode>
+                      <Name>Sat</Name>
+                    </EnumElementNode>
+                  </EnumElementList>
+                </Body>
+              </EnumStructure>
+            </NameSpaceDeclarationNode>
+          </NameSpaceDeclarationList>
+        </Code>
+      </NameSpaceDeclarationNode>
+    </NameSpaceDeclarationList>
+  </CodeNode>
+</ArrayOfCodeNode>

@@ -6,6 +6,11 @@
 		{
 			Value = pvalue;
 		}
+
+        public DecUnaryExpressionNode(){
+            
+        }
+
 	}
 
 

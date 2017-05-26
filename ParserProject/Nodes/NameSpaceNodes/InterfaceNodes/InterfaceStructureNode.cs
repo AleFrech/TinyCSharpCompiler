@@ -14,5 +14,9 @@ namespace ParserProject.Nodes.NameSpaceNodes.InterfaceNodes
             ExtendsNode = extendsNode;
             InterfaceBody = interfaceBody;
         }
+
+        public InterfaceStructureNode(){
+            
+        }
     }
 }

@@ -11,5 +11,9 @@ namespace ParserProject.Nodes.NameSpaceNodes.InterfaceNodes
         public string Name { get; set; }
         public List<ParameterNode> ParameterList { get; set; }
 
+        public InterfaceMethodNode(){
+            
+        }
+
     }
 }

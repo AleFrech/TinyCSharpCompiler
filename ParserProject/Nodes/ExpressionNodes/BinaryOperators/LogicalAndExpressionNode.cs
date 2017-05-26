@@ -11,5 +11,9 @@ namespace ParserProject
             LeftOperand = left;
             RightOperand = right;
         }
+
+        public LogicalAndExpressionNode(){
+            
+        }
     }
 }

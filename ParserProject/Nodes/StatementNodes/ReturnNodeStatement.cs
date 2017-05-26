@@ -11,5 +11,9 @@ namespace ParserProject.Nodes.StatementNodes
         {
             Expresion = expresion;
         }
+
+        public ReturnNodeStatement(){
+            
+        }
     }
 }

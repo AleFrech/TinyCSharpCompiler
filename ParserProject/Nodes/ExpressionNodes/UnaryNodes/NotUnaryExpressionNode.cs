@@ -6,6 +6,12 @@
 		{
 			Value = pvalue;
 		}
+
+
+        public NotUnaryExpressionNode(){
+            
+        }
+
 	}
 
 

@@ -22,5 +22,9 @@ namespace ParserProject.Nodes.StatementNodes
 			TrueStatements = trueStatement;
             FalseStatements = falseStatement;
 		}
+
+        public IfNodeStatement(){
+            
+        }
     }
 }

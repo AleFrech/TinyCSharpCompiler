@@ -4,6 +4,10 @@
         public SumUnaryExpressionNode(string pvalue){
             Value = pvalue;
         }
+
+        public SumUnaryExpressionNode(){
+            
+        }
     }
 
 

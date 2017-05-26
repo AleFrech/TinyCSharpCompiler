@@ -10,5 +10,9 @@ namespace ParserProject.Nodes.NameSpaceNodes
         {
             IdNode = idNode;
         }
+
+        public UsingDirectiveNode(){
+            
+        }
     }
 }

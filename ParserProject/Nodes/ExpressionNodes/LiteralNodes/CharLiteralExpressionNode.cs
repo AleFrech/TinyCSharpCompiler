@@ -9,5 +9,9 @@ namespace ParserProject.Nodes.ExpressionNodes.LiteralNodes
         {
             Value = @value;
         }
+
+        public CharLiteralExpressionNode(){
+            
+        }
     }
 }

@@ -14,5 +14,9 @@ namespace ParserProject.Nodes.StatementNodes
 			Condition = condition;
 			TrueStatements = trueStatement;
 		}
+
+        public DoWhileNodeStatement(){
+            
+        }
     }
 }

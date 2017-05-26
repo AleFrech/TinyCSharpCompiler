@@ -37,6 +37,10 @@ namespace ParserProject
             _currentToken = _lexer.GetNextToken();
         }
 
+        public Parser(){
+            
+        }
+
         public List<CodeNode> Parse()
         {
              var codeList=Code();
@@ -225,7 +229,8 @@ namespace ParserProject
             }
             else if (_currentToken.Type == TokenType.RwEnum)
             {
-                return EnumDeclaration();
+                var enumstructure=EnumDeclaration();
+                return new EnumDeclarationNode { PrivacyModifierNode = privacyNode, EnumStructure = enumstructure };
             }
             else if (_currentToken.Type == TokenType.RwClass || _currentToken.Type.IsClassModifier())
             {
@@ -391,7 +396,7 @@ namespace ParserProject
 
 
 
-        private EnumDeclarationNode EnumDeclaration()
+        private EnumStructureNode EnumDeclaration()
         {
             if (_currentToken.Type != TokenType.RwEnum)
                 throw new SintacticalException("Expected enum Line " + _currentToken.Line + " Col " +
@@ -404,7 +409,7 @@ namespace ParserProject
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
             var enumbody=EnumBody();
-            return new EnumDeclarationNode { Name=idlexeme , Body=enumbody };
+            return new EnumStructureNode { Name=idlexeme , Body=enumbody };
         }
 
         private EnumBodyNode EnumBody()

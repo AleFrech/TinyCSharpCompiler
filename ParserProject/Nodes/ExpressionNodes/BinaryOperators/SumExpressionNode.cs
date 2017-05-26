@@ -10,6 +10,10 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 			LeftOperand = leftOperand;
 			RightOperand = rightOperand;
 		}
+
+        public SumExpressionNode(){
+            
+        }
 	}
 
 }

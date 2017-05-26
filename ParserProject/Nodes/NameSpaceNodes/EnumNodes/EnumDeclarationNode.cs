@@ -1,10 +1,12 @@
 ﻿using System;
+using ParserProject.Nodes.PrivacyModifierNodes;
+
 namespace ParserProject.Nodes.NameSpaceNodes.EnumNodes
 {
-    public class EnumDeclarationNode : NameSpaceDeclarationNode
+    public class EnumDeclarationNode:NameSpaceDeclarationNode
     {
-        public string Name { get; set; }
-        public EnumBodyNode Body {get;set;}
+		public PrivacyModifierNode PrivacyModifierNode { get; set; }
+        public EnumStructureNode EnumStructure { get; set; }
         public EnumDeclarationNode()
         {
         }

@@ -16,5 +16,9 @@ namespace ParserProject.Nodes.StatementNodes
             Cases = cases;
             DefaultNode = defaultNode;
         }
+
+        public SwitchStatementNode(){
+            
+        }
     }
 }

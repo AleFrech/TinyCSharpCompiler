@@ -8,5 +8,9 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 			LeftValue = left;
 			RightValue = right;
 		}
+
+        public AssignationXorExpressionNode(){
+            
+        }
 	}
 }

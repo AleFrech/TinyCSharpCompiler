@@ -6,6 +6,10 @@
 		{
 			Value = pvalue;
 		}
+
+        public ComplementUnaryExpressionNode(){
+            
+        }
 	}
 
 

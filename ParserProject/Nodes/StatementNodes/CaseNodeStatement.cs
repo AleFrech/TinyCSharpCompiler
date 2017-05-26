@@ -17,5 +17,9 @@ namespace ParserProject.Nodes.StatementNodes
 			Body = body;
             BreakNode = @break;
 		}
+
+        public CaseNodeStatement(){
+            
+        }
     }
 }

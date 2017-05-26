@@ -19,5 +19,9 @@ namespace ParserProject.Nodes.ExpressionNodes
             Accessor = accessor;
             PostId = posId;
         }
+
+        public PrimitiveTypeExpressionNode(){
+            
+        }
     }
 }

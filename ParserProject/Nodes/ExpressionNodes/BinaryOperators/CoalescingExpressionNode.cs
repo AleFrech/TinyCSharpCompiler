@@ -8,6 +8,10 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
             LeftOperand = leftOperand;
             RightOperand = rightOperand;
         }
+
+        public CoalescingExpressionNode(){
+            
+        }
     }
 
 }

@@ -11,5 +11,9 @@ namespace ParserProject.Nodes.StatementNodes
         {
             StatementList = statementList;
         }
+
+        public BlockNodeStatement(){
+            
+        }
     }
 }

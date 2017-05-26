@@ -17,5 +17,9 @@ namespace ParserProject.Nodes.ExpressionNodes
             Accessor = accesor;
         }
 
+        public IdLeftExpressionNode(){
+            
+        }
+
     }
 }

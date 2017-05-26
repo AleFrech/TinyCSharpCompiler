@@ -19,5 +19,9 @@ namespace ParserProject.Nodes.StatementNodes
             Expression = expression;
             ListStatement = listStatement;
         }
+
+        public ForEachNodeStatement(){
+            
+        }
     }
 }

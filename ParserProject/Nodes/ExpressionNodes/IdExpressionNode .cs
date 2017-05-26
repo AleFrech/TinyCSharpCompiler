@@ -17,5 +17,9 @@ namespace ParserProject.Nodes.ExpressionNodes
             AssignmentNode = assgnNode;
             IdLeft = idLeft;
         }
+
+        public IdExpressionNode(){
+            
+        }
     }
 }

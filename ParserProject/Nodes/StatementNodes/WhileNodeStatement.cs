@@ -15,5 +15,9 @@ namespace ParserProject.Nodes.StatementNodes
 			TrueStatements = trueStatement;
 		}
 
+        public WhileNodeStatement(){
+            
+        }
+
     }
 }

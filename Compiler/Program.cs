@@ -1,5 +1,8 @@
 ﻿﻿﻿﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using LexerProject;
 using ParserProject;
 
@@ -12,17 +15,21 @@ namespace Compiler
         {
             var file = new FileManager();
             var sourceCode = file.GetSourceCode(Path.Combine(AppContext.BaseDirectory.
-                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/compis1.cs"));
+                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/main.cs"));
+
             try
             {
                 var lex = new Lexer(new InputString(sourceCode));
                 var parser = new Parser(lex);
-                parser.Parse();
-                Console.WriteLine("SUCCESS");
+                var tree =parser.Parse();
+                file.WriteXml(tree);
+
+				Console.WriteLine("SUCCESS");
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
             }
             Console.ReadLine();
 
