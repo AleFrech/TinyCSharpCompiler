@@ -21,7 +21,6 @@
     <Folder Include="Nodes\ExpressionNodes\PrimitiveTypeNodes\" />
     <Folder Include="Nodes\ExpressionNodes\TypeProductionNodes\" />
     <Folder Include="Nodes\ExpressionNodes\NewExpressionNodes\" />
-    <Folder Include="Nodes\NameSpaceNodes\" />
     <Folder Include="Nodes\PrivacyModifierNodes\" />
   </ItemGroup>
   <ItemGroup>

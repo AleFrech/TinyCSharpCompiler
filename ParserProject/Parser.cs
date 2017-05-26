@@ -1,4 +1,5 @@
-﻿using LexerProject;
+﻿using System;
+using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.BinaryOperators.ExpressionNodes.Nodes;
 using ParserProject.Exceptions;
@@ -19,6 +20,7 @@ using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes;
 using ParserProject.Nodes.NameSpaceNodes;
 using ParserProject.Nodes;
 using ParserProject.Nodes.ExtendsNodes;
+using ParserProject.Nodes.NameSpaceNodes.InterfaceNodes;
 using ParserProject.Nodes.PrivacyModifierNodes;
 
 namespace ParserProject
@@ -242,35 +244,38 @@ namespace ParserProject
             _currentToken = _lexer.GetNextToken();
             var extendsNode=Heredance();
             var body=InterfaceBody();
-            return new InterfaceStructureNode(idlexeme.Lexeme, extendsNode);
+            return new InterfaceStructureNode(idlexeme.Lexeme, extendsNode,body);
         }
-        private void InterfaceBody()
+        private InterfaceBodyNode InterfaceBody()
         {
             if (_currentToken.Type != TokenType.KeyOpen)
                 throw new SintacticalException("Expected { Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            InterfaceMemberDeclarations();
+            var list=InterfaceMemberDeclarations();
             if (_currentToken.Type != TokenType.KeyClose)
                 throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
+            return new InterfaceBodyNode{ InterfaceMethodList = list};
         }
 
-        private void InterfaceMemberDeclarations()
+        private List<InterfaceMethodNode> InterfaceMemberDeclarations()
         {
             if (_currentToken.Type.IsType() || _currentToken.Type == TokenType.RwVoid)
             {
-                InterfaceElement();
-                InterfaceMemberDeclarations();
+                var interfaceMethod = InterfaceElement();
+                var list=InterfaceMemberDeclarations();
+                list.Insert(0,interfaceMethod);
+                return list;
             }
             else
             {
-
+                return new List<InterfaceMethodNode>();
             }
         }
 
-        private void InterfaceElement()
+        private InterfaceMethodNode InterfaceElement()
         {
             if (_currentToken.Type.IsType())
             {
@@ -1915,7 +1920,6 @@ namespace ParserProject
 
         }
 
-
         private List<StatementNode> EmbededStatement()
         {
             if (_currentToken.Type == TokenType.KeyOpen)
@@ -2327,7 +2331,6 @@ namespace ParserProject
             }
         }
 
-
         private AccesorExpressionNode IdExpression()
         {
             if (_currentToken.Type == TokenType.Period)
@@ -2370,8 +2373,6 @@ namespace ParserProject
                 return null;
             }
         }
-
-
 
         private AccesorExpressionNode ParentesisExpression()
         {
@@ -2734,12 +2735,32 @@ namespace ParserProject
             {
                 var lit = _currentToken.Lexeme;
                 _currentToken = _lexer.GetNextToken();
-                return new IntLiteralExpressionNode(int.Parse(lit));
+                int number = 0;
+                if (lit.Contains("0x") || lit.Contains("0X"))
+                {
+                    number = Convert.ToInt32(lit, 16);
+                }
+                else if (lit.Contains("0b") || lit.Contains("0B"))
+                {
+                    lit = lit.Substring(2);
+                    number = Convert.ToInt32(lit, 2);
+                }
+                else
+                {
+                    number = int.Parse(lit);
+                }
+                return new IntLiteralExpressionNode(number);
             }
             if (_currentToken.Type == TokenType.LitFloat)
             {
                 var lit = _currentToken.Lexeme;
                 _currentToken = _lexer.GetNextToken();
+
+                if (lit.Contains("f") || lit.Contains("F"))
+                {
+                    lit=lit.Remove(lit.Length - 1);
+                }
+
                 return new FloatLiteralExpressionNode(float.Parse(lit));
             }
             if (_currentToken.Type == TokenType.LitString)

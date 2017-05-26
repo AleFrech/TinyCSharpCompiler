@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ParserProject.Nodes.PrivacyModifierNodes;
+﻿using ParserProject.Nodes.PrivacyModifierNodes;
 
-namespace ParserProject.Nodes.NameSpaceNodes
+namespace ParserProject.Nodes.NameSpaceNodes.InterfaceNodes
 {
     public class InterfaceDeclarationNode:NameSpaceDeclarationNode
     {
