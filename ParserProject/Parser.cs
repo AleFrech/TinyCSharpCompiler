@@ -18,10 +18,11 @@ using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes;
 using ParserProject.Nodes.NameSpaceNodes;
-using ParserProject.Nodes;
 using ParserProject.Nodes.ExtendsNodes;
 using ParserProject.Nodes.NameSpaceNodes.InterfaceNodes;
 using ParserProject.Nodes.PrivacyModifierNodes;
+using ParserProject.Nodes.NameSpaceNodes.EnumNodes;
+using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes;
 
 namespace ParserProject
 {
@@ -218,14 +219,18 @@ namespace ParserProject
         {
             if (_currentToken.Type == TokenType.RwInterface)
             {
-                var interfaceStructure=InterfaceDeclaration();
-                return  new InterfaceDeclarationNode{PrivacyModifierNode = privacyNode,InterfaceStructure = interfaceStructure };
+                var interfaceStructure = InterfaceDeclaration();
+                return new InterfaceDeclarationNode { PrivacyModifierNode = privacyNode, InterfaceStructure = interfaceStructure };
 
             }
             else if (_currentToken.Type == TokenType.RwEnum)
-                EnumDeclaration();
+            {
+                return EnumDeclaration();
+            }
             else if (_currentToken.Type == TokenType.RwClass || _currentToken.Type.IsClassModifier())
-                ClassDeclaration();
+            {
+                return ClassDeclaration();
+            }
             else
                 throw new SintacticalException("Expected inteface,enum,class or class modifiers Line " +
                                                _currentToken.Line + " Col " +
@@ -386,83 +391,93 @@ namespace ParserProject
 
 
 
-        private void EnumDeclaration()
+        private EnumDeclarationNode EnumDeclaration()
         {
             if (_currentToken.Type != TokenType.RwEnum)
                 throw new SintacticalException("Expected enum Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
+            
             _currentToken = _lexer.GetNextToken();
+            var idlexeme = _currentToken.Lexeme;
             if (_currentToken.Type != TokenType.Id)
                 throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            EnumBody();
+            var enumbody=EnumBody();
+            return new EnumDeclarationNode { Name=idlexeme , Body=enumbody };
         }
 
-        private void EnumBody()
+        private EnumBodyNode EnumBody()
         {
             if (_currentToken.Type != TokenType.KeyOpen)
                 throw new SintacticalException("Expected { Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            EnumMemberDeclaration();
+            var list=EnumMemberDeclaration();
             if (_currentToken.Type != TokenType.KeyClose)
                 throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
+            return new EnumBodyNode {  EnumElementList = list };
         }
 
-        private void EnumMemberDeclaration()
+        private List<EnumElementNode> EnumMemberDeclaration()
         {
             if (_currentToken.Type == TokenType.Id)
             {
-                EnumElement();
-                EnumMemberDeclarationPrime();
+				var element = EnumElement();
+				var list = EnumMemberDeclarationPrime();
+				list.Insert(0, element);
+				return list;
             }
             else
             {
-
+                return new List<EnumElementNode>();
             }
         }
 
-        private void EnumMemberDeclarationPrime()
+        private List<EnumElementNode> EnumMemberDeclarationPrime()
         {
             if (_currentToken.Type == TokenType.Comma)
             {
                 _currentToken = _lexer.GetNextToken();
-                EnumElement();
-                EnumMemberDeclarationPrime();
+                var element=EnumElement();
+                var list=EnumMemberDeclarationPrime();
+                list.Insert(0,element);
+                return list;
             }
             else
             {
-
+                return new List<EnumElementNode>();
             }
         }
 
-        private void EnumElement()
+        private EnumElementNode EnumElement()
         {
+            var idlexeme = _currentToken.Lexeme;
             if (_currentToken.Type != TokenType.Id)
                 throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            EnumElementBody();
+            var expressionNode=EnumElementBody();
+            return new EnumElementNode { Name = idlexeme, Expression = expressionNode };
         }
 
-        private void EnumElementBody()
+        private ExpressionNode EnumElementBody()
         {
             if (_currentToken.Type == TokenType.OpAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
-                Expresion();
+                return Expresion();
             }
             else
             {
-
+                return null;
             }
         }
 
 
-        private void ClassDeclaration()
+        private ClassDeclarationNode ClassDeclaration()
         {
             ClassModifier();
             if (_currentToken.Type != TokenType.RwClass)
@@ -475,7 +490,7 @@ namespace ParserProject
             _currentToken = _lexer.GetNextToken();
             Heredance();
             ClassBody();
-
+            return null;
         }
 
         private void ClassBody()
@@ -1253,6 +1268,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                return null;
             }
             else if (_currentToken.Type == TokenType.ParOpen)
             {
@@ -1277,6 +1293,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                return null;
 
             }
             else if (_currentToken.Type == TokenType.KeyOpen)
@@ -1592,7 +1609,7 @@ namespace ParserProject
                 throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            var declarationAsignation=ForInitalizer();
+            //var declarationAsignation=ForInitalizer();
             if (_currentToken.Type != TokenType.EndStatement)
                 throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
@@ -1632,16 +1649,16 @@ namespace ParserProject
             }
         }
 
-        private void ForInitalizer()
-        {
-            if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum
-                || _currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis || _currentToken.Type == TokenType.Id)
-                return DeclarationAsignationStatement();
-            else
-            {
-                return null;
-            }
-        }
+        //private void ForInitalizer()
+        //{
+        //    if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum
+        //        || _currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis || _currentToken.Type == TokenType.Id)
+        //        return DeclarationAsignationStatement();
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
 
         private List<ExpressionNode> ExpresionList()
         {
@@ -2336,7 +2353,7 @@ namespace ParserProject
             else if (_currentToken.Type == TokenType.ParOpen)
             {
                 _currentToken = _lexer.GetNextToken();
-                return CastOrExpression();
+                return null;//CastOrExpression();
             }
             else
             {
@@ -2427,6 +2444,7 @@ namespace ParserProject
                 TypeProductionForArrayOrObject();
                 ArrayOrObjectPrime();
                 IdExpression();
+                return null; //
 
             }
             else if (_currentToken.Type == TokenType.BraOpen)
