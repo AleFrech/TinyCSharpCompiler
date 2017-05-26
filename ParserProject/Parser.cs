@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.BinaryOperators.ExpressionNodes.Nodes;
@@ -279,21 +279,28 @@ namespace ParserProject
         {
             if (_currentToken.Type.IsType())
             {
-                TypeProduction();
+                var typeNode=TypeProduction();
+
+                var idLexeme = _currentToken.Lexeme;
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                MethodProperty();
+                var parameterLst=MethodProperty();
+
+                return new InterfaceMethodNode { TypeNode = typeNode, Name = idLexeme ,  ParameterList=parameterLst };
             }
             else if (_currentToken.Type == TokenType.RwVoid)
             {
-                _currentToken = _lexer.GetNextToken();
+                var voidNode = new VoidTypeNode();
+                var idLexeme=_currentToken = _lexer.GetNextToken();
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                MethodProperty();
+                var list=MethodProperty();
+
+                return new InterfaceMethodNode { TypeNode = voidNode, Name = idLexeme.Lexeme, ParameterList = list };
             }
             else
             {
@@ -302,15 +309,16 @@ namespace ParserProject
             }
         }
 
-        private void MethodProperty()
+        private List<ParameterNode> MethodProperty()
         {
             if (_currentToken.Type == TokenType.ParOpen)
             {
-                MethodHeader();
+                var list=MethodHeader();
                 if (_currentToken.Type != TokenType.EndStatement)
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                return list;
             }
             else
             {
@@ -320,53 +328,60 @@ namespace ParserProject
         }
 
 
-        private void MethodHeader()
+        private List<ParameterNode> MethodHeader()
         {
             if (_currentToken.Type != TokenType.ParOpen)
                 throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            FormalParameterList();
+            var parameterlist=FormalParameterList();
             if (_currentToken.Type != TokenType.ParClose)
                 throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
+            return parameterlist;
         }
 
-        private void FormalParameterList()
+        private List<ParameterNode> FormalParameterList()
         {
             if (_currentToken.Type.IsType())
             {
-                Parameter();
-                FormalParameterListPrime();
+                var p=Parameter();
+                var list=FormalParameterListPrime();
+                list.Insert(0,p);
+                return list;
             }
             else
             {
-
+                return new List<ParameterNode>();
             }
         }
 
-        private void FormalParameterListPrime()
+        private List<ParameterNode> FormalParameterListPrime()
         {
             if (_currentToken.Type == TokenType.Comma)
             {
                 _currentToken = _lexer.GetNextToken();
-                Parameter();
-                FormalParameterListPrime();
+                var parameter=Parameter();
+                var list=FormalParameterListPrime();
+                list.Insert(0,parameter);
+                return list;
             }
             else
             {
-
+                return new List<ParameterNode>();
             }
         }
 
-        private void Parameter()
+        private ParameterNode Parameter()
         {
-            TypeProduction();
+            var type=TypeProduction();
+            var idlexeme = _currentToken.Lexeme;
             if (_currentToken.Type != TokenType.Id)
                 throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
+            return new ParameterNode { typeNode = type, Name = idlexeme };
         }
 
 
