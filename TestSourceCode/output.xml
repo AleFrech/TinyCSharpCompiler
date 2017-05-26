@@ -79,6 +79,44 @@
                 </Body>
               </EnumStructure>
             </NameSpaceDeclarationNode>
+            <NameSpaceDeclarationNode xsi:type="InterfaceDeclarationNode">
+              <PrivacyModifierNode xsi:type="PublicNode" />
+              <InterfaceStructure>
+                <Name>ITransactions</Name>
+                <InterfaceBody>
+                  <InterfaceMethodList>
+                    <InterfaceMethodNode>
+                      <TypeNode xsi:type="VoidTypeNode" />
+                      <Name>showTransaction</Name>
+                      <ParameterList />
+                    </InterfaceMethodNode>
+                    <InterfaceMethodNode>
+                      <TypeNode xsi:type="IdTypeProductionNode" />
+                      <Name>getAmount</Name>
+                      <ParameterList>
+                        <ParameterNode>
+                          <typeNode xsi:type="PrimitiveTypeProductionNode">
+                            <primitiveType xsi:type="PrimitiveIntNode" />
+                          </typeNode>
+                          <Name>x</Name>
+                        </ParameterNode>
+                        <ParameterNode>
+                          <typeNode xsi:type="IdTypeProductionNode" />
+                          <Name>salary</Name>
+                        </ParameterNode>
+                      </ParameterList>
+                    </InterfaceMethodNode>
+                    <InterfaceMethodNode>
+                      <TypeNode xsi:type="PrimitiveTypeProductionNode">
+                        <primitiveType xsi:type="PrimitiveIntNode" />
+                      </TypeNode>
+                      <Name>getNum</Name>
+                      <ParameterList />
+                    </InterfaceMethodNode>
+                  </InterfaceMethodList>
+                </InterfaceBody>
+              </InterfaceStructure>
+            </NameSpaceDeclarationNode>
           </NameSpaceDeclarationList>
         </Code>
       </NameSpaceDeclarationNode>
