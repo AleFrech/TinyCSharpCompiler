@@ -7,11 +7,11 @@ namespace ParserProject.Nodes.StatementNodes
 {
     public class ForNodeStatement:StatementNode
     {
-        public DeclarationAsignationStatement DeclarationAsignation { get; set; }
+        public StatementNode DeclarationAsignation { get; set; }
         public ExpressionNode Expression { get; set; }
 		public List<StatementNode> ListStatement { get; set; }
         public List<ExpressionNode> ExpressionList { get; set; }
-        public ForNodeStatement(DeclarationAsignationStatement declarationAsignation, ExpressionNode expression, List<ExpressionNode> expressionList, List<StatementNode> statementList)
+        public ForNodeStatement(StatementNode declarationAsignation, ExpressionNode expression, List<ExpressionNode> expressionList, List<StatementNode> statementList)
         {
             DeclarationAsignation = declarationAsignation;
             Expression = expression;

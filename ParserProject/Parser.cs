@@ -20,7 +20,8 @@ using ParserProject.Nodes.NameSpaceNodes.InterfaceNodes;
 using ParserProject.BinaryOperators.ExpressionNodes.Nodes;
 using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
 using ParserProject.Nodes.ExpressionNodes.AssignationNodes;
-using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
+ using ParserProject.Nodes.ExpressionNodes.CastExpresionNodes;
+ using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
 using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes;
@@ -772,25 +773,7 @@ namespace ParserProject
 
         }
 
-        private void CustomTypeProduction()
-        {
-            if (_currentToken.Type.IsPredifinedType())
-            {
-                PredifinedType();
-                TypeProductionPrime();
-            }
-            else if (_currentToken.Type == TokenType.RwEnum)
-            {
-                _currentToken = _lexer.GetNextToken();
-                TypeProductionPrime();
-            }
-            else
-            {
-                throw new SintacticalException("Expected Primitve type or Enum Line " + _currentToken.Line + " Col " +
-                                                     _currentToken.Column);
-            }
 
-        }
 
         private void FieldMethodPropertyDeclaration()
         {
@@ -971,6 +954,30 @@ namespace ParserProject
                 throw new SintacticalException("Expected valid type Line " + _currentToken.Line + " Col " +
                                               _currentToken.Column);
             }
+        }
+
+
+        private TypeProductionNode CustomTypeProduction()
+        {
+            if (_currentToken.Type.IsPredifinedType())
+            {
+                var primitivetypeNode = PredifinedType();
+                var rankspecifiers = TypeProductionPrime();
+                return new PrimitiveTypeProductionNode { primitiveType = primitivetypeNode, rankSpecifiers = rankspecifiers };
+            }
+            else if (_currentToken.Type == TokenType.RwEnum)
+            {
+                var primitivetypeNode = new PrimitiveEnumNode();
+                _currentToken = _lexer.GetNextToken();
+                var rankspecifiers = TypeProductionPrime();
+                return new PrimitiveTypeProductionNode { primitiveType = primitivetypeNode, rankSpecifiers = rankspecifiers };
+            }
+            else
+            {
+                throw new SintacticalException("Expected Primitve type or Enum Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
+            }
+
         }
 
         private TypeProductionNode TypeProductionForArrayOrObject()
@@ -1665,7 +1672,7 @@ namespace ParserProject
             }
         }
 
-        private DeclarationAsignationStatement ForInitalizer()
+        private StatementNode ForInitalizer()
         {
             if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum
                 || _currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis || _currentToken.Type == TokenType.Id)
@@ -2720,16 +2727,18 @@ namespace ParserProject
         }
 
 
-        private void CastOrExpression()
+        private PrimaryExpressionNode CastOrExpression()
         {
             if (_currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
             {
-                CustomTypeProduction();
+                var t=CustomTypeProduction();
                 if (_currentToken.Type != TokenType.ParClose)
                     throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                PrimaryExpression();
+                var p=PrimaryExpression();
+                return new CastExpressionNode {PrimaryExpression = p,TypeNode = t};
+
             }
             else if (_currentToken.Type.IsExpression())
             {
@@ -2739,6 +2748,7 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 CastOrExpressionPrime();
+                return 
             }
             else
             {
@@ -2747,19 +2757,19 @@ namespace ParserProject
             }
         }
 
-        private void CastOrExpressionPrime()
+        private ExpressionNode CastOrExpressionPrime()
         {
             if (_currentToken.Type.IsPrimaryExpression())
             {
-                PrimaryExpression();
+                return PrimaryExpression();
             }
             else if (_currentToken.Type == TokenType.Period || _currentToken.Type == TokenType.ParOpen || _currentToken.Type == TokenType.BraOpen)
             {
-                IdExpression();
+                return IdExpression();
             }
             else
             {
-
+                return null;
             }
         }
 

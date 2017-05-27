@@ -14,5 +14,10 @@ using LexerProject.Tokens;
         double getAmount(int x, Double salary);
         int getNum();
     }
+
+    public class Name
+    {
+        
+    }
      
  }
