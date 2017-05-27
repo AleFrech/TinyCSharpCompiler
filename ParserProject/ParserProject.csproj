@@ -12,7 +12,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Nodes\StatementNodes\" />
     <Folder Include="Nodes\ExpressionNodes\LiteralNodes\" />
     <Folder Include="Nodes\ExpressionNodes\AccesorNodes\" />
     <Folder Include="Nodes\ExpressionNodes\AssignationNodes\" />

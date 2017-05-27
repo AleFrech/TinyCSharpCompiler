@@ -34,8 +34,7 @@ namespace Compiler
             Console.ReadLine();
 
  
-           
-
+         
         }
 
      }
