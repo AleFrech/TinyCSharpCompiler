@@ -23,7 +23,6 @@
     <Folder Include="Nodes\ExpressionNodes\NewExpressionNodes\" />
     <Folder Include="Nodes\PrivacyModifierNodes\" />
     <Folder Include="Nodes\NameSpaceNodes\EnumNodes\" />
-    <Folder Include="Nodes\NameSpaceNodes\ClassDeclarationNodes\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Nodes\ExpressionNodes\IdExpressionNode.cs" />
