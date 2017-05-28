@@ -11,263 +11,853 @@
         <IdNode>
           <Name>System</Name>
           <IdNode>
-            <Name>IO</Name>
-          </IdNode>
-        </IdNode>
-      </UsingDirectiveNode>
-      <UsingDirectiveNode>
-        <IdNode>
-          <Name>LexerProject</Name>
-        </IdNode>
-      </UsingDirectiveNode>
-      <UsingDirectiveNode>
-        <IdNode>
-          <Name>LexerProject</Name>
-          <IdNode>
-            <Name>Tokens</Name>
+            <Name>Linq</Name>
           </IdNode>
         </IdNode>
       </UsingDirectiveNode>
     </UsingDirectiveList>
     <NameSpaceDeclarationList>
-      <NameSpaceDeclarationNode xsi:type="NameSpaceNode">
-        <IdNode>
-          <Name>Compiler</Name>
-        </IdNode>
-        <Code>
-          <UsingDirectiveList />
-          <NameSpaceDeclarationList>
-            <NameSpaceDeclarationNode xsi:type="EnumDeclarationNode">
-              <PrivacyModifierNode xsi:type="PublicNode" />
-              <EnumStructure>
-                <Name>Days</Name>
-                <Body>
-                  <EnumElementList>
-                    <EnumElementNode>
-                      <Name>Sun</Name>
-                      <Expression xsi:type="SumExpressionNode">
-                        <LeftOperand xsi:type="IntLiteralExpressionNode">
-                          <Value>2</Value>
-                        </LeftOperand>
-                        <RightOperand xsi:type="IntLiteralExpressionNode">
-                          <Value>5</Value>
-                        </RightOperand>
-                      </Expression>
-                    </EnumElementNode>
-                    <EnumElementNode>
-                      <Name>Mon</Name>
-                    </EnumElementNode>
-                    <EnumElementNode>
-                      <Name>tue</Name>
-                    </EnumElementNode>
-                    <EnumElementNode>
-                      <Name>Wed</Name>
-                      <Expression xsi:type="IntLiteralExpressionNode">
-                        <Value>4</Value>
-                      </Expression>
-                    </EnumElementNode>
-                    <EnumElementNode>
-                      <Name>thu</Name>
-                    </EnumElementNode>
-                    <EnumElementNode>
-                      <Name>Fri</Name>
-                    </EnumElementNode>
-                    <EnumElementNode>
-                      <Name>Sat</Name>
-                    </EnumElementNode>
-                  </EnumElementList>
-                </Body>
-              </EnumStructure>
-            </NameSpaceDeclarationNode>
-            <NameSpaceDeclarationNode xsi:type="InterfaceDeclarationNode">
-              <PrivacyModifierNode xsi:type="PublicNode" />
-              <InterfaceStructure>
-                <Name>ITransactions</Name>
-                <InterfaceBody>
-                  <InterfaceMethodList>
-                    <InterfaceMethodNode>
-                      <TypeNode xsi:type="VoidTypeNode" />
-                      <Name>showTransaction</Name>
-                      <ParameterList />
-                    </InterfaceMethodNode>
-                    <InterfaceMethodNode>
-                      <TypeNode xsi:type="IdTypeProductionNode">
-                        <IdType>
-                          <Name>double</Name>
-                        </IdType>
-                      </TypeNode>
-                      <Name>getAmount</Name>
-                      <ParameterList>
-                        <ParameterNode>
-                          <typeNode xsi:type="PrimitiveTypeProductionNode">
-                            <primitiveType xsi:type="PrimitiveIntNode" />
-                          </typeNode>
-                          <Name>x</Name>
-                        </ParameterNode>
-                        <ParameterNode>
-                          <typeNode xsi:type="IdTypeProductionNode">
-                            <IdType>
-                              <Name>Double</Name>
-                            </IdType>
-                          </typeNode>
-                          <Name>salary</Name>
-                        </ParameterNode>
-                      </ParameterList>
-                    </InterfaceMethodNode>
-                    <InterfaceMethodNode>
-                      <TypeNode xsi:type="PrimitiveTypeProductionNode">
+      <NameSpaceDeclarationNode xsi:type="ClassDeclarationNode">
+        <PrivacyModifierNode xsi:type="PublicNode" />
+        <ClassStructure>
+          <Name>Counting_sort</Name>
+          <Body>
+            <ClassMemberDeclarationList>
+              <ClassMemberDeclaration xsi:type="StaticFieldMemberDeclaration">
+                <PrivacyModifie xsi:type="PublicNode" />
+                <Type xsi:type="VoidTypeNode" />
+                <FieldMethod xsi:type="MethodDeclarationNode">
+                  <Name>Main</Name>
+                  <ParameterList />
+                  <StatementList>
+                    <StatementNode xsi:type="DeclarationNodeStatement">
+                      <Type xsi:type="PrimitiveTypeProductionNode">
                         <primitiveType xsi:type="PrimitiveIntNode" />
-                      </TypeNode>
-                      <Name>getNum</Name>
-                      <ParameterList />
-                    </InterfaceMethodNode>
-                  </InterfaceMethodList>
-                </InterfaceBody>
-              </InterfaceStructure>
-            </NameSpaceDeclarationNode>
-            <NameSpaceDeclarationNode xsi:type="ClassDeclarationNode">
-              <ClassStructure>
-                <Name>Program</Name>
-                <Body>
-                  <ClassMemberDeclarationList>
-                    <ClassMemberDeclaration xsi:type="StaticFieldMemberDeclaration">
-                      <Type xsi:type="VoidTypeNode" />
-                      <FieldMethod xsi:type="MethodDeclarationNode">
-                        <Name>Main</Name>
-                        <ParameterList />
-                        <StatementList>
-                          <StatementNode xsi:type="DeclarationNodeStatement">
+                        <rankSpecifiers>
+                          <RankSpeciferNode />
+                        </rankSpecifiers>
+                      </Type>
+                      <DeclarationList>
+                        <DeclaratorNode>
+                          <Name>array</Name>
+                          <Expression xsi:type="NewCreationExpressionNode">
                             <Type xsi:type="PrimitiveTypeProductionNode">
                               <primitiveType xsi:type="PrimitiveIntNode" />
                             </Type>
-                            <DeclarationList>
-                              <DeclaratorNode>
-                                <Name>value</Name>
-                                <Expression xsi:type="CastExpressionNode">
-                                  <Left xsi:type="PrimitiveTypeProductionNode">
-                                    <primitiveType xsi:type="PrimitiveIntNode" />
-                                  </Left>
-                                  <Right xsi:type="FloatLiteralExpressionNode">
-                                    <Value>1.5</Value>
-                                  </Right>
-                                </Expression>
-                              </DeclaratorNode>
-                            </DeclarationList>
-                          </StatementNode>
-                          <StatementNode xsi:type="AssignationNodeStatement">
-                            <LeftValue xsi:type="IdLeftExpressionNode">
+                            <NewCreationNode xsi:type="NewArrayCreation">
+                              <ExpressionList>
+                                <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                  <Value>10</Value>
+                                </ExpressionNode>
+                              </ExpressionList>
+                              <ArrayInitalizer>
+                                <ExpressionList>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>2</Value>
+                                  </ExpressionNode>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>5</Value>
+                                  </ExpressionNode>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <UnaryNode xsi:type="SubUnaryExpressionNode">
+                                      <Value>-</Value>
+                                    </UnaryNode>
+                                    <Value>4</Value>
+                                  </ExpressionNode>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>11</Value>
+                                  </ExpressionNode>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>0</Value>
+                                  </ExpressionNode>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>8</Value>
+                                  </ExpressionNode>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>22</Value>
+                                  </ExpressionNode>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>67</Value>
+                                  </ExpressionNode>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>51</Value>
+                                  </ExpressionNode>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>6</Value>
+                                  </ExpressionNode>
+                                </ExpressionList>
+                              </ArrayInitalizer>
+                            </NewCreationNode>
+                          </Expression>
+                        </DeclaratorNode>
+                      </DeclarationList>
+                    </StatementNode>
+                    <StatementNode xsi:type="AssignationNodeStatement">
+                      <LeftValue xsi:type="IdLeftExpressionNode">
+                        <Name>
+                          <Name>Console</Name>
+                          <IdNode>
+                            <Name>WriteLine</Name>
+                          </IdNode>
+                        </Name>
+                        <Accessor xsi:type="ParentesisAccessor">
+                          <expresionList>
+                            <ExpressionNode xsi:type="SumExpressionNode">
+                              <LeftOperand xsi:type="StringLiteralExpressionNode">
+                                <Value>"\n"</Value>
+                              </LeftOperand>
+                              <RightOperand xsi:type="StringLiteralExpressionNode">
+                                <Value>"Original array :"</Value>
+                              </RightOperand>
+                            </ExpressionNode>
+                          </expresionList>
+                        </Accessor>
+                      </LeftValue>
+                    </StatementNode>
+                    <StatementNode xsi:type="ForEachNodeStatement">
+                      <Type xsi:type="PrimitiveTypeProductionNode">
+                        <primitiveType xsi:type="PrimitiveIntNode" />
+                        <rankSpecifiers />
+                      </Type>
+                      <IdName>aa</IdName>
+                      <Expression xsi:type="IdExpressionNode">
+                        <IdLeft>
+                          <Name>
+                            <Name>array</Name>
+                          </Name>
+                        </IdLeft>
+                      </Expression>
+                      <ListStatement>
+                        <StatementNode xsi:type="AssignationNodeStatement">
+                          <LeftValue xsi:type="IdLeftExpressionNode">
+                            <Name>
+                              <Name>Console</Name>
+                              <IdNode>
+                                <Name>Write</Name>
+                              </IdNode>
+                            </Name>
+                            <Accessor xsi:type="ParentesisAccessor">
+                              <expresionList>
+                                <ExpressionNode xsi:type="SumExpressionNode">
+                                  <LeftOperand xsi:type="IdExpressionNode">
+                                    <IdLeft>
+                                      <Name>
+                                        <Name>aa</Name>
+                                      </Name>
+                                    </IdLeft>
+                                  </LeftOperand>
+                                  <RightOperand xsi:type="StringLiteralExpressionNode">
+                                    <Value>" "</Value>
+                                  </RightOperand>
+                                </ExpressionNode>
+                              </expresionList>
+                            </Accessor>
+                          </LeftValue>
+                        </StatementNode>
+                      </ListStatement>
+                    </StatementNode>
+                    <StatementNode xsi:type="DeclarationNodeStatement">
+                      <Type xsi:type="PrimitiveTypeProductionNode">
+                        <primitiveType xsi:type="PrimitiveIntNode" />
+                        <rankSpecifiers>
+                          <RankSpeciferNode />
+                        </rankSpecifiers>
+                      </Type>
+                      <DeclarationList>
+                        <DeclaratorNode>
+                          <Name>sortedArray</Name>
+                          <Expression xsi:type="NewCreationExpressionNode">
+                            <Type xsi:type="PrimitiveTypeProductionNode">
+                              <primitiveType xsi:type="PrimitiveIntNode" />
+                            </Type>
+                            <NewCreationNode xsi:type="NewArrayCreation">
+                              <ExpressionList>
+                                <ExpressionNode xsi:type="IdExpressionNode">
+                                  <IdLeft>
+                                    <Name>
+                                      <Name>array</Name>
+                                    </Name>
+                                    <Accessor xsi:type="PeriodAccessor">
+                                      <ParentId>Length</ParentId>
+                                    </Accessor>
+                                  </IdLeft>
+                                </ExpressionNode>
+                              </ExpressionList>
+                            </NewCreationNode>
+                          </Expression>
+                        </DeclaratorNode>
+                      </DeclarationList>
+                    </StatementNode>
+                    <StatementNode xsi:type="DeclarationNodeStatement">
+                      <Type xsi:type="PrimitiveTypeProductionNode">
+                        <primitiveType xsi:type="PrimitiveIntNode" />
+                        <rankSpecifiers />
+                      </Type>
+                      <DeclarationList>
+                        <DeclaratorNode>
+                          <Name>minVal</Name>
+                          <Expression xsi:type="IdExpressionNode">
+                            <IdLeft>
                               <Name>
-                                <Name>Console</Name>
-                                <IdNode>
-                                  <Name>WriteLine</Name>
-                                </IdNode>
+                                <Name>array</Name>
                               </Name>
-                              <Accessor xsi:type="ParentesisAccessor">
+                              <Accessor xsi:type="BracketAccessor">
+                                <expresionList>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>0</Value>
+                                  </ExpressionNode>
+                                </expresionList>
+                              </Accessor>
+                            </IdLeft>
+                          </Expression>
+                        </DeclaratorNode>
+                      </DeclarationList>
+                    </StatementNode>
+                    <StatementNode xsi:type="DeclarationNodeStatement">
+                      <Type xsi:type="PrimitiveTypeProductionNode">
+                        <primitiveType xsi:type="PrimitiveIntNode" />
+                        <rankSpecifiers />
+                      </Type>
+                      <DeclarationList>
+                        <DeclaratorNode>
+                          <Name>maxVal</Name>
+                          <Expression xsi:type="IdExpressionNode">
+                            <IdLeft>
+                              <Name>
+                                <Name>array</Name>
+                              </Name>
+                              <Accessor xsi:type="BracketAccessor">
+                                <expresionList>
+                                  <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                                    <Value>0</Value>
+                                  </ExpressionNode>
+                                </expresionList>
+                              </Accessor>
+                            </IdLeft>
+                          </Expression>
+                        </DeclaratorNode>
+                      </DeclarationList>
+                    </StatementNode>
+                    <StatementNode xsi:type="ForNodeStatement">
+                      <DeclarationAsignation xsi:type="DeclarationNodeStatement">
+                        <Type xsi:type="PrimitiveTypeProductionNode">
+                          <primitiveType xsi:type="PrimitiveIntNode" />
+                          <rankSpecifiers />
+                        </Type>
+                        <DeclarationList>
+                          <DeclaratorNode>
+                            <Name>i</Name>
+                            <Expression xsi:type="IntLiteralExpressionNode">
+                              <Value>1</Value>
+                            </Expression>
+                          </DeclaratorNode>
+                        </DeclarationList>
+                      </DeclarationAsignation>
+                      <Expression xsi:type="LessThanExpressionNode">
+                        <LeftOperand xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>i</Name>
+                            </Name>
+                          </IdLeft>
+                        </LeftOperand>
+                        <RightOperand xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>array</Name>
+                            </Name>
+                            <Accessor xsi:type="PeriodAccessor">
+                              <ParentId>Length</ParentId>
+                            </Accessor>
+                          </IdLeft>
+                        </RightOperand>
+                      </Expression>
+                      <ExpressionList>
+                        <ExpressionNode xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>i</Name>
+                            </Name>
+                          </IdLeft>
+                          <PostId xsi:type="IncNode" />
+                        </ExpressionNode>
+                      </ExpressionList>
+                      <ListStatement>
+                        <StatementNode xsi:type="IfNodeStatement">
+                          <Condition xsi:type="LessThanExpressionNode">
+                            <LeftOperand xsi:type="IdExpressionNode">
+                              <IdLeft>
+                                <Name>
+                                  <Name>array</Name>
+                                </Name>
+                                <Accessor xsi:type="BracketAccessor">
+                                  <expresionList>
+                                    <ExpressionNode xsi:type="IdExpressionNode">
+                                      <IdLeft>
+                                        <Name>
+                                          <Name>i</Name>
+                                        </Name>
+                                      </IdLeft>
+                                    </ExpressionNode>
+                                  </expresionList>
+                                </Accessor>
+                              </IdLeft>
+                            </LeftOperand>
+                            <RightOperand xsi:type="IdExpressionNode">
+                              <IdLeft>
+                                <Name>
+                                  <Name>minVal</Name>
+                                </Name>
+                              </IdLeft>
+                            </RightOperand>
+                          </Condition>
+                          <TrueStatements>
+                            <StatementNode xsi:type="AssignationEqualStatementNode">
+                              <LeftValue xsi:type="IdLeftExpressionNode">
+                                <Name>
+                                  <Name>minVal</Name>
+                                </Name>
+                              </LeftValue>
+                              <RightValue xsi:type="IdExpressionNode">
+                                <IdLeft>
+                                  <Name>
+                                    <Name>array</Name>
+                                  </Name>
+                                  <Accessor xsi:type="BracketAccessor">
+                                    <expresionList>
+                                      <ExpressionNode xsi:type="IdExpressionNode">
+                                        <IdLeft>
+                                          <Name>
+                                            <Name>i</Name>
+                                          </Name>
+                                        </IdLeft>
+                                      </ExpressionNode>
+                                    </expresionList>
+                                  </Accessor>
+                                </IdLeft>
+                              </RightValue>
+                            </StatementNode>
+                          </TrueStatements>
+                          <FalseStatements>
+                            <StatementNode xsi:type="IfNodeStatement">
+                              <Condition xsi:type="GreaterThanExpressionNode">
+                                <LeftOperand xsi:type="IdExpressionNode">
+                                  <IdLeft>
+                                    <Name>
+                                      <Name>array</Name>
+                                    </Name>
+                                    <Accessor xsi:type="BracketAccessor">
+                                      <expresionList>
+                                        <ExpressionNode xsi:type="IdExpressionNode">
+                                          <IdLeft>
+                                            <Name>
+                                              <Name>i</Name>
+                                            </Name>
+                                          </IdLeft>
+                                        </ExpressionNode>
+                                      </expresionList>
+                                    </Accessor>
+                                  </IdLeft>
+                                </LeftOperand>
+                                <RightOperand xsi:type="IdExpressionNode">
+                                  <IdLeft>
+                                    <Name>
+                                      <Name>maxVal</Name>
+                                    </Name>
+                                  </IdLeft>
+                                </RightOperand>
+                              </Condition>
+                              <TrueStatements>
+                                <StatementNode xsi:type="AssignationEqualStatementNode">
+                                  <LeftValue xsi:type="IdLeftExpressionNode">
+                                    <Name>
+                                      <Name>maxVal</Name>
+                                    </Name>
+                                  </LeftValue>
+                                  <RightValue xsi:type="IdExpressionNode">
+                                    <IdLeft>
+                                      <Name>
+                                        <Name>array</Name>
+                                      </Name>
+                                      <Accessor xsi:type="BracketAccessor">
+                                        <expresionList>
+                                          <ExpressionNode xsi:type="IdExpressionNode">
+                                            <IdLeft>
+                                              <Name>
+                                                <Name>i</Name>
+                                              </Name>
+                                            </IdLeft>
+                                          </ExpressionNode>
+                                        </expresionList>
+                                      </Accessor>
+                                    </IdLeft>
+                                  </RightValue>
+                                </StatementNode>
+                              </TrueStatements>
+                            </StatementNode>
+                          </FalseStatements>
+                        </StatementNode>
+                      </ListStatement>
+                    </StatementNode>
+                    <StatementNode xsi:type="DeclarationNodeStatement">
+                      <Type xsi:type="PrimitiveTypeProductionNode">
+                        <primitiveType xsi:type="PrimitiveIntNode" />
+                        <rankSpecifiers>
+                          <RankSpeciferNode />
+                        </rankSpecifiers>
+                      </Type>
+                      <DeclarationList>
+                        <DeclaratorNode>
+                          <Name>counts</Name>
+                          <Expression xsi:type="NewCreationExpressionNode">
+                            <Type xsi:type="PrimitiveTypeProductionNode">
+                              <primitiveType xsi:type="PrimitiveIntNode" />
+                            </Type>
+                            <NewCreationNode xsi:type="NewArrayCreation">
+                              <ExpressionList>
+                                <ExpressionNode xsi:type="SumExpressionNode">
+                                  <LeftOperand xsi:type="SubExpressionNode">
+                                    <LeftOperand xsi:type="IdExpressionNode">
+                                      <IdLeft>
+                                        <Name>
+                                          <Name>maxVal</Name>
+                                        </Name>
+                                      </IdLeft>
+                                    </LeftOperand>
+                                    <RightOperand xsi:type="IdExpressionNode">
+                                      <IdLeft>
+                                        <Name>
+                                          <Name>minVal</Name>
+                                        </Name>
+                                      </IdLeft>
+                                    </RightOperand>
+                                  </LeftOperand>
+                                  <RightOperand xsi:type="IntLiteralExpressionNode">
+                                    <Value>1</Value>
+                                  </RightOperand>
+                                </ExpressionNode>
+                              </ExpressionList>
+                            </NewCreationNode>
+                          </Expression>
+                        </DeclaratorNode>
+                      </DeclarationList>
+                    </StatementNode>
+                    <StatementNode xsi:type="ForNodeStatement">
+                      <DeclarationAsignation xsi:type="DeclarationNodeStatement">
+                        <Type xsi:type="PrimitiveTypeProductionNode">
+                          <primitiveType xsi:type="PrimitiveIntNode" />
+                          <rankSpecifiers />
+                        </Type>
+                        <DeclarationList>
+                          <DeclaratorNode>
+                            <Name>i</Name>
+                            <Expression xsi:type="IntLiteralExpressionNode">
+                              <Value>0</Value>
+                            </Expression>
+                          </DeclaratorNode>
+                        </DeclarationList>
+                      </DeclarationAsignation>
+                      <Expression xsi:type="LessThanExpressionNode">
+                        <LeftOperand xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>i</Name>
+                            </Name>
+                          </IdLeft>
+                        </LeftOperand>
+                        <RightOperand xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>array</Name>
+                            </Name>
+                            <Accessor xsi:type="PeriodAccessor">
+                              <ParentId>Length</ParentId>
+                            </Accessor>
+                          </IdLeft>
+                        </RightOperand>
+                      </Expression>
+                      <ExpressionList>
+                        <ExpressionNode xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>i</Name>
+                            </Name>
+                          </IdLeft>
+                          <PostId xsi:type="IncNode" />
+                        </ExpressionNode>
+                      </ExpressionList>
+                      <ListStatement>
+                        <StatementNode xsi:type="AssignationNodeStatement">
+                          <LeftValue xsi:type="IdLeftExpressionNode">
+                            <Name>
+                              <Name>counts</Name>
+                            </Name>
+                            <Accessor xsi:type="BracketAccessor">
+                              <expresionList>
+                                <ExpressionNode xsi:type="SubExpressionNode">
+                                  <LeftOperand xsi:type="IdExpressionNode">
+                                    <IdLeft>
+                                      <Name>
+                                        <Name>array</Name>
+                                      </Name>
+                                      <Accessor xsi:type="BracketAccessor">
+                                        <expresionList>
+                                          <ExpressionNode xsi:type="IdExpressionNode">
+                                            <IdLeft>
+                                              <Name>
+                                                <Name>i</Name>
+                                              </Name>
+                                            </IdLeft>
+                                          </ExpressionNode>
+                                        </expresionList>
+                                      </Accessor>
+                                    </IdLeft>
+                                  </LeftOperand>
+                                  <RightOperand xsi:type="IdExpressionNode">
+                                    <IdLeft>
+                                      <Name>
+                                        <Name>minVal</Name>
+                                      </Name>
+                                    </IdLeft>
+                                  </RightOperand>
+                                </ExpressionNode>
+                              </expresionList>
+                            </Accessor>
+                          </LeftValue>
+                          <RightValue xsi:type="IncNode" />
+                        </StatementNode>
+                      </ListStatement>
+                    </StatementNode>
+                    <StatementNode xsi:type="AssignationNodeStatement">
+                      <LeftValue xsi:type="IdLeftExpressionNode">
+                        <Name>
+                          <Name>counts</Name>
+                        </Name>
+                        <Accessor xsi:type="BracketAccessor">
+                          <expresionList>
+                            <ExpressionNode xsi:type="IntLiteralExpressionNode">
+                              <Value>0</Value>
+                            </ExpressionNode>
+                          </expresionList>
+                        </Accessor>
+                      </LeftValue>
+                      <RightValue xsi:type="DecNode" />
+                    </StatementNode>
+                    <StatementNode xsi:type="ForNodeStatement">
+                      <DeclarationAsignation xsi:type="DeclarationNodeStatement">
+                        <Type xsi:type="PrimitiveTypeProductionNode">
+                          <primitiveType xsi:type="PrimitiveIntNode" />
+                          <rankSpecifiers />
+                        </Type>
+                        <DeclarationList>
+                          <DeclaratorNode>
+                            <Name>i</Name>
+                            <Expression xsi:type="IntLiteralExpressionNode">
+                              <Value>1</Value>
+                            </Expression>
+                          </DeclaratorNode>
+                        </DeclarationList>
+                      </DeclarationAsignation>
+                      <Expression xsi:type="LessThanExpressionNode">
+                        <LeftOperand xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>i</Name>
+                            </Name>
+                          </IdLeft>
+                        </LeftOperand>
+                        <RightOperand xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>counts</Name>
+                            </Name>
+                            <Accessor xsi:type="PeriodAccessor">
+                              <ParentId>Length</ParentId>
+                            </Accessor>
+                          </IdLeft>
+                        </RightOperand>
+                      </Expression>
+                      <ExpressionList>
+                        <ExpressionNode xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>i</Name>
+                            </Name>
+                          </IdLeft>
+                          <PostId xsi:type="IncNode" />
+                        </ExpressionNode>
+                      </ExpressionList>
+                      <ListStatement>
+                        <StatementNode xsi:type="AssignationEqualStatementNode">
+                          <LeftValue xsi:type="IdLeftExpressionNode">
+                            <Name>
+                              <Name>counts</Name>
+                            </Name>
+                            <Accessor xsi:type="BracketAccessor">
+                              <expresionList>
+                                <ExpressionNode xsi:type="IdExpressionNode">
+                                  <IdLeft>
+                                    <Name>
+                                      <Name>i</Name>
+                                    </Name>
+                                  </IdLeft>
+                                </ExpressionNode>
+                              </expresionList>
+                            </Accessor>
+                          </LeftValue>
+                          <RightValue xsi:type="SumExpressionNode">
+                            <LeftOperand xsi:type="IdExpressionNode">
+                              <IdLeft>
+                                <Name>
+                                  <Name>counts</Name>
+                                </Name>
+                                <Accessor xsi:type="BracketAccessor">
+                                  <expresionList>
+                                    <ExpressionNode xsi:type="IdExpressionNode">
+                                      <IdLeft>
+                                        <Name>
+                                          <Name>i</Name>
+                                        </Name>
+                                      </IdLeft>
+                                    </ExpressionNode>
+                                  </expresionList>
+                                </Accessor>
+                              </IdLeft>
+                            </LeftOperand>
+                            <RightOperand xsi:type="IdExpressionNode">
+                              <IdLeft>
+                                <Name>
+                                  <Name>counts</Name>
+                                </Name>
+                                <Accessor xsi:type="BracketAccessor">
+                                  <expresionList>
+                                    <ExpressionNode xsi:type="SubExpressionNode">
+                                      <LeftOperand xsi:type="IdExpressionNode">
+                                        <IdLeft>
+                                          <Name>
+                                            <Name>i</Name>
+                                          </Name>
+                                        </IdLeft>
+                                      </LeftOperand>
+                                      <RightOperand xsi:type="IntLiteralExpressionNode">
+                                        <Value>1</Value>
+                                      </RightOperand>
+                                    </ExpressionNode>
+                                  </expresionList>
+                                </Accessor>
+                              </IdLeft>
+                            </RightOperand>
+                          </RightValue>
+                        </StatementNode>
+                      </ListStatement>
+                    </StatementNode>
+                    <StatementNode xsi:type="ForNodeStatement">
+                      <DeclarationAsignation xsi:type="DeclarationNodeStatement">
+                        <Type xsi:type="PrimitiveTypeProductionNode">
+                          <primitiveType xsi:type="PrimitiveIntNode" />
+                          <rankSpecifiers />
+                        </Type>
+                        <DeclarationList>
+                          <DeclaratorNode>
+                            <Name>i</Name>
+                            <Expression xsi:type="SubExpressionNode">
+                              <LeftOperand xsi:type="IdExpressionNode">
+                                <IdLeft>
+                                  <Name>
+                                    <Name>array</Name>
+                                  </Name>
+                                  <Accessor xsi:type="PeriodAccessor">
+                                    <ParentId>Length</ParentId>
+                                  </Accessor>
+                                </IdLeft>
+                              </LeftOperand>
+                              <RightOperand xsi:type="IntLiteralExpressionNode">
+                                <Value>1</Value>
+                              </RightOperand>
+                            </Expression>
+                          </DeclaratorNode>
+                        </DeclarationList>
+                      </DeclarationAsignation>
+                      <Expression xsi:type="GreaterThanOrEqualExpressionNode">
+                        <LeftOperand xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>i</Name>
+                            </Name>
+                          </IdLeft>
+                        </LeftOperand>
+                        <RightOperand xsi:type="IntLiteralExpressionNode">
+                          <Value>0</Value>
+                        </RightOperand>
+                      </Expression>
+                      <ExpressionList>
+                        <ExpressionNode xsi:type="IdExpressionNode">
+                          <IdLeft>
+                            <Name>
+                              <Name>i</Name>
+                            </Name>
+                          </IdLeft>
+                          <PostId xsi:type="DecNode" />
+                        </ExpressionNode>
+                      </ExpressionList>
+                      <ListStatement>
+                        <StatementNode xsi:type="AssignationEqualStatementNode">
+                          <LeftValue xsi:type="IdLeftExpressionNode">
+                            <Name>
+                              <Name>sortedArray</Name>
+                            </Name>
+                            <Accessor xsi:type="BracketAccessor">
+                              <expresionList>
+                                <ExpressionNode xsi:type="IdExpressionNode">
+                                  <IdLeft>
+                                    <Name>
+                                      <Name>counts</Name>
+                                    </Name>
+                                    <Accessor xsi:type="BracketAccessor">
+                                      <expresionList>
+                                        <ExpressionNode xsi:type="SubExpressionNode">
+                                          <LeftOperand xsi:type="IdExpressionNode">
+                                            <IdLeft>
+                                              <Name>
+                                                <Name>array</Name>
+                                              </Name>
+                                              <Accessor xsi:type="BracketAccessor">
+                                                <expresionList>
+                                                  <ExpressionNode xsi:type="IdExpressionNode">
+                                                    <IdLeft>
+                                                      <Name>
+                                                        <Name>i</Name>
+                                                      </Name>
+                                                    </IdLeft>
+                                                  </ExpressionNode>
+                                                </expresionList>
+                                              </Accessor>
+                                            </IdLeft>
+                                          </LeftOperand>
+                                          <RightOperand xsi:type="IdExpressionNode">
+                                            <IdLeft>
+                                              <Name>
+                                                <Name>minVal</Name>
+                                              </Name>
+                                            </IdLeft>
+                                          </RightOperand>
+                                        </ExpressionNode>
+                                      </expresionList>
+                                    </Accessor>
+                                  </IdLeft>
+                                  <PostId xsi:type="DecNode" />
+                                </ExpressionNode>
+                              </expresionList>
+                            </Accessor>
+                          </LeftValue>
+                          <RightValue xsi:type="IdExpressionNode">
+                            <IdLeft>
+                              <Name>
+                                <Name>array</Name>
+                              </Name>
+                              <Accessor xsi:type="BracketAccessor">
                                 <expresionList>
                                   <ExpressionNode xsi:type="IdExpressionNode">
                                     <IdLeft>
                                       <Name>
-                                        <Name>value</Name>
+                                        <Name>i</Name>
                                       </Name>
                                     </IdLeft>
                                   </ExpressionNode>
                                 </expresionList>
                               </Accessor>
-                            </LeftValue>
-                          </StatementNode>
-                          <StatementNode xsi:type="DeclarationNodeStatement">
-                            <Type xsi:type="IdTypeNode">
-                              <Name>object</Name>
-                            </Type>
-                            <DeclarationList>
-                              <DeclaratorNode>
-                                <Name>val</Name>
-                                <Expression xsi:type="IntLiteralExpressionNode">
-                                  <Value>1</Value>
-                                </Expression>
-                              </DeclaratorNode>
-                            </DeclarationList>
-                          </StatementNode>
-                          <StatementNode xsi:type="IfNodeStatement">
-                            <Condition xsi:type="IsExpressionNode">
-                              <LeftOperand xsi:type="IdExpressionNode">
-                                <IdLeft>
-                                  <Name>
-                                    <Name>val</Name>
-                                  </Name>
-                                </IdLeft>
+                            </IdLeft>
+                          </RightValue>
+                        </StatementNode>
+                      </ListStatement>
+                    </StatementNode>
+                    <StatementNode xsi:type="AssignationNodeStatement">
+                      <LeftValue xsi:type="IdLeftExpressionNode">
+                        <Name>
+                          <Name>Console</Name>
+                          <IdNode>
+                            <Name>WriteLine</Name>
+                          </IdNode>
+                        </Name>
+                        <Accessor xsi:type="ParentesisAccessor">
+                          <expresionList>
+                            <ExpressionNode xsi:type="SumExpressionNode">
+                              <LeftOperand xsi:type="StringLiteralExpressionNode">
+                                <Value>"\n"</Value>
                               </LeftOperand>
-                              <RightOperand xsi:type="IdTypeProductionNode">
-                                <IdType>
-                                  <Name>StringBuilder</Name>
-                                </IdType>
+                              <RightOperand xsi:type="StringLiteralExpressionNode">
+                                <Value>"Sorted array :"</Value>
                               </RightOperand>
-                            </Condition>
-                            <TrueStatements>
-                              <StatementNode xsi:type="DeclarationNodeStatement">
-                                <Type xsi:type="IdTypeNode">
-                                  <Name>StringBuilder</Name>
-                                </Type>
-                                <DeclarationList>
-                                  <DeclaratorNode>
-                                    <Name>builder</Name>
-                                    <Expression xsi:type="AsExpressionNode">
-                                      <LeftOperand xsi:type="IdExpressionNode">
-                                        <IdLeft>
-                                          <Name>
-                                            <Name>val</Name>
-                                          </Name>
-                                        </IdLeft>
-                                      </LeftOperand>
-                                      <RightOperand xsi:type="IdTypeProductionNode">
-                                        <IdType>
-                                          <Name>StringBuilder</Name>
-                                        </IdType>
-                                      </RightOperand>
-                                    </Expression>
-                                  </DeclaratorNode>
-                                </DeclarationList>
-                              </StatementNode>
-                              <StatementNode xsi:type="AssignationNodeStatement">
-                                <LeftValue xsi:type="IdLeftExpressionNode">
-                                  <Name>
-                                    <Name>Console</Name>
-                                    <IdNode>
-                                      <Name>WriteLine</Name>
-                                    </IdNode>
-                                  </Name>
-                                  <Accessor xsi:type="ParentesisAccessor">
-                                    <expresionList>
-                                      <ExpressionNode xsi:type="EqualExpressionNode">
-                                        <LeftOperand xsi:type="IdExpressionNode">
-                                          <IdLeft>
-                                            <Name>
-                                              <Name>builder</Name>
-                                            </Name>
-                                            <Accessor xsi:type="PeriodAccessor">
-                                              <ParentId>Length</ParentId>
-                                            </Accessor>
-                                          </IdLeft>
-                                        </LeftOperand>
-                                        <RightOperand xsi:type="IntLiteralExpressionNode">
-                                          <Value>0</Value>
-                                        </RightOperand>
-                                      </ExpressionNode>
-                                    </expresionList>
-                                  </Accessor>
-                                </LeftValue>
-                              </StatementNode>
-                            </TrueStatements>
-                          </StatementNode>
-                        </StatementList>
-                      </FieldMethod>
-                    </ClassMemberDeclaration>
-                  </ClassMemberDeclarationList>
-                </Body>
-              </ClassStructure>
-            </NameSpaceDeclarationNode>
-          </NameSpaceDeclarationList>
-        </Code>
+                            </ExpressionNode>
+                          </expresionList>
+                        </Accessor>
+                      </LeftValue>
+                    </StatementNode>
+                    <StatementNode xsi:type="ForEachNodeStatement">
+                      <Type xsi:type="PrimitiveTypeProductionNode">
+                        <primitiveType xsi:type="PrimitiveIntNode" />
+                        <rankSpecifiers />
+                      </Type>
+                      <IdName>aa</IdName>
+                      <Expression xsi:type="IdExpressionNode">
+                        <IdLeft>
+                          <Name>
+                            <Name>sortedArray</Name>
+                          </Name>
+                        </IdLeft>
+                      </Expression>
+                      <ListStatement>
+                        <StatementNode xsi:type="AssignationNodeStatement">
+                          <LeftValue xsi:type="IdLeftExpressionNode">
+                            <Name>
+                              <Name>Console</Name>
+                              <IdNode>
+                                <Name>Write</Name>
+                              </IdNode>
+                            </Name>
+                            <Accessor xsi:type="ParentesisAccessor">
+                              <expresionList>
+                                <ExpressionNode xsi:type="SumExpressionNode">
+                                  <LeftOperand xsi:type="IdExpressionNode">
+                                    <IdLeft>
+                                      <Name>
+                                        <Name>aa</Name>
+                                      </Name>
+                                    </IdLeft>
+                                  </LeftOperand>
+                                  <RightOperand xsi:type="StringLiteralExpressionNode">
+                                    <Value>" "</Value>
+                                  </RightOperand>
+                                </ExpressionNode>
+                              </expresionList>
+                            </Accessor>
+                          </LeftValue>
+                        </StatementNode>
+                      </ListStatement>
+                    </StatementNode>
+                    <StatementNode xsi:type="AssignationNodeStatement">
+                      <LeftValue xsi:type="IdLeftExpressionNode">
+                        <Name>
+                          <Name>Console</Name>
+                          <IdNode>
+                            <Name>Write</Name>
+                          </IdNode>
+                        </Name>
+                        <Accessor xsi:type="ParentesisAccessor">
+                          <expresionList>
+                            <ExpressionNode xsi:type="StringLiteralExpressionNode">
+                              <Value>"\n"</Value>
+                            </ExpressionNode>
+                          </expresionList>
+                        </Accessor>
+                      </LeftValue>
+                    </StatementNode>
+                  </StatementList>
+                </FieldMethod>
+              </ClassMemberDeclaration>
+            </ClassMemberDeclarationList>
+          </Body>
+        </ClassStructure>
       </NameSpaceDeclarationNode>
     </NameSpaceDeclarationList>
   </CodeNode>

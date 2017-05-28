@@ -9,8 +9,8 @@ namespace ParserProject.Nodes.StatementNodes
     {
         public StatementNode DeclarationAsignation { get; set; }
         public ExpressionNode Expression { get; set; }
-		public List<StatementNode> ListStatement { get; set; }
         public List<ExpressionNode> ExpressionList { get; set; }
+        public List<StatementNode> ListStatement { get; set; }
         public ForNodeStatement(StatementNode declarationAsignation, ExpressionNode expression, List<ExpressionNode> expressionList, List<StatementNode> statementList)
         {
             DeclarationAsignation = declarationAsignation;
