@@ -7,8 +7,8 @@ namespace ParserProject.Nodes.ExpressionNodes.CastExpresionNodes
 {
     public class CastExpressionNode:PrimaryExpressionNode
     {
-        public TypeProductionNode TypeNode { get; set; }
+        public ExpressionNode Left { get; set; }
 
-        public PrimaryExpressionNode PrimaryExpression { get; set; }
+        public ExpressionNode Right { get; set; }
     }
 }

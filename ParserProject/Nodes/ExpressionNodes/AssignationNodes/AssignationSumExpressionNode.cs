@@ -1,7 +1,7 @@
 ﻿using System;
 namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 {
-    public class AssignationSumExpressionNode:AssignationExpressionNode
+    public class AssignationSumExpressionNode : AssignationExpressionNode
     {
         public AssignationSumExpressionNode(IdLeftExpressionNode left,ExpressionNode right)
         {

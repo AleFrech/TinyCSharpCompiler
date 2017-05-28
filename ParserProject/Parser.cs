@@ -4,7 +4,8 @@ using LexerProject.Tokens;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
 using System.Collections.Generic;
-using ParserProject.Nodes.ExtendsNodes;
+ using System.Xml.Linq;
+ using ParserProject.Nodes.ExtendsNodes;
 using ParserProject.Nodes.NameSpaceNodes;
 using ParserProject.Nodes.StatementNodes;
 using ParserProject.Nodes.ExpressionNodes;
@@ -18,14 +19,22 @@ using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Nodes.ExpressionNodes.LiteralNodes;
 using ParserProject.Nodes.NameSpaceNodes.InterfaceNodes;
 using ParserProject.BinaryOperators.ExpressionNodes.Nodes;
-using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
-using ParserProject.Nodes.ExpressionNodes.AssignationNodes;
+ using ParserProject.Nodes.ExpressionNodes.AssignationNodes;
+ using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
  using ParserProject.Nodes.ExpressionNodes.CastExpresionNodes;
  using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
 using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes;
  using ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes;
+ using AssignationDivStatementNode = ParserProject.Nodes.StatementNodes.AssignationDivStatementNode;
+ using AssignationEqualStatementNode = ParserProject.Nodes.StatementNodes.AssignationEqualStatementNode;
+ using AssignationLftShftStatementNode = ParserProject.Nodes.StatementNodes.AssignationLftShftStatementNode;
+ using AssignationModStatementNode = ParserProject.Nodes.StatementNodes.AssignationModStatementNode;
+ using AssignationMultStatemntNode = ParserProject.Nodes.StatementNodes.AssignationMultStatemntNode;
+ using AssignationOrStatementNode = ParserProject.Nodes.StatementNodes.AssignationOrStatementNode;
+ using AssignationRghtShftStatementNode = ParserProject.Nodes.StatementNodes.AssignationRghtShftStatementNode;
+ using AssignationSumStatementNode = ParserProject.Nodes.StatementNodes.AssignationSumStatementNode;
 
 namespace ParserProject
 {
@@ -773,8 +782,6 @@ namespace ParserProject
 
         }
 
-
-
         private void FieldMethodPropertyDeclaration()
         {
             if (_currentToken.Type == TokenType.ParOpen)
@@ -955,7 +962,6 @@ namespace ParserProject
                                               _currentToken.Column);
             }
         }
-
 
         private TypeProductionNode CustomTypeProduction()
         {
@@ -1263,7 +1269,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                return new DecrementStatement { PrimaryNode = primary };
+                return new DecrementStatement { ExpressionNode = primary };
             }
             else if (_currentToken.Type == TokenType.OpInc)
             {
@@ -1273,7 +1279,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                return new IncrementStatement { PrimaryNode = primary };
+                return new IncrementStatement { ExpressionNode = primary };
             }
             else if (_currentToken.Type == TokenType.RwVar || _currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum
                 || _currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis || _currentToken.Type == TokenType.Id)
@@ -1288,27 +1294,90 @@ namespace ParserProject
             else if (_currentToken.Type == TokenType.ParOpen)
             {
                 _currentToken = _lexer.GetNextToken();
-                CastStatement();
+                var castExp=CastStatement();
                 if (_currentToken.Type != TokenType.Period)
                     throw new SintacticalException("Expected . Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
-                _currentToken = _lexer.GetNextToken();
+     
+                var idLexeme = _currentToken = _lexer.GetNextToken();
+               
+
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                IdExpression();
-                if (_currentToken.Type.IsAssignationOperator())
-                {
-                    _currentToken = _lexer.GetNextToken();
-                    Expresion();
-                    //AssignmentStatementList();
-                }
-                if (_currentToken.Type != TokenType.EndStatement)
-                    throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
-                                                   _currentToken.Column);
-                _currentToken = _lexer.GetNextToken();
+                var x = new PeriodAccessor { ParentId = idLexeme.Lexeme, Accessor = null };
+                var y= new  ParentesisExpresionNode{ExpresioNode = castExp,AccesorExpression = x};
+                var accessor=IdExpression();
 
+                var z =  new ParentesisExpresionNode{ExpresioNode = y,AccesorExpression = accessor};
+                if (_currentToken.Type == TokenType.OpAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationEqualStatementNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpAddAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationSumStatementNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpSubAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationSubStatementNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpMulAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationMultStatemntNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpDivAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationDivStatementNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpModAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationModStatementNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpAndAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationAndStatementNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpOrAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationOrStatementNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpXorAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationXorStatementNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpLftShftAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationLftShftStatementNode(z, right);
+                }
+                if (_currentToken.Type == TokenType.OpRghtShftAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationRghtShftStatementNode(z, right);
+                }
+                return new AssignationNodeStatement { LeftValue = z };
             }
             else if (_currentToken.Type == TokenType.KeyOpen)
             {
@@ -1322,22 +1391,22 @@ namespace ParserProject
             }
         }
 
-        private void CastStatement()
+        private CastExpressionNode CastStatement()
         {
 
             if (_currentToken.Type.IsType())
             {
-                TypeProduction();
+                var type=TypeProduction();
                 if (_currentToken.Type != TokenType.ParClose)
                     throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                PrimaryExpression();
-
+                var p=PrimaryExpression();
+                return new CastExpressionNode {Left = type, Right = p};
             }
             else if (_currentToken.Type == TokenType.ParOpen)
             {
-                CastStatementPrime();
+                return CastStatementPrime();
             }
             else
             {
@@ -1346,20 +1415,21 @@ namespace ParserProject
             }
         }
 
-        private void CastStatementPrime()
+        private CastExpressionNode CastStatementPrime()
         {
             if (_currentToken.Type == TokenType.ParOpen)
             {
                 _currentToken = _lexer.GetNextToken();
-                CastStatement();
+                var exp=CastStatement();
                 if (_currentToken.Type != TokenType.ParClose)
                     throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                return exp;
             }
             else
             {
-
+                return null;
             }
         }
         private StatementNode DeclarationAsignationStatement()
@@ -1395,19 +1465,77 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var accessorNode=IdExpression();
-                if (accessorNode != null)
-                    accessorNode.ParentId = idlexeme.Lexeme;
-                ExpressionNode exp = null;
-                if (_currentToken.Type.IsAssignationOperator())
-                {   
-                    exp=Expresion();
-                    //AssignmentStatementList();
+                var left = new IdLeftExpressionNode();
+                left.Accessor = accessorNode;
+                left.PreId = preId;
+                left.Name = new IdTypeNode(idlexeme.Lexeme, null);
+                if (_currentToken.Type == TokenType.OpAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationEqualStatementNode(left, right);
                 }
-                var idleft = new IdLeftExpressionNode();
-                idleft.Accessor = accessorNode;
-                idleft.PreId=preId;
-                idleft.Name = new IdTypeNode(idlexeme.Lexeme,null);
-                return  new AssignationNodeStatement{LeftValue = idleft,RightValue = exp};
+                if (_currentToken.Type == TokenType.OpAddAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationSumStatementNode(left, right);
+                }
+                if (_currentToken.Type == TokenType.OpSubAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationSubStatementNode(left, right);
+                }
+                if (_currentToken.Type == TokenType.OpMulAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationMultStatemntNode(left, right);
+                }
+                if (_currentToken.Type == TokenType.OpDivAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationDivStatementNode(left, right);
+                }
+                if (_currentToken.Type == TokenType.OpModAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationModStatementNode(left, right);
+                }
+                if (_currentToken.Type == TokenType.OpAndAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationAndStatementNode(left, right);
+                }
+                if (_currentToken.Type == TokenType.OpOrAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationOrStatementNode(left, right);
+                }
+                if (_currentToken.Type == TokenType.OpXorAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationXorStatementNode(left, right);
+                }
+                if (_currentToken.Type == TokenType.OpLftShftAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationLftShftStatementNode(left, right);
+                }
+                if (_currentToken.Type == TokenType.OpRghtShftAsgn)
+                {
+                    var right = Expresion();
+                    _currentToken = _lexer.GetNextToken();
+                    return new AssignationRghtShftStatementNode(left, right);
+                }
+                return new AssignationNodeStatement {LeftValue = left};
             }
             else if (_currentToken.Type == TokenType.Id)
             {
@@ -1432,8 +1560,6 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var accessor=IdExpression();
-                if (accessor != null)
-                    accessor.ParentId = idlexeme.Lexeme;
                 return new PrimitiveTypeAccessorStatement{Type = primitive,Name = idlexeme.Lexeme,Accesor = accessor};
             }
             else
@@ -1444,20 +1570,6 @@ namespace ParserProject
                 return new DeclarationNodeStatement {Type = typeProduction, DeclarationList = list};
             }
         }
-
-        //private void AssignmentStatementList()
-        //{
-        //    if (_currentToken.Type.IsAssignationOperator())
-        //    {
-        //        _currentToken = _lexer.GetNextToken();
-        //        Expresion();
-        //        AssignmentStatementList();
-        //    }
-        //    else
-        //    {
-
-        //    }
-        //}
 
         private StatementNode WWWWW(string idName)
         {
@@ -2395,7 +2507,7 @@ namespace ParserProject
                 return null;
             }
         }
-        private PrimaryExpressionNode PrimaryExpression()
+        private ExpressionNode PrimaryExpression()
         {
             if (_currentToken.Type == TokenType.RwNew)
             {
@@ -2760,7 +2872,7 @@ namespace ParserProject
         }
 
 
-        private PrimaryExpressionNode CastOrExpression()
+        private ExpressionNode CastOrExpression()
         {
             if (_currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
             {
@@ -2770,18 +2882,17 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var p=PrimaryExpression();
-                return new CastExpressionNode {PrimaryExpression = p,TypeNode = t};
+                return new CastExpressionNode {Left = t,Right = p};
 
             }
             else if (_currentToken.Type.IsExpression())
             {
-                Expresion();
+                var exp=Expresion();
                 if (_currentToken.Type != TokenType.ParClose)
                     throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                CastOrExpressionPrime();
-                return 
+                return CastOrExpressionPrime(exp);
             }
             else
             {
@@ -2790,19 +2901,23 @@ namespace ParserProject
             }
         }
 
-        private ExpressionNode CastOrExpressionPrime()
+        private ExpressionNode CastOrExpressionPrime(ExpressionNode exp)
         {
             if (_currentToken.Type.IsPrimaryExpression())
             {
-                return PrimaryExpression();
+                var p= PrimaryExpression();
+                return new CastExpressionNode {Left = exp, Right = exp};
             }
             else if (_currentToken.Type == TokenType.Period || _currentToken.Type == TokenType.ParOpen || _currentToken.Type == TokenType.BraOpen)
             {
-                return IdExpression();
+
+                var accessor= IdExpression();
+                return new ParentesisExpresionNode {ExpresioNode = exp,AccesorExpression = accessor};
+
             }
             else
             {
-                return null;
+                return exp;
             }
         }
 
@@ -2868,8 +2983,6 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var accessor = IdExpression();
-                if (accessor != null)
-                    accessor.ParentId = name;
                 var idLeft= new IdLeftExpressionNode(preIdNode,new IdTypeNode(name,null), accessor);
                 var assgnExp = AssignmentInExpression(idLeft);
                 var postId = PostIncrementExpression();
@@ -2914,8 +3027,6 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var accessor = IdExpression();
-                if (accessor != null)
-                    accessor.ParentId = name.Lexeme;
                 var post = PostIncrementExpression();
                 return new PrimitiveTypeExpressionNode(primitiveNode, name.Lexeme, accessor, post);
             }

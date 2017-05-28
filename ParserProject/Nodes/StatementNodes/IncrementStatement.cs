@@ -5,7 +5,7 @@ namespace ParserProject.Nodes.StatementNodes
 {
 	public class IncrementStatement : StatementNode
 	{
-		public PrimaryExpressionNode PrimaryNode { get; set; }
+		public ExpressionNode ExpressionNode { get; set; }
 		public IncrementStatement()
 		{
 		}
