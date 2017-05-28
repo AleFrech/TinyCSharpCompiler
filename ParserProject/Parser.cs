@@ -4,8 +4,7 @@ using LexerProject.Tokens;
 using ParserProject.Exceptions;
 using ParserProject.Extensions;
 using System.Collections.Generic;
- using System.Xml.Linq;
- using ParserProject.Nodes.ExtendsNodes;
+using ParserProject.Nodes.ExtendsNodes;
 using ParserProject.Nodes.NameSpaceNodes;
 using ParserProject.Nodes.StatementNodes;
 using ParserProject.Nodes.ExpressionNodes;
@@ -26,15 +25,9 @@ using ParserProject.BinaryOperators.ExpressionNodes.Nodes;
 using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes;
+ using ParserProject.Nodes.NameSpaceNodes.MethodModiferNodes;
  using ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes;
- using AssignationDivStatementNode = ParserProject.Nodes.StatementNodes.AssignationDivStatementNode;
- using AssignationEqualStatementNode = ParserProject.Nodes.StatementNodes.AssignationEqualStatementNode;
- using AssignationLftShftStatementNode = ParserProject.Nodes.StatementNodes.AssignationLftShftStatementNode;
- using AssignationModStatementNode = ParserProject.Nodes.StatementNodes.AssignationModStatementNode;
- using AssignationMultStatemntNode = ParserProject.Nodes.StatementNodes.AssignationMultStatemntNode;
- using AssignationOrStatementNode = ParserProject.Nodes.StatementNodes.AssignationOrStatementNode;
- using AssignationRghtShftStatementNode = ParserProject.Nodes.StatementNodes.AssignationRghtShftStatementNode;
- using AssignationSumStatementNode = ParserProject.Nodes.StatementNodes.AssignationSumStatementNode;
+
 
 namespace ParserProject
 {
@@ -548,45 +541,52 @@ namespace ParserProject
             }
             else
             {
-                FieldMethodPropertyConstructor();
+                return FieldMethodPropertyConstructor();
             }
         }
 
-        private void FieldMethodPropertyConstructor()
+        private ClassMemberDeclaration FieldMethodPropertyConstructor()
         {
             if (_currentToken.Type == TokenType.RwStatic)
             {
                 _currentToken = _lexer.GetNextToken();
-                StaticOptions();
+                return StaticOptions();
             }
             else if (_currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
             {
-                CustomTypeProduction();
+                var type=CustomTypeProduction();
+                var id = _currentToken.Lexeme;
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                FieldMethodPropertyDeclaration();
+                var fieldormethod=FieldMethodPropertyDeclaration(id);
+                return new FieldMemberDeclaration { Type = type, FieldMethod = fieldormethod ,MethodModifer = null};
+
             }
             else if (_currentToken.Type == TokenType.RwVoid)
             {
                 _currentToken = _lexer.GetNextToken();
+                var id = _currentToken.Lexeme;
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                MethodDeclaration();
+                var method=MethodDeclaration(id);
+                return new FieldMemberDeclaration { Type = new VoidTypeNode(), FieldMethod = method ,MethodModifer = null};
             }
             else if (_currentToken.Type.IsMethodModifiers())
             {
-                MethodModifiers();
-                MethodReturn();
+                var method =MethodModifiers();
+                return MethodReturn(method);
             }
             else if (_currentToken.Type == TokenType.Id)
             {
-                TypeName();
-                TypeProductionPrime();
-                Mierda3();
+                var typeNode = TypeName();
+                var type = new IdTypeProductionNode();
+                type.IdType = typeNode;
+                    
+                return Mierda3(type);
             }
             else
             {
@@ -595,12 +595,19 @@ namespace ParserProject
             }
         }
 
-        private void Mierda3()
+        private ClassMemberDeclaration Mierda3(IdTypeProductionNode type)
         {
-            if (_currentToken.Type == TokenType.Id)
+            if (_currentToken.Type == TokenType.Id || _currentToken.Type == TokenType.BraOpen)
             {
+                var rankspecList = TypeProductionPrime();
+                type.rankSpecifiers = rankspecList;
+                var idlexeme = _currentToken.Lexeme;
+                if (_currentToken.Type != TokenType.Id)
+                    throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                FieldMethodPropertyDeclaration();
+                var f=FieldMethodPropertyDeclaration(idlexeme);
+                return new FieldMemberDeclaration { Type = type, FieldMethod = f };
             }
             else if (_currentToken.Type == TokenType.ParOpen)
             {
@@ -608,13 +615,14 @@ namespace ParserProject
                     throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                FormalParameterList();
+                var paremeterList=FormalParameterList();
                 if (_currentToken.Type != TokenType.ParClose)
                     throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                ConstructorInitializer();
-                Block();
+                var constructInit=ConstructorInitializer();
+                var statementList=Block();
+                return new ConstructorNode { Type = type, StatementList = statementList , ConstructorInitalizer= constructInit };
             }
             else
             {
@@ -624,20 +632,53 @@ namespace ParserProject
 
         }
 
-        private void ConstructorInitializer()
+        private ClassMemberDeclaration Mierda2(IdTypeProductionNode type)
+        {
+            if (_currentToken.Type == TokenType.ParOpen)
+            {
+                _currentToken = _lexer.GetNextToken();
+                if (_currentToken.Type != TokenType.ParClose)
+                    throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                var statementList = Block();
+                return new StaticConstructorNode { Type = type, StatementList = statementList };
+            }
+            else if (_currentToken.Type == TokenType.Id || _currentToken.Type == TokenType.BraOpen)
+            {
+                var rankspecList = TypeProductionPrime();
+                type.rankSpecifiers = rankspecList;
+                var idlexeme = _currentToken.Lexeme;
+                if (_currentToken.Type != TokenType.Id)
+                    throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+
+                var FieldMethodDeclaration = FieldMethodPropertyDeclaration(idlexeme);
+                return new StaticFieldMemberDeclaration { Type = type, FieldMethod = FieldMethodDeclaration };
+            }
+            else
+            {
+                throw new SintacticalException("Expected ( or Id Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
+            }
+
+        }
+
+        private ConstructorInitalizerNode ConstructorInitializer()
         {
             if (_currentToken.Type == TokenType.Colon)
             {
                 _currentToken = _lexer.GetNextToken();
-                ConstructorInitializerPrime();
+                return ConstructorInitializerPrime();
             }
             else
             {
-
+                return null;
             }
         }
 
-        private void ConstructorInitializerPrime()
+        private ConstructorInitalizerNode ConstructorInitializerPrime()
         {
             if (_currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis)
             {
@@ -646,11 +687,31 @@ namespace ParserProject
                     throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                ArgumentList();
+                var expList=ArgumentList();
                 if (_currentToken.Type != TokenType.ParClose)
                     throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                return  new BaseConstructor{ArgumeList = expList};
+
+            }else if (_currentToken.Type == TokenType.RwThis)
+            {
+                _currentToken = _lexer.GetNextToken();
+                if (_currentToken.Type != TokenType.ParOpen)
+                    throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                var expList = ArgumentList();
+                if (_currentToken.Type != TokenType.ParClose)
+                    throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                return new ThisConstructor {ArgumeList = expList};
+            }
+            else
+            {
+                throw new SintacticalException("Expected this or base constructor Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
             }
         }
 
@@ -685,25 +746,29 @@ namespace ParserProject
             }
         }
 
-        private void MethodReturn()
+        private ClassMemberDeclaration MethodReturn(MethodModifierNode method)
         {
             if (_currentToken.Type == TokenType.RwVoid)
             {
-                _currentToken = _lexer.GetNextToken();
+                var id=_currentToken = _lexer.GetNextToken();
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                MethodDeclaration();
+                var methodDec=MethodDeclaration(id.Lexeme);
+
+                return new FieldMemberDeclaration { MethodModifer=method ,Type = new VoidTypeNode(), FieldMethod = methodDec };
             }
             else if (_currentToken.Type.IsType())
             {
-                TypeProduction();
+                var type=TypeProduction();
+                var id = _currentToken.Lexeme;
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                MethodPropertyDeclaration();
+                var methodDec=MethodDeclaration(id);
+                return new FieldMemberDeclaration { MethodModifer = method, Type = type, FieldMethod = methodDec };
             }
             else
             {
@@ -712,44 +777,36 @@ namespace ParserProject
             }
         }
 
-        private void MethodPropertyDeclaration()
-        {
-            if (_currentToken.Type == TokenType.ParOpen)
-            {
-                MethodDeclaration();
-            }
-            else
-            {
-                throw new SintacticalException("Expected ( Line " + _currentToken.Line + " Col " +
-                                                  _currentToken.Column);
-            }
-        }
-
-        private void StaticOptions()
+        private ClassMemberDeclaration StaticOptions()
         {
             if (_currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
             {
-                CustomTypeProduction();
+                var type=CustomTypeProduction();
+                var idlexme = _currentToken.Lexeme;
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                FieldMethodPropertyDeclaration();
+                var FieldMethodDeclaration=FieldMethodPropertyDeclaration(idlexme);
+                return new StaticFieldMemberDeclaration { Type=type, FieldMethod= FieldMethodDeclaration };
             }
             else if (_currentToken.Type == TokenType.RwVoid)
             {
                 _currentToken = _lexer.GetNextToken();
+                var idlexme = _currentToken.Lexeme;
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                MethodDeclaration();
+                var method=MethodDeclaration(idlexme);
+                return new StaticFieldMemberDeclaration { Type = new VoidTypeNode(), FieldMethod = method };
             }
             else if (_currentToken.Type == TokenType.Id)
             {
-                TypeName();
-                TypeProductionPrime();
-                Mierda2();
+                var typeNode=TypeName();
+                var type= new IdTypeProductionNode();
+                type.IdType = typeNode;
+                return Mierda2(type);
             }
             else
             {
@@ -758,86 +815,71 @@ namespace ParserProject
             }
         }
 
-        private void Mierda2()
+        private FieldMethodDeclarationNode FieldMethodPropertyDeclaration(string idlexme)
         {
             if (_currentToken.Type == TokenType.ParOpen)
             {
-                _currentToken = _lexer.GetNextToken();
-                if (_currentToken.Type != TokenType.ParClose)
-                    throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
-                                                   _currentToken.Column);
-                _currentToken = _lexer.GetNextToken();
-                Block();
-            }
-            else if (_currentToken.Type == TokenType.Id)
-            {
-                _currentToken = _lexer.GetNextToken();
-                FieldMethodPropertyDeclaration();
+                return MethodDeclaration(idlexme);
             }
             else
             {
-                throw new SintacticalException("Expected ( or Id Line " + _currentToken.Line + " Col " +
-                                                   _currentToken.Column);
+                var list=FieldDeclaration(idlexme);
+                return new FieldDeclarationNode{FieldList =list};
+
             }
 
         }
 
-        private void FieldMethodPropertyDeclaration()
+        private List<FieldNode> FieldDeclaration(string idlexme)
         {
-            if (_currentToken.Type == TokenType.ParOpen)
-            {
-                MethodDeclaration();
-            }
-            else
-            {
-                FieldDeclaration();
-            }
-
-        }
-
-        private void FieldDeclaration()
-        {
-            FieldDeclarations();
+            var list=FieldDeclarations(idlexme);
             if (_currentToken.Type != TokenType.EndStatement)
                 throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
+            return list;
         }
 
-        private void FieldDeclarations()
+        private List<FieldNode> FieldDeclarations(string idlexme)
         {
-            FieldAssignation();
-            FieldDeclarationsPrime();
+            var exp=FieldAssignation();
+            var list=FieldDeclarationsPrime();
+            var f = new FieldNode {Name = idlexme, ExpressionNode = exp};
+            list.Insert(0,f);
+            return list;
         }
 
-        private void FieldDeclarationsPrime()
+        private List<FieldNode> FieldDeclarationsPrime()
         {
             if (_currentToken.Type == TokenType.Comma)
             {
-                _currentToken = _lexer.GetNextToken();
+                var id=_currentToken = _lexer.GetNextToken();
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                FieldAssignation();
-                FieldDeclarationsPrime();
+                var exp=FieldAssignation();
+                var field = new FieldNode{Name = id.Lexeme,ExpressionNode = exp};
+                var list=FieldDeclarationsPrime();
+                list.Insert(0,field);
+                return list;
             }
             else
             {
-
+                return  new List<FieldNode>();
             }
         }
 
-        private void FieldAssignation()
+        private ExpressionNode FieldAssignation()
         {
             if (_currentToken.Type == TokenType.OpAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
-                VaraibleInitializer();
+                return VaraibleInitializer();
             }
             else
             {
-
+                return null;
             }
 
         }
@@ -873,16 +915,29 @@ namespace ParserProject
             return new ArrayInitalizerNode { ExpressionList = list};
         }
 
-        private void MethodDeclaration()
+        private MethodDeclarationNode MethodDeclaration(string idlexme)
         {
-            MethodHeader();
-            Block();
+            var parameterlist=MethodHeader();
+            var statementlist=Block();
+            return new MethodDeclarationNode {Name= idlexme, ParameterList =parameterlist,StatementList = statementlist};
         }
 
-        private void MethodModifiers()
+        private MethodModifierNode MethodModifiers()
         {
-            if (_currentToken.Type.IsMethodModifiers())
+            if (_currentToken.Type == TokenType.RwAbstract)
+            {
                 _currentToken = _lexer.GetNextToken();
+                return new AbstractMethodModifer();
+            }else if (_currentToken.Type == TokenType.RwOverride)
+            {
+                _currentToken = _lexer.GetNextToken();
+                return new OverrideMethodModifer();
+            }
+            else
+            {
+                throw new SintacticalException("Expected abstract or override Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
+            }
         }
 
         private ExtendsNode Heredance()
@@ -2870,7 +2925,6 @@ namespace ParserProject
                                                _currentToken.Column);
             }
         }
-
 
         private ExpressionNode CastOrExpression()
         {

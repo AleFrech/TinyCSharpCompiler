@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserProject.Nodes.ExpressionNodes.AssignationNodes;
 using ParserProject.Nodes.ExpressionNodes.PostIdNodes;
 
 namespace ParserProject.Nodes.ExpressionNodes
