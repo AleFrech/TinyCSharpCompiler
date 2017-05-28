@@ -1302,7 +1302,7 @@ namespace ParserProject
                 {
                     _currentToken = _lexer.GetNextToken();
                     Expresion();
-                    AssignmentStatementList();
+                    //AssignmentStatementList();
                 }
                 if (_currentToken.Type != TokenType.EndStatement)
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
@@ -1362,7 +1362,6 @@ namespace ParserProject
 
             }
         }
-
         private StatementNode DeclarationAsignationStatement()
         {
             if (_currentToken.Type == TokenType.RwVar)
@@ -1380,28 +1379,41 @@ namespace ParserProject
             }
             else if (_currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis)
             {
-                _currentToken = _lexer.GetNextToken();
+                PreIdExpressionNode preId=null;
+                if(_currentToken.Type == TokenType.RwBase)
+                    preId= new BaseExpressionNode();
+                else
+                    preId = new BaseExpressionNode();
+
+               _currentToken = _lexer.GetNextToken();
                 if (_currentToken.Type != TokenType.Period)
                     throw new SintacticalException("Expected . Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
-                _currentToken = _lexer.GetNextToken();
+                var idlexeme=_currentToken = _lexer.GetNextToken();
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                IdExpression();
+                var accessorNode=IdExpression();
+                if (accessorNode != null)
+                    accessorNode.ParentId = idlexeme.Lexeme;
+                ExpressionNode exp = null;
                 if (_currentToken.Type.IsAssignationOperator())
-                {
-
-                    _currentToken = _lexer.GetNextToken();
-                    Expresion();
-                    AssignmentStatementList();
+                {   
+                    exp=Expresion();
+                    //AssignmentStatementList();
                 }
+                var idleft = new IdLeftExpressionNode();
+                idleft.Accessor = accessorNode;
+                idleft.PreId=preId;
+                idleft.Name = new IdTypeNode(idlexeme.Lexeme,null);
+                return  new AssignationNodeStatement{LeftValue = idleft,RightValue = exp};
             }
             else if (_currentToken.Type == TokenType.Id)
             {
-                _currentToken = _lexer.GetNextToken();
-                WWWWW();
+
+                var idlexeme=_currentToken = _lexer.GetNextToken();
+                return WWWWW(idlexeme.Lexeme);
             }
             else
             {
@@ -1420,6 +1432,8 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var accessor=IdExpression();
+                if (accessor != null)
+                    accessor.ParentId = idlexeme.Lexeme;
                 return new PrimitiveTypeAccessorStatement{Type = primitive,Name = idlexeme.Lexeme,Accesor = accessor};
             }
             else
@@ -1431,137 +1445,156 @@ namespace ParserProject
             }
         }
 
-        private void AssignmentStatementList()
-        {
-            if (_currentToken.Type.IsAssignationOperator())
-            {
-                _currentToken = _lexer.GetNextToken();
-                Expresion();
-                AssignmentStatementList();
-            }
-            else
-            {
+        //private void AssignmentStatementList()
+        //{
+        //    if (_currentToken.Type.IsAssignationOperator())
+        //    {
+        //        _currentToken = _lexer.GetNextToken();
+        //        Expresion();
+        //        AssignmentStatementList();
+        //    }
+        //    else
+        //    {
 
-            }
+        //    }
+        //}
+
+        private StatementNode WWWWW(string idName)
+        {
+            var x=TypeNamePrime();
+            return YYYYY(idName,x);
         }
 
-        private void WWWWW()
-        {
-            TypeNamePrime();
-            YYYYY();
-        }
-
-        private void YYYYY()
+        private StatementNode YYYYY(string idName,IdTypeNode idNode)
         {
             if (_currentToken.Type == TokenType.BraOpen)
             {
                 _currentToken = _lexer.GetNextToken();
-                YYYYYPrime();
+                IdTypeNode idTypeNode = new IdTypeNode(idName, idNode);
+                return YYYYYPrime(idTypeNode);
             }
             else if (_currentToken.Type == TokenType.Id)
             {
-                DeclaratorsList();
+                var listDeclarations = DeclaratorsList();
+                IdTypeNode type = new IdTypeNode(idName,idNode);
+               return new DeclarationNodeStatement { Type = type, DeclarationList = listDeclarations };
             }
             else
             {
-                IdExpressionWithoutOpenBra();
-                XXXX();
-            }
-            //if (_currentToken.Type == TokenType.Period || _currentToken.Type == TokenType.ParOpen ||
-            //    _currentToken.Type == TokenType.BraOpen || _currentToken.Type == TokenType.OpDec
-            //    || _currentToken.Type == TokenType.OpInc || _currentToken.Type.IsAssignationOperator())
-            //{
-            //    IdExpression();
-            //    XXXX();
-            //}
-            //else if (_currentToken.Type == TokenType.Id)
-            //{
-            //    DeclaratorsList();
-            //}
-        }
-
-        private void IdExpressionWithoutOpenBra()
-        {
-            if (_currentToken.Type == TokenType.Period)
-            {
-                _currentToken = _lexer.GetNextToken();
-                if (_currentToken.Type != TokenType.Id)
-                    throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
-                                                   _currentToken.Column);
-                _currentToken = _lexer.GetNextToken();
-                IdExpression();
-            }
-            else if (_currentToken.Type == TokenType.ParOpen)
-            {
-                _currentToken = _lexer.GetNextToken();
-                ArgumentList();
-                if (_currentToken.Type != TokenType.ParClose)
-                    throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
-                                                   _currentToken.Column);
-                _currentToken = _lexer.GetNextToken();
-                ParentesisExpression();
-
-            }
-            else
-            {
-
+                var accesorNode=IdExpressionWithoutOpenBra();
+                var idleft = new IdLeftExpressionNode();
+                idleft.Accessor = accesorNode;
+                idleft.PreId = null;
+                IdTypeNode type = new IdTypeNode(idName, idNode);
+                idleft.Name = type;
+                return XXXX(idleft);
             }
         }
 
-        private void YYYYYPrime()
+        private StatementNode XXXX(ExpressionNode idleft)
         {
-            if (_currentToken.Type.IsExpression())
-            {
-                Mierda4();
-                XXXX();
-            }
-            else
-            {
-                RankSpecifierDec();
-                TypeProductionPrime();
-                DeclaratorsList();
-            }
-        }
-
-        private void Mierda4()
-        {
-            ExpresionList();
-            if (_currentToken.Type != TokenType.BraClose)
-                throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
-                                               _currentToken.Column);
-            _currentToken = _lexer.GetNextToken();
-            IdExpression();
-        }
-
-        private void RankSpecifierDec()
-        {
-            DimSpearetorsOpt();
-            if (_currentToken.Type != TokenType.BraClose)
-                throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
-                                               _currentToken.Column);
-            _currentToken = _lexer.GetNextToken();
-
-        }
-
-        private void XXXX()
-        {
-            if (_currentToken.Type == TokenType.OpDec
-                || _currentToken.Type == TokenType.OpInc)
+            if (_currentToken.Type == TokenType.OpDec)
             {
                 _currentToken = _lexer.GetNextToken();
+                return new AssignationNodeStatement {LeftValue = idleft, RightValue = new DecNode()};
+            }
+            else if (_currentToken.Type == TokenType.OpInc)
+            {
+                _currentToken = _lexer.GetNextToken();
+                return new AssignationNodeStatement { LeftValue = idleft, RightValue = new IncNode() };
             }
             else if (_currentToken.Type.IsAssignationOperator())
             {
                 _currentToken = _lexer.GetNextToken();
-                Expresion();
-                AssignmentStatementList();
+                var exp = Expresion();
+                return new AssignationNodeStatement { LeftValue = idleft, RightValue = exp };
+                //AssignmentStatementList();
+            }
+            else
+            {
+                throw new SintacticalException("Expected ++ , -- or assign operator Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
             }
         }
 
-        private void DeclarationStatement()
+        private AccesorExpressionNode IdExpressionWithoutOpenBra()
         {
-            LocalVariableType();
-            DeclaratorsList();
+            if (_currentToken.Type == TokenType.Period)
+            {
+                var idlexeme = _currentToken = _lexer.GetNextToken();
+                if (_currentToken.Type != TokenType.Id)
+                    throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                var accessor = IdExpression();
+                if (accessor != null)
+                    accessor.ParentId = idlexeme.Lexeme;
+                return new PeriodAccessor { ParentId = idlexeme.Lexeme, Accessor = accessor };
+            }
+            else if (_currentToken.Type == TokenType.ParOpen)
+            {
+                _currentToken = _lexer.GetNextToken();
+                var expresionl = ArgumentList();
+                if (_currentToken.Type != TokenType.ParClose)
+                    throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
+                                                   _currentToken.Column);
+                _currentToken = _lexer.GetNextToken();
+                var accessor = ParentesisExpression();
+                return new ParentesisAccessor { Accessor = accessor, expresionList = expresionl };
+
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private StatementNode YYYYYPrime(IdTypeNode idTypeNode)
+        {
+            if (_currentToken.Type.IsExpression())
+            {
+                var accessor = Mierda4();
+                var idleft = new IdLeftExpressionNode();
+                idleft.Name = idTypeNode;
+                idleft.PreId = null;
+                idleft.Accessor = accessor;      
+                return XXXX(idleft);
+            }
+            else
+            {
+                var rankspecifier=RankSpecifierDec();
+                var listRankSpecifiers=TypeProductionPrime();
+                listRankSpecifiers.Insert(0,rankspecifier);
+                var listdeclartion=DeclaratorsList();
+
+                var id = new IdTypeProductionNode();
+                id.rankSpecifiers = listRankSpecifiers;
+                id.IdType = idTypeNode;
+
+                return new DeclarationNodeStatement {DeclarationList = listdeclartion, Type = id};
+            }
+        }
+
+        private AccesorExpressionNode Mierda4()
+        {
+           var expresionList= ExpresionList();
+            if (_currentToken.Type != TokenType.BraClose)
+                throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
+            _currentToken = _lexer.GetNextToken();
+            var accessor=IdExpression();
+            return new BracketAccessor { expresionList = expresionList, Accessor = accessor };
+        }
+
+        private RankSpeciferNode RankSpecifierDec()
+        {
+            var list=DimSpearetorsOpt();
+            if (_currentToken.Type != TokenType.BraClose)
+                throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
+                                               _currentToken.Column);
+            _currentToken = _lexer.GetNextToken();
+            return new RankSpeciferNode { DimSeparatorList = list };
+
         }
 
         private List<DeclaratorNode> DeclaratorsList()
@@ -2834,8 +2867,10 @@ namespace ParserProject
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                var accessors = IdExpression();
-                var idLeft= new IdLeftExpressionNode(preIdNode,name,accessors);
+                var accessor = IdExpression();
+                if (accessor != null)
+                    accessor.ParentId = name;
+                var idLeft= new IdLeftExpressionNode(preIdNode,new IdTypeNode(name,null), accessor);
                 var assgnExp = AssignmentInExpression(idLeft);
                 var postId = PostIncrementExpression();
                 return new IdExpressionNode(idLeft, assgnExp, postId);
@@ -2879,6 +2914,8 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var accessor = IdExpression();
+                if (accessor != null)
+                    accessor.ParentId = name.Lexeme;
                 var post = PostIncrementExpression();
                 return new PrimitiveTypeExpressionNode(primitiveNode, name.Lexeme, accessor, post);
             }

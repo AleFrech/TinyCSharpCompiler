@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using LexerProject;
+   using System.Security.Cryptography.X509Certificates;
+   using LexerProject;
 using ParserProject;
+   using ParserProject.Nodes.ExpressionNodes.PreIdNodes;
 
 namespace Compiler
 {
     public class Program
     {
-
         static void Main(string[] args)
         {
             var file = new FileManager();
@@ -33,9 +34,10 @@ namespace Compiler
             }
             Console.ReadLine();
 
- 
-         
+
         }
+
+      
 
      }
 }
