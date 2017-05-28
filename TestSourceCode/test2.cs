@@ -13,6 +13,7 @@ int[] array = new int[10]
            foreach (int aa in array)                       
            Console.Write(aa + " "); 
 
+           (mierda as pene ).block=1;
     int[] sortedArray = new int[array.Length];
  
     // find smallest and largest value

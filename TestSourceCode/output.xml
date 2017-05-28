@@ -156,6 +156,34 @@
                         </StatementNode>
                       </ListStatement>
                     </StatementNode>
+                    <StatementNode xsi:type="AssignationEqualStatementNode">
+                      <LeftValue xsi:type="ParentesisExpresionNode">
+                        <ExpresioNode xsi:type="ParentesisExpresionNode">
+                          <ExpresioNode xsi:type="AsExpressionNode">
+                            <LeftOperand xsi:type="IdExpressionNode">
+                              <IdLeft>
+                                <Name>
+                                  <Name>mierda</Name>
+                                </Name>
+                              </IdLeft>
+                            </LeftOperand>
+                            <RightOperand xsi:type="IdTypeProductionNode">
+                              <IdType>
+                                <Name>pene</Name>
+                              </IdType>
+                              <rankSpecifiers />
+                            </RightOperand>
+                          </ExpresioNode>
+                          <AccesorExpression xsi:type="PeriodAccessor">
+                            <ParentId>block</ParentId>
+                          </AccesorExpression>
+                        </ExpresioNode>
+                      </LeftValue>
+                      <RightValue xsi:type="IntLiteralExpressionNode">
+                        <Value>1</Value>
+                      </RightValue>
+                    </StatementNode>
+                    <StatementNode xsi:type="EndNodeStatement" />
                     <StatementNode xsi:type="DeclarationNodeStatement">
                       <Type xsi:type="PrimitiveTypeProductionNode">
                         <primitiveType xsi:type="PrimitiveIntNode" />
