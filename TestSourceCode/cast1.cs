@@ -8,7 +8,7 @@ class Program
         int value = (int)1.5f; // Cast 1.
         Console.WriteLine(value);
 
-        object val = new StringBuilder();
+        object val = 1;//new StringBuilder();
         if (val is StringBuilder) // Cast 2.
         {
             StringBuilder builder = val as StringBuilder; // Cast 3.

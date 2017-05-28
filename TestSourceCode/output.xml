@@ -91,7 +91,11 @@
                       <ParameterList />
                     </InterfaceMethodNode>
                     <InterfaceMethodNode>
-                      <TypeNode xsi:type="IdTypeProductionNode" />
+                      <TypeNode xsi:type="IdTypeProductionNode">
+                        <IdType>
+                          <Name>double</Name>
+                        </IdType>
+                      </TypeNode>
                       <Name>getAmount</Name>
                       <ParameterList>
                         <ParameterNode>
@@ -101,7 +105,11 @@
                           <Name>x</Name>
                         </ParameterNode>
                         <ParameterNode>
-                          <typeNode xsi:type="IdTypeProductionNode" />
+                          <typeNode xsi:type="IdTypeProductionNode">
+                            <IdType>
+                              <Name>Double</Name>
+                            </IdType>
+                          </typeNode>
                           <Name>salary</Name>
                         </ParameterNode>
                       </ParameterList>
@@ -116,6 +124,147 @@
                   </InterfaceMethodList>
                 </InterfaceBody>
               </InterfaceStructure>
+            </NameSpaceDeclarationNode>
+            <NameSpaceDeclarationNode xsi:type="ClassDeclarationNode">
+              <ClassStructure>
+                <Name>Program</Name>
+                <Body>
+                  <ClassMemberDeclarationList>
+                    <ClassMemberDeclaration xsi:type="StaticFieldMemberDeclaration">
+                      <Type xsi:type="VoidTypeNode" />
+                      <FieldMethod xsi:type="MethodDeclarationNode">
+                        <Name>Main</Name>
+                        <ParameterList />
+                        <StatementList>
+                          <StatementNode xsi:type="DeclarationNodeStatement">
+                            <Type xsi:type="PrimitiveTypeProductionNode">
+                              <primitiveType xsi:type="PrimitiveIntNode" />
+                            </Type>
+                            <DeclarationList>
+                              <DeclaratorNode>
+                                <Name>value</Name>
+                                <Expression xsi:type="CastExpressionNode">
+                                  <Left xsi:type="PrimitiveTypeProductionNode">
+                                    <primitiveType xsi:type="PrimitiveIntNode" />
+                                  </Left>
+                                  <Right xsi:type="FloatLiteralExpressionNode">
+                                    <Value>1.5</Value>
+                                  </Right>
+                                </Expression>
+                              </DeclaratorNode>
+                            </DeclarationList>
+                          </StatementNode>
+                          <StatementNode xsi:type="AssignationNodeStatement">
+                            <LeftValue xsi:type="IdLeftExpressionNode">
+                              <Name>
+                                <Name>Console</Name>
+                                <IdNode>
+                                  <Name>WriteLine</Name>
+                                </IdNode>
+                              </Name>
+                              <Accessor xsi:type="ParentesisAccessor">
+                                <expresionList>
+                                  <ExpressionNode xsi:type="IdExpressionNode">
+                                    <IdLeft>
+                                      <Name>
+                                        <Name>value</Name>
+                                      </Name>
+                                    </IdLeft>
+                                  </ExpressionNode>
+                                </expresionList>
+                              </Accessor>
+                            </LeftValue>
+                          </StatementNode>
+                          <StatementNode xsi:type="DeclarationNodeStatement">
+                            <Type xsi:type="IdTypeNode">
+                              <Name>object</Name>
+                            </Type>
+                            <DeclarationList>
+                              <DeclaratorNode>
+                                <Name>val</Name>
+                                <Expression xsi:type="IntLiteralExpressionNode">
+                                  <Value>1</Value>
+                                </Expression>
+                              </DeclaratorNode>
+                            </DeclarationList>
+                          </StatementNode>
+                          <StatementNode xsi:type="IfNodeStatement">
+                            <Condition xsi:type="IsExpressionNode">
+                              <LeftOperand xsi:type="IdExpressionNode">
+                                <IdLeft>
+                                  <Name>
+                                    <Name>val</Name>
+                                  </Name>
+                                </IdLeft>
+                              </LeftOperand>
+                              <RightOperand xsi:type="IdTypeProductionNode">
+                                <IdType>
+                                  <Name>StringBuilder</Name>
+                                </IdType>
+                              </RightOperand>
+                            </Condition>
+                            <TrueStatements>
+                              <StatementNode xsi:type="DeclarationNodeStatement">
+                                <Type xsi:type="IdTypeNode">
+                                  <Name>StringBuilder</Name>
+                                </Type>
+                                <DeclarationList>
+                                  <DeclaratorNode>
+                                    <Name>builder</Name>
+                                    <Expression xsi:type="AsExpressionNode">
+                                      <LeftOperand xsi:type="IdExpressionNode">
+                                        <IdLeft>
+                                          <Name>
+                                            <Name>val</Name>
+                                          </Name>
+                                        </IdLeft>
+                                      </LeftOperand>
+                                      <RightOperand xsi:type="IdTypeProductionNode">
+                                        <IdType>
+                                          <Name>StringBuilder</Name>
+                                        </IdType>
+                                      </RightOperand>
+                                    </Expression>
+                                  </DeclaratorNode>
+                                </DeclarationList>
+                              </StatementNode>
+                              <StatementNode xsi:type="AssignationNodeStatement">
+                                <LeftValue xsi:type="IdLeftExpressionNode">
+                                  <Name>
+                                    <Name>Console</Name>
+                                    <IdNode>
+                                      <Name>WriteLine</Name>
+                                    </IdNode>
+                                  </Name>
+                                  <Accessor xsi:type="ParentesisAccessor">
+                                    <expresionList>
+                                      <ExpressionNode xsi:type="EqualExpressionNode">
+                                        <LeftOperand xsi:type="IdExpressionNode">
+                                          <IdLeft>
+                                            <Name>
+                                              <Name>builder</Name>
+                                            </Name>
+                                            <Accessor xsi:type="PeriodAccessor">
+                                              <ParentId>Length</ParentId>
+                                            </Accessor>
+                                          </IdLeft>
+                                        </LeftOperand>
+                                        <RightOperand xsi:type="IntLiteralExpressionNode">
+                                          <Value>0</Value>
+                                        </RightOperand>
+                                      </ExpressionNode>
+                                    </expresionList>
+                                  </Accessor>
+                                </LeftValue>
+                              </StatementNode>
+                            </TrueStatements>
+                          </StatementNode>
+                        </StatementList>
+                      </FieldMethod>
+                    </ClassMemberDeclaration>
+                  </ClassMemberDeclarationList>
+                </Body>
+              </ClassStructure>
             </NameSpaceDeclarationNode>
           </NameSpaceDeclarationList>
         </Code>

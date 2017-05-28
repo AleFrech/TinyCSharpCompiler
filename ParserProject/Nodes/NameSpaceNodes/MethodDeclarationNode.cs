@@ -8,9 +8,8 @@ namespace ParserProject.Nodes.NameSpaceNodes
 {
     public class MethodDeclarationNode:FieldMethodDeclarationNode
     {
-        public List<ParameterNode> ParameterList { get; set; }
-
-        public List<StatementNode> StatementList { get; set; }
         public string Name { get; set; }
+        public List<ParameterNode> ParameterList { get; set; }
+        public List<StatementNode> StatementList { get; set; }
     }
 }

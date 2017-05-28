@@ -19,7 +19,6 @@
     <Folder Include="Nodes\ExpressionNodes\PostIdNodes\" />
     <Folder Include="Nodes\ExpressionNodes\PrimitiveTypeNodes\" />
     <Folder Include="Nodes\ExpressionNodes\TypeProductionNodes\" />
-    <Folder Include="Nodes\ExpressionNodes\NewExpressionNodes\" />
     <Folder Include="Nodes\PrivacyModifierNodes\" />
     <Folder Include="Nodes\NameSpaceNodes\EnumNodes\" />
   </ItemGroup>
