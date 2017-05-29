@@ -3089,7 +3089,7 @@ namespace ParserProject
             }
         }
 
-        private PrimaryExpressionNode PrimaryNoArrayCreationExpression()
+        private ExpressionNode PrimaryNoArrayCreationExpression()
         {
 
             if (_currentToken.Type == TokenType.LitBool)

@@ -3,7 +3,7 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 {
 	public class AssignationModExpressionNode : AssignationExpressionNode
 	{
-		public AssignationModExpressionNode(IdLeftExpressionNode left, ExpressionNode right)
+		public AssignationModExpressionNode(ExpressionNode left, ExpressionNode right)
 		{
 			LeftValue = left;
 			RightValue = right;

@@ -5,7 +5,7 @@ using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 
 namespace ParserProject.Nodes.ExpressionNodes.CastExpresionNodes
 {
-    public class CastExpressionNode:PrimaryExpressionNode
+    public class CastExpressionNode:ExpressionNode
     {
         public ExpressionNode Left { get; set; }
 
