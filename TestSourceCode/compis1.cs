@@ -281,7 +281,7 @@ namespace Heap_sort
 							
 			foreach (T t in array)
 			{
-			    Console.Write(' '+t.ToString()+' ');
+			    Console.Write(t.ToString());
 			}
 
 		}
@@ -701,7 +701,7 @@ class TestEmployeeAndManager
 
 public class Animal
 {
-    public virtual String talk() { return "Hi"; }
+    public  String talk() { return "Hi"; }
     public string sing() { return "lalala"; }
 }
 
