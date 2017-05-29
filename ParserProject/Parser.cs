@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.Exceptions;
@@ -1778,7 +1778,7 @@ namespace ParserProject
                 var accessor = IdExpression();
                 if (accessor != null)
                     accessor.ParentId = idlexeme.Lexeme;
-                return new PeriodAccessor { ParentId = idlexeme.Lexeme, Accessor = accessor };
+                return new PeriodAccessor { Id = idlexeme.Lexeme, Accessor = accessor };
             }
             else if (_currentToken.Type == TokenType.ParOpen)
             {
@@ -2680,7 +2680,7 @@ namespace ParserProject
                 var accessor=IdExpression();
                 if (accessor != null)
                     accessor.ParentId = idlexeme.Lexeme;
-                return new PeriodAccessor { ParentId=idlexeme.Lexeme, Accessor= accessor };
+                return new PeriodAccessor { Id=idlexeme.Lexeme, Accessor= accessor };
             }
             else if (_currentToken.Type == TokenType.BraOpen)
             {
@@ -2723,7 +2723,7 @@ namespace ParserProject
 				var accessor = IdExpression();
 				if (accessor != null)
 					accessor.ParentId = idlexeme.Lexeme;
-				return new PeriodAccessor { ParentId = idlexeme.Lexeme, Accessor = accessor };
+				return new PeriodAccessor { Id = idlexeme.Lexeme, Accessor = accessor };
             }
             else if (_currentToken.Type == TokenType.BraOpen)
             {
