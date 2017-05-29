@@ -2794,20 +2794,24 @@ namespace ParserProject
         {
             if (_currentToken.Type.IsExpression())
             {
-                var explist=ExpresionList();
-                List<RankSpeciferNode> rankSpeciferNodes = null;
-                ArrayInitalizerNode arrayNode = null;
+                var explist = ExpresionList();
+                var bracketAccessor = new BracketAccessor { expresionList = explist };
                 if (_currentToken.Type != TokenType.BraClose)
                     throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+				List<RankSpeciferNode> rankSpeciferNodes = null;
+				ArrayInitalizerNode arrayNode = null;
                 if (_currentToken.Type == TokenType.BraOpen)
                     rankSpeciferNodes=RankSpecifiers();
                 if (_currentToken.Type == TokenType.KeyOpen)
                     arrayNode=ArrayInitalizer();
+
+                var r = new RankSpeciferNode();
+
                 return new NewArrayCreation
                 {
-                    ExpressionList = explist,
+                    Bracket=bracketAccessor,
                     RankSpecifiers = rankSpeciferNodes,
                     ArrayInitalizer = arrayNode
                 };
@@ -2819,12 +2823,13 @@ namespace ParserProject
                     throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                var rankspec = new RankSpeciferNode { DimSeparatorList=dimlist};
                 var ranklist=RankSpecifiersPrime();
+                ranklist.Insert(0,rankspec);
                 var arrayNode=ArrayInitalizer();
 
-                return new NewMultipleDimArrayCreation
+                return new NewArrayCreation
                 {
-                    DimSeparatorList = dimlist,
                     RankSpecifiers = ranklist,
                     ArrayInitalizer = arrayNode
                 };

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 
 namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNodes
 {
@@ -13,7 +14,7 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNode
 
     public class NewArrayCreation : NewCreationExpressionNode
     {
-        public List<ExpressionNode> ExpressionList { get; set; }
+        public BracketAccessor Bracket { get; set; }
         public List<RankSpeciferNode> RankSpecifiers { get; set; }
         public ArrayInitalizerNode ArrayInitalizer { get; set; }
     }

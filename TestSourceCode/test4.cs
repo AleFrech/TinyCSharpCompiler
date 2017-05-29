@@ -6,7 +6,9 @@ namespace Heap_sort
 	{
 		public static void Main (string[] args)
 		{
-			int[] mykeys = new int[] {2f, 5f, -4f, 11f, 0f, 18f, 22f, 67f, 51f, 6f};
+			int [] tucu = new int[10];
+
+			int[] mykeys = new int[,] {2f, 5f, -4f, 11f, 0f, 18f, 22f, 67f, 51f, 6f};
 
 			double[] mykeys = new double[] {2.22f, 0.5f, 2.7f, -1.0f, 11.2f};
 
@@ -108,7 +110,7 @@ namespace Heap_sort
 							
 			foreach (T t in array)
 			{
-			    Console.Write(' '+t.ToString()+' ');
+			    Console.Write(t.ToString());
 			}
 
 		}
