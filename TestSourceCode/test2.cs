@@ -14,6 +14,7 @@ int[] array = new int[10]
            Console.Write(aa + " "); 
 
            (mierda as pene ).block=1;
+           var x= new List(){mierda};
     int[] sortedArray = new int[array.Length];
  
     // find smallest and largest value

@@ -185,6 +185,29 @@
                     </StatementNode>
                     <StatementNode xsi:type="EndNodeStatement" />
                     <StatementNode xsi:type="DeclarationNodeStatement">
+                      <Type xsi:type="VarTypeNode" />
+                      <DeclarationList>
+                        <DeclaratorNode>
+                          <Name>x</Name>
+                          <Expression xsi:type="NewCreationExpressionNode">
+                            <Type xsi:type="IdTypeProductionNode">
+                              <IdType>
+                                <Name>List</Name>
+                              </IdType>
+                            </Type>
+                            <NewCreationNode xsi:type="NewObjectCreation">
+                              <ObjectCollectionInitalizer>
+                                <ExpressionNode xsi:type="MemberNode">
+                                  <Name>mierda</Name>
+                                </ExpressionNode>
+                              </ObjectCollectionInitalizer>
+                              <ObjectArgumentsList />
+                            </NewCreationNode>
+                          </Expression>
+                        </DeclaratorNode>
+                      </DeclarationList>
+                    </StatementNode>
+                    <StatementNode xsi:type="DeclarationNodeStatement">
                       <Type xsi:type="PrimitiveTypeProductionNode">
                         <primitiveType xsi:type="PrimitiveIntNode" />
                         <rankSpecifiers>

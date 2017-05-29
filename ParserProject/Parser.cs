@@ -1221,7 +1221,7 @@ namespace ParserProject
             }
             else
             {
-                return null;
+                return new List<ExpressionNode>();
             }
         }
 
@@ -2866,7 +2866,7 @@ namespace ParserProject
             }
             else
             {
-                return null;
+                return new List<ExpressionNode>();
             }
         }
 
@@ -2933,18 +2933,6 @@ namespace ParserProject
             }
         }
 
-        private List<ExpressionNode> MemberInitalizerListOpt(string id)
-        {
-            if (_currentToken.Type == TokenType.OpAsgn)
-            {
-                return MemberInitalizerList(id);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         private List<ExpressionNode>  MemberInitalizerList(string id)
         {
             var member=MemberInitalizer(id);
@@ -2979,28 +2967,23 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var exp = InitalizerValue();
-                return new MemberNode {Name = id, ExpressionList = exp};
+                return new MemberNode {Name = id, Expression = exp};
             }
             else
             {
                 return new MemberNode {Name = id};
-            }
-                
-            
+            }                         
         }
 
-        private List<ExpressionNode> InitalizerValue()
+        private ExpressionNode InitalizerValue()
         {
             if (_currentToken.Type.IsExpression())
             {
-                var e= Expresion();
-                var l = new List<ExpressionNode>();
-                l.Add(e);
-                return l;
+                return Expresion();
             }
             else if (_currentToken.Type == TokenType.KeyOpen)
             {
-                return ObjectCollectionInitalizer();
+                return new InitalizerValueNode {ExpressionList=ObjectCollectionInitalizer()};
             }
             else
             {
@@ -3011,9 +2994,9 @@ namespace ParserProject
 
         private List<ExpressionNode> ElementInitalizerList()
         {
-            var l1=ElementInitalizer();
+            var exp=ElementInitalizer();
             var l2=ElementInitalizerListPrime();
-            l2.InsertRange(0,l1);
+            l2.Insert(0,exp);
             return l2;
         }
 
@@ -3022,9 +3005,9 @@ namespace ParserProject
             if (_currentToken.Type == TokenType.Comma)
             {
                 _currentToken = _lexer.GetNextToken();
-                var listA=ElementInitalizer();
+                var exp=ElementInitalizer();
                 var listb=ElementInitalizerListPrime();
-                listb.InsertRange(0,listA);
+                listb.Insert(0,exp);
                 return listb;
             }
             else
@@ -3033,14 +3016,12 @@ namespace ParserProject
             }
         }
 
-        private List<ExpressionNode> ElementInitalizer()
+        private ExpressionNode ElementInitalizer()
         {
             if (_currentToken.Type.IsExpression())
             {
-                var exp=Expresion();
-                var x=new List<ExpressionNode>();
-                x.Add(exp);
-                return x;
+                return Expresion();
+
             }
             else if (_currentToken.Type == TokenType.KeyOpen)
             {
@@ -3050,7 +3031,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected } Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                return expList;
+                return new ElementLinitalizerNode{ExpressionList=expList};
             }
             else
             {

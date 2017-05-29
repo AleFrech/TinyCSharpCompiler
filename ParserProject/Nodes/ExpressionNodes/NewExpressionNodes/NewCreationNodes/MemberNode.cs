@@ -7,6 +7,6 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNode
     public class MemberNode : ExpressionNode
     {
         public string Name { get; set; }
-        public List<ExpressionNode> ExpressionList { get; set; }
+        public ExpressionNode Expression { get; set; }
     }
 }
