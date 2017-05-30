@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ParserProject.Nodes.ExpressionNodes
+namespace ParserProject.Nodes.ExpressionNodes.ArrayNodes
 {
     public class RankSpeciferNode:ExpressionNode
     {

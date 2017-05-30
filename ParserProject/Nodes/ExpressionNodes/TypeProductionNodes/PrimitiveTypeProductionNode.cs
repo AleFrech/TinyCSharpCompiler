@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ParserProject.Nodes.ExpressionNodes.ArrayNodes;
 using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
 
 namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes

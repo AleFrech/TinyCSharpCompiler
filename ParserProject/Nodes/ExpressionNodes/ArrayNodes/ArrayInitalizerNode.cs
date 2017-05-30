@@ -1,8 +1,8 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ParserProject.Nodes.ExpressionNodes
+namespace ParserProject.Nodes.ExpressionNodes.ArrayNodes
 {
     public class ArrayInitalizerNode:ExpressionNode
     {
