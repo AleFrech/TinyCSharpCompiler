@@ -1,34 +1,6 @@
-﻿﻿﻿using System;
+﻿using System;
 using LexerProject;
 using LexerProject.Tokens;
-using ParserProject.Exceptions;
-using ParserProject.Extensions;
-using System.Collections.Generic;
-using ParserProject.Nodes.ExtendsNodes;
-using ParserProject.Nodes.NameSpaceNodes;
-using ParserProject.Nodes.StatementNodes;
-using ParserProject.Nodes.ExpressionNodes;
-using ParserProject.Nodes.ClassModifierNodes;
-using ParserProject.Nodes.PrivacyModifierNodes;
-using ParserProject.Nodes.NameSpaceNodes.EnumNodes;
-using ParserProject.Nodes.ExpressionNodes.UnaryNodes;
-using ParserProject.Nodes.ExpressionNodes.PreIdNodes;
-using ParserProject.Nodes.ExpressionNodes.PostIdNodes;
-using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
-using ParserProject.Nodes.ExpressionNodes.LiteralNodes;
-using ParserProject.Nodes.NameSpaceNodes.InterfaceNodes;
-using ParserProject.BinaryOperators.ExpressionNodes.Nodes;
- using ParserProject.Nodes.ExpressionNodes.AssignationNodes;
- using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
- using ParserProject.Nodes.ExpressionNodes.CastExpresionNodes;
- using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
-using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes;
- using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNodes;
- using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
-using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes;
- using ParserProject.Nodes.NameSpaceNodes.MethodModiferNodes;
- using ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes;
-
 
 namespace ParserProject
 {

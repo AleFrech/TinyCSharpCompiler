@@ -6,7 +6,7 @@ namespace ParserProject.Nodes.ExpressionNodes
 {
     public class IdExpressionNode: PrimaryExpressionNode
     {
-        public IdLeftExpressionNode Id { get; set; }
+        public IdLeftExpressionNode IdNode { get; set; }
 
         public AssignationExpressionNode AssignmentNode { get; set; }
         public PostIdExpressionNode PostId { get; set; }
@@ -15,7 +15,7 @@ namespace ParserProject.Nodes.ExpressionNodes
         {
             PostId = postId;
             AssignmentNode = assgnNode;
-            Id = idLeft;
+            IdNode = idLeft;
         }
 
         public IdExpressionNode(){

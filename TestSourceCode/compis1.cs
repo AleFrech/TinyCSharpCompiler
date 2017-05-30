@@ -9,7 +9,6 @@ namespace Shell_Sort
         {
             int[] arr;
             int n;
-
             n = arr.Length;
             Console.WriteLine("Original Array Elements :");
             show_array_elements(arr);
@@ -56,8 +55,6 @@ namespace Shell_Sort
     }
 }
 
-
-using System;
  namespace Radix_Sort
 {
     class Program
@@ -101,10 +98,9 @@ using System;
     }
 }
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
+
+
 
 namespace Selection_Sort
 {
@@ -130,6 +126,8 @@ namespace Selection_Sort
                 data[i] = generator.Next(20, 90);
             }
         }
+
+
 
         public void Sort()
         {
@@ -160,6 +158,8 @@ namespace Selection_Sort
             data[second] = temporary;  
         }  
 
+
+
         public void display_array_elements()
         {        
             foreach (var element in data)
@@ -171,7 +171,6 @@ namespace Selection_Sort
     }
 }
 
-using System;
 
 namespace Heap_sort
 {
@@ -179,6 +178,8 @@ namespace Heap_sort
 	{
 		public static void Main (string[] args)
 		{
+            a.x[a.x[0,0].y].setX(getY(x[fn(1,2)]));
+
 			int[] mykeys = new int[] {2, 5, -4, 11, 0, 18, 22, 67, 51, 6};
 
 			double[] mykeys = new double[] {2.22f, 0.5f, 2.7f, -1.0f, 11.2f};
@@ -290,8 +291,6 @@ namespace Heap_sort
 }
 
 
-using System;
-using System.Linq;
 public class Counting_sort  
 {  
  public static void Main()  
@@ -349,12 +348,6 @@ int[] array = new int[10]
  * C# Program to Establish Client Server Relationship
  */
 //SERVER PROGRAM
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
-using System.Net.Sockets;
 namespace Server336
 {
     class Program
@@ -378,16 +371,7 @@ namespace Server336
         }
     }
 }
- 
-//CLIENT PROGRAM
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Net;
-using System.Text;
-using System.Net.Sockets;
+
  
 namespace Client336
 {
@@ -418,8 +402,6 @@ namespace Client336
     }
 }
 
-using System;
-using System.Text;
 
 class Program
 {
@@ -437,7 +419,6 @@ class Program
     }
 }
 
-using System;
 namespace InheritanceApplication
 {
    class Shape 
@@ -479,8 +460,6 @@ namespace InheritanceApplication
    }
 }
 
-
-using System;
 namespace RectangleApplication
 {
    class Rectangle
@@ -585,8 +564,6 @@ class Driver
         Console.WriteLine("Area is " + t2.Area());  
     }  
 }  
-
-using System;
 
 public class Parent
 
@@ -730,21 +707,6 @@ public class CSharpExampleTestBecauseYouAskedForIt
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-using Compiler.Lexer;
-using System;
 
 namespace Compiler.Syntactic
 {
@@ -1867,14 +1829,7 @@ namespace Compiler.Syntactic
             }
         }
 
-        
-
-
-        
     }
 }
-
-
-
 
 
