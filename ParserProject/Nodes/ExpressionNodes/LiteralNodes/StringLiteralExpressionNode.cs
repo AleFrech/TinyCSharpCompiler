@@ -1,13 +1,16 @@
 ﻿using System;
+using LexerProject.Tokens;
+
 namespace ParserProject.Nodes.ExpressionNodes.LiteralNodes
 {
     public class StringLiteralExpressionNode:LiteralNodeExpression
     {
         public string Value { get; set; }
 
-        public StringLiteralExpressionNode(string @value)
+        public StringLiteralExpressionNode(Token lit)
         {
-            Value = @value;
+            literal = lit;
+            Value = literal.Lexeme;
         }
 
         public StringLiteralExpressionNode(){

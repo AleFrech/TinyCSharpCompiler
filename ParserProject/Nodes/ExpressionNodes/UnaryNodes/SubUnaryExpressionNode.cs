@@ -1,8 +1,10 @@
-﻿namespace ParserProject.Nodes.ExpressionNodes.UnaryNodes
+﻿using LexerProject.Tokens;
+
+namespace ParserProject.Nodes.ExpressionNodes.UnaryNodes
 {
     public class SubUnaryExpressionNode : UnaryExpressionNode
 	{
-		public SubUnaryExpressionNode(string pvalue)
+		public SubUnaryExpressionNode(Token pvalue)
 		{
 			Value = pvalue;
 		}

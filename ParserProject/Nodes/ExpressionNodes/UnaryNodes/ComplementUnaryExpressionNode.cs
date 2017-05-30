@@ -1,8 +1,10 @@
-﻿namespace ParserProject.Nodes.ExpressionNodes.UnaryNodes
+﻿using LexerProject.Tokens;
+
+namespace ParserProject.Nodes.ExpressionNodes.UnaryNodes
 {
     public class ComplementUnaryExpressionNode : UnaryExpressionNode
 	{
-		public ComplementUnaryExpressionNode(string pvalue)
+		public ComplementUnaryExpressionNode(Token pvalue)
 		{
 			Value = pvalue;
 		}
