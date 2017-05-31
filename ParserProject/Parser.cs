@@ -935,7 +935,11 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
                 return new OverrideMethodModifer();
             }
-            else
+            else if (_currentToken.Type == TokenType.RwVirtual)
+            {
+                _currentToken = _lexer.GetNextToken();
+                return new VirtualMethodModifer();
+            }else
             {
                 throw new SintacticalException("Expected abstract or override Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
