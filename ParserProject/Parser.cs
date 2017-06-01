@@ -2552,7 +2552,7 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = MultiplicativeExpression();
-                return AdditiveExpressionPrime(new SumExpressionNode(param, right));
+                return AdditiveExpressionPrime(new SumExpressionNode { LeftOperand = param, RightOperand = right });
             }
             else if (_currentToken.Type == TokenType.OpSub)
             {

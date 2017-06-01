@@ -22,6 +22,7 @@
     <Folder Include="Nodes\PrivacyModifierNodes\" />
     <Folder Include="Nodes\NameSpaceNodes\EnumNodes\" />
     <Folder Include="Nodes\ExpressionNodes\ArrayNodes\" />
+    <Folder Include="Semantic\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Nodes\ExpressionNodes\IdExpressionNode.cs" />
