@@ -22,19 +22,20 @@ namespace Compiler
                     var lex = new Lexer(new InputString(sourceCode));
                     var parser = new Parser(lex);
                     var tree =parser.Parse();
-        Console.WriteLine("SUCCESS");
-            var api= new ApiManager(tree);
-            var claNode = api.GetClass("VinculacionBackend.Services.StudentsServices");
-            ;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-            Console.WriteLine(e.StackTrace);
-        }
-        Console.ReadLine();
+                    Console.WriteLine("SUCCESS");
+                    var api= new ApiManager(tree);
+                    var claNode = api.GetClass("VinculacionBackend.Services.StudentsServices");
+                var x = "bbb" < 3.24;
+           
+		        }
+		        catch (Exception e)
+		        {
+		            Console.WriteLine(e.Message);
+		            Console.WriteLine(e.StackTrace);
+		        }
+		        Console.ReadLine();
 
-    }
+        }
       
 
      }

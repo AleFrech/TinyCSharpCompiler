@@ -2450,13 +2450,13 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = RelationalExpresion();
-                return EqualityExpressionPrime(new EqualExpressionNode(param, right));
+                return EqualityExpressionPrime(new EqualExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else if (_currentToken.Type == TokenType.OpNotEquals)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = RelationalExpresion();
-                return EqualityExpressionPrime(new NotEqualExpressionNode(param, right));
+                return EqualityExpressionPrime(new NotEqualExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else
             {
@@ -2476,25 +2476,25 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = ShiftExpression();
-                return RelationalExpresionPrime(new LessThanExpressionNode(param, right));
+                return RelationalExpresionPrime(new LessThanExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else if (_currentToken.Type == TokenType.OpGrtThan)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = ShiftExpression();
-                return RelationalExpresionPrime(new GreaterThanExpressionNode(param, right));
+                return RelationalExpresionPrime(new GreaterThanExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else if (_currentToken.Type == TokenType.OpLessThanOrEqual)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = ShiftExpression();
-                return RelationalExpresionPrime(new LessThanOrEqualExpressionNode(param, right));
+                return RelationalExpresionPrime(new LessThanOrEqualExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else if (_currentToken.Type == TokenType.OpGrtThanOrEqual)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = ShiftExpression();
-                return RelationalExpresionPrime(new GreaterThanOrEqualExpressionNode(param, right));
+                return RelationalExpresionPrime(new GreaterThanOrEqualExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else if (_currentToken.Type == TokenType.RwAs)
             {
@@ -2526,13 +2526,13 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = AdditiveExpression();
-                return ShiftExpressionPrime(new RightShiftExpressionNode(param, right));
+                return ShiftExpressionPrime(new RightShiftExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else if (_currentToken.Type == TokenType.OpLftShft)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = AdditiveExpression();
-                return ShiftExpressionPrime(new LeftShiftExpressionNode(param, right));
+                return ShiftExpressionPrime(new LeftShiftExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else
             {
@@ -2558,7 +2558,7 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = MultiplicativeExpression();
-                return AdditiveExpressionPrime(new SubExpressionNode(param, right));
+                return AdditiveExpressionPrime(new SubExpressionNode { LeftOperand = param, RightOperand = right });
             }
             else
             {
@@ -2582,7 +2582,7 @@ namespace ParserProject
                 var unary = UnaryExpression();
                 var right = PrimaryExpression();
                 right.UnaryNode = unary;
-                return MultiplicativeExpressionPrime(new MultExpressionNode(param, right));
+                return MultiplicativeExpressionPrime(new MultExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else if (_currentToken.Type == TokenType.OpDiv)
             {
@@ -2590,7 +2590,7 @@ namespace ParserProject
                 var unary = UnaryExpression();
                 var right = PrimaryExpression();
                 right.UnaryNode = unary;
-                return MultiplicativeExpressionPrime(new DivExpressionNode(param, right));
+                return MultiplicativeExpressionPrime(new DivExpressionNode { LeftOperand = param, RightOperand = right });
             }
             else if (_currentToken.Type == TokenType.OpMod)
             {
@@ -2598,7 +2598,7 @@ namespace ParserProject
                 var unary = UnaryExpression();
                 var right = PrimaryExpression();
                 right.UnaryNode = unary;
-                return MultiplicativeExpressionPrime(new ModExpressionNode(param, right));
+                return MultiplicativeExpressionPrime(new ModExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else
             {
