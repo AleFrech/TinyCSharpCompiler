@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ParserProject.Nodes.ExpressionNodes.ArrayNodes;
 
 namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNodes
 {

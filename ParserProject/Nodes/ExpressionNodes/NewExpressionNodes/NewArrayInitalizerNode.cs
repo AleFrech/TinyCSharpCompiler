@@ -1,4 +1,6 @@
 ﻿using System;
+using ParserProject.Nodes.ExpressionNodes.ArrayNodes;
+
 namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes
 {
     public class NewArrayInitalizerNode:NewExpressionNode
