@@ -2350,7 +2350,7 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = ConditionalAndExpression();
-                return ConditionalOrExpressionPrime(new LogicalOrExpressionNode(param, right));
+                return ConditionalOrExpressionPrime(new LogicalOrExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else
             {
@@ -2370,7 +2370,7 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = InclusiveOrExpression();
-                return ConditionalAndExpressionPrime(new LogicalAndExpressionNode(param, right));
+                return ConditionalAndExpressionPrime(new LogicalAndExpressionNode{ LeftOperand = param, RightOperand = right });
             }
             else
             {
@@ -2390,7 +2390,7 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = ExclusiveOrExpression();
-                return InclusiveOrExpressionPrime(new BitOrExpressionNode(param, right));
+                return InclusiveOrExpressionPrime(new BitOrExpressionNode { LeftOperand = param, RightOperand = right });
             }
             else
             {
@@ -2410,7 +2410,7 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = AndExpression();
-                return ExclusiveOrExpressionPrime(new BitXorExpressionNode(param, right));
+                return ExclusiveOrExpressionPrime(new BitXorExpressionNode { LeftOperand = param, RightOperand = right });
             }
             else
             {
@@ -2430,7 +2430,7 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = EqualityExpression();
-                return AndExpressionPrime(new BitAndExpressionNode(param, right));
+                return AndExpressionPrime(new BitAndExpressionNode { LeftOperand = param,RightOperand = right });
             }
             else
             {

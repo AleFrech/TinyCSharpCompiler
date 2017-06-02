@@ -1,19 +1,15 @@
-﻿using ParserProject.Nodes.ExpressionNodes;
+﻿using System;
 using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
+using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
 
 namespace ParserProject
 {
-    internal class LogicalAndExpressionNode: BinaryOperatorNode
+    public  class LogicalAndExpressionNode: BinaryOperatorNode
     {
 
-        public LogicalAndExpressionNode(ExpressionNode left, ExpressionNode right) 
-        {
-            LeftOperand = left;
-            RightOperand = right;
-        }
-
         public LogicalAndExpressionNode(){
-            
+		
+            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Boolean, Boolean), Boolean);
         }
     }
 }
