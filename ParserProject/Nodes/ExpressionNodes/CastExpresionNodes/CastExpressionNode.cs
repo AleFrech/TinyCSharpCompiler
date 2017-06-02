@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes.CastExpresionNodes
 {
@@ -10,5 +8,10 @@ namespace ParserProject.Nodes.ExpressionNodes.CastExpresionNodes
         public ExpressionNode Left { get; set; }
 
         public ExpressionNode Right { get; set; }
+
+        public override CustomType EvaluateSemantic()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

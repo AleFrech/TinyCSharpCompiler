@@ -1,5 +1,7 @@
 ﻿using System;
 using LexerProject.Tokens;
+using ParserProject.Semantic;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes.LiteralNodes
 {
@@ -22,5 +24,9 @@ namespace ParserProject.Nodes.ExpressionNodes.LiteralNodes
             
         }
 
+        public override CustomType EvaluateSemantic()
+        {
+            return TypesTable.Instance.GetType("Float");
+        }
     }
 }

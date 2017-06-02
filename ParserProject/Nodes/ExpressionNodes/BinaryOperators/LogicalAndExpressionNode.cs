@@ -1,6 +1,6 @@
 ﻿using System;
 using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
-using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject
 {
@@ -9,7 +9,7 @@ namespace ParserProject
 
         public LogicalAndExpressionNode(){
 		
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Boolean, Boolean), Boolean);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Boolean, Boolean), Boolean);
         }
     }
 }

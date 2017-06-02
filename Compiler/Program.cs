@@ -25,7 +25,6 @@ namespace Compiler
                     Console.WriteLine("SUCCESS");
                     var api= new ApiManager(tree);
                     var claNode = api.GetClass("VinculacionBackend.Services.StudentsServices");
-                var x = "bbb" < 3.24;
            
 		        }
 		        catch (Exception e)

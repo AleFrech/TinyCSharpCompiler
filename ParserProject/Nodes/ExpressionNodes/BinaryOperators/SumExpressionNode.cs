@@ -1,34 +1,34 @@
 ﻿using System;
 using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
-using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 {
     public class SumExpressionNode : BinaryOperatorNode
 	{
         public SumExpressionNode(){
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Integer, Integer), Integer);;
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Char, Integer), Integer);
-			OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Integer, Char), Integer);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Integer), Integer);;
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Integer), Integer);
+			OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Char), Integer);
 
 
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Float, Float), Float);
-			OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Integer, Float), Float);
-			OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Float, Integer), Float);
-			OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Char, Float), Float);
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Float, Char), Float);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Float, Float), Float);
+			OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Float), Float);
+			OperatorRules.Add(new Tuple<CustomType, CustomType>(Float, Integer), Float);
+			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Float), Float);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Float, Char), Float);
 
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Char, Char), Integer);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Char), Integer);
 
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(String, String), String);
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(String, Integer), String);
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Integer,String ), String);
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(String, Float), String);
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Float, String), String);
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(String,Boolean ), String);
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Boolean, String), String);
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(String, Char), String);
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Char, String), String);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(String, String), String);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(String, Integer), String);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer,String ), String);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(String, Float), String);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Float, String), String);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(String,Boolean ), String);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Boolean, String), String);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(String, Char), String);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, String), String);
 
 		}
 

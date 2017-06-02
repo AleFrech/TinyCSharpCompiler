@@ -1,32 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
-using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Semantic
 {
 	public class TypesTable
 	{
-         readonly Dictionary<string, PrimitiveTypeNode> _table;
+        readonly Dictionary<string, CustomType> _table;
 		 static TypesTable _instance;
 
 		 TypesTable()
 		{
-			_table = new Dictionary<string, PrimitiveTypeNode>
+			_table = new Dictionary<string, CustomType>
             {
-                {"int", new PrimitiveIntNode()},
-                {"string", new PrimitiveStringNode()},
-                {"float", new PrimitiveFloatNode()},
-                {"char", new PrimitiveCharNode()},
-                {"bool", new PrimitiveBoolNode()},
-                {"enum", new PrimitiveEnumNode()},
+                {"Int", new IntType()},
+                {"String", new StringType()},
+                {"Float", new FloatType()},
+                {"Char", new CharType()},
+                {"Bool", new BoolType()},
+                {"Enum", new EnumType()},
+                {"Void", new VoidType()},
 
 			};
 		}
 
 		public static TypesTable Instance => _instance  ?? (_instance = new TypesTable());
 
-		public void RegisterType(string name, PrimitiveTypeNode baseType, int row)
+		public void RegisterType(string name, CustomType baseType, int row)
 		{
 			if (_table.ContainsKey(name))
 			{
@@ -36,7 +36,7 @@ namespace ParserProject.Semantic
 			_table.Add(name, baseType);
 		}
 
-		public PrimitiveTypeNode GetType(string name, int row)
+		public CustomType GetType(string name, int row)
 		{
 			if (_table.ContainsKey(name))
 			{
@@ -46,7 +46,7 @@ namespace ParserProject.Semantic
             throw new SemanticException($"Type: {name} doesn't exists in row: {row}");
 		}
 
-		public PrimitiveTypeNode GetType(string name)
+		public CustomType GetType(string name)
 		{
 			if (_table.ContainsKey(name))
 			{

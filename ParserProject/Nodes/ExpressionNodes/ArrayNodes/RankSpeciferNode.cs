@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes.ArrayNodes
 {
@@ -8,6 +9,11 @@ namespace ParserProject.Nodes.ExpressionNodes.ArrayNodes
         public List<DimSeparatorNode> DimSeparatorList { get; set; }
         public RankSpeciferNode()
         {
+        }
+
+        public override CustomType EvaluateSemantic()
+        {
+            throw new NotImplementedException();
         }
     }
 }

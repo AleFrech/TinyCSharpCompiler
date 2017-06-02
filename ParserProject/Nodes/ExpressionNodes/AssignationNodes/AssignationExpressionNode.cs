@@ -1,4 +1,6 @@
 ﻿using System;
+using ParserProject.Semantic.CustomTypes;
+
 namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 {
     public class AssignationExpressionNode : ExpressionNode
@@ -9,6 +11,11 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 		public AssignationExpressionNode()
         {
 
+        }
+
+        public override CustomType EvaluateSemantic()
+        {
+            throw new NotImplementedException();
         }
     }
 }

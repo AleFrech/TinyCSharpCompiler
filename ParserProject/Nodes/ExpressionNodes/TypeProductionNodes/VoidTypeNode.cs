@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
 {
@@ -6,6 +7,11 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
     {
         public VoidTypeNode()
         {
+        }
+
+        public override CustomType EvaluateSemantic()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using System;
-using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
+﻿using System; 
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 {
@@ -7,7 +7,7 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 	{
 
         public LogicalOrExpressionNode(){
-            OperatorRules.Add(new Tuple<PrimitiveTypeNode, PrimitiveTypeNode>(Boolean, Boolean), Boolean);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Boolean, Boolean), Boolean);
         }
 	}
 
