@@ -20,7 +20,7 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 
 			var key = new Tuple<CustomType, CustomType>(leftType,rightType);
             if (!OperatorRules.ContainsKey(key))
-                throw new SemanticException("Opperation Rule Not Supported");
+                throw new SemanticException($"Opperation Rule Not Supported  between {leftType} and {rightType}");
             return OperatorRules[key];
         }
     }
