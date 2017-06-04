@@ -1,16 +1,17 @@
 ﻿using System;
+using ParserProject.Semantic.CustomTypes;
+
 namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 {
 	public class AssignationLftShftExpressionNode : AssignationExpressionNode
 	{
-		public AssignationLftShftExpressionNode(ExpressionNode left, ExpressionNode right)
-		{
-			LeftValue = left;
-			RightValue = right;
-		}
+
 
         public AssignationLftShftExpressionNode(){
-            
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Integer), Integer);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Char), Integer);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Char), Char);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Integer), Char);
         }
 	}
 }

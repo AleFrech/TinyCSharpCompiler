@@ -12,7 +12,6 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Integer), Integer); ;
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Integer), Integer);
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Char), Integer);
-
            	OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Char), Integer);
 
         }

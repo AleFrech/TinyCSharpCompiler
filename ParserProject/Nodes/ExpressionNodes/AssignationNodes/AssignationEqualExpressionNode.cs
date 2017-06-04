@@ -5,12 +5,6 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 {
     public class AssignationEqualExpressionNode : AssignationExpressionNode
     {
-        public AssignationEqualExpressionNode(ExpressionNode left,ExpressionNode right)
-        {
-            LeftValue = left;
-            RightValue = right;
-        }
-
         public AssignationEqualExpressionNode(){
             OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Integer), Integer) ;
             OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Char), Integer);

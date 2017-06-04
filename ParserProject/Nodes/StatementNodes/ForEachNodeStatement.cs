@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LexerProject.Tokens;
 using ParserProject.Nodes.ExpressionNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
 {
@@ -23,6 +24,11 @@ namespace ParserProject.Nodes.StatementNodes
 
         public ForEachNodeStatement(){
             
+        }
+
+        public override CustomType EvaluateSemantic()
+        {
+            throw new NotImplementedException();
         }
     }
 }

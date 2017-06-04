@@ -1,5 +1,6 @@
 ﻿using System;
 using ParserProject.Nodes.ExpressionNodes;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
 {
@@ -14,6 +15,11 @@ namespace ParserProject.Nodes.StatementNodes
 
         public ReturnNodeStatement(){
             
+        }
+
+        public override CustomType EvaluateSemantic()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1371,77 +1371,77 @@ namespace ParserProject
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();            
-                    return new AssignationEqualStatementNode(z, right);
+                    return new AssignationEqualStatementNode{LeftValue = z, RightValue = right};
                 }
                 if (_currentToken.Type == TokenType.OpAddAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationSumStatementNode(z, right);
+                    return new AssignationSumStatementNode { LeftValue = z, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpSubAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationSubStatementNode(z, right);
+                    return new AssignationSubStatementNode { LeftValue = z, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpMulAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationMultStatemntNode(z, right);
+                    return new AssignationMultStatemntNode { LeftValue = z, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpDivAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationDivStatementNode(z, right);
+                    return new AssignationDivStatementNode { LeftValue = z, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpModAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationModStatementNode(z, right);
+                    return new AssignationModStatementNode { LeftValue = z, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpAndAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationAndStatementNode(z, right);
+                    return new AssignationAndStatementNode { LeftValue = z, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpOrAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationOrStatementNode(z, right);
+                    return new AssignationOrStatementNode { LeftValue = z, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpXorAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationXorStatementNode(z, right);
+                    return new AssignationXorStatementNode { LeftValue = z, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpLftShftAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationLftShftStatementNode(z, right);
+                    return new AssignationLftShftStatementNode { LeftValue = z, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpRghtShftAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationRghtShftStatementNode(z, right);
+                    return new AssignationRghtShftStatementNode { LeftValue = z, RightValue = right };
                 }
                 return new AssignationNodeStatement { LeftValue = z };
             }
@@ -1542,77 +1542,77 @@ namespace ParserProject
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                    
-                    return new AssignationEqualStatementNode(left, right);
+                    return new AssignationEqualStatementNode{LeftValue = left,RightValue = right};
                 }
                 if (_currentToken.Type == TokenType.OpAddAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationSumStatementNode(left, right);
+                    return new AssignationSumStatementNode { LeftValue = left, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpSubAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationSubStatementNode(left, right);
+                    return new AssignationSubStatementNode { LeftValue = left, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpMulAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationMultStatemntNode(left, right);
+                    return new AssignationMultStatemntNode { LeftValue = left, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpDivAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationDivStatementNode(left, right);
+                    return new AssignationDivStatementNode { LeftValue = left, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpModAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationModStatementNode(left, right);
+                    return new AssignationModStatementNode { LeftValue = left, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpAndAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationAndStatementNode(left, right);
+                    return new AssignationAndStatementNode { LeftValue = left, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpOrAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationOrStatementNode(left, right);
+                    return new AssignationOrStatementNode { LeftValue = left, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpXorAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationXorStatementNode(left, right);
+                    return new AssignationXorStatementNode { LeftValue = left, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpLftShftAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationLftShftStatementNode(left, right);
+                    return new AssignationLftShftStatementNode { LeftValue = left, RightValue = right };
                 }
                 if (_currentToken.Type == TokenType.OpRghtShftAsgn)
                 {
                     _currentToken = _lexer.GetNextToken();
                     var right = Expresion();
                     
-                    return new AssignationRghtShftStatementNode(left, right);
+                    return new AssignationRghtShftStatementNode { LeftValue = left, RightValue = right };
                 }
                 return new AssignationNodeStatement {LeftValue = left};
             }
@@ -1698,75 +1698,75 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
-                return new AssignationEqualStatementNode(idleft, right);
+                return new AssignationEqualStatementNode{LeftValue = idleft,RightValue = right};
             }
             else if(_currentToken.Type == TokenType.OpAddAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
-                return new AssignationSumStatementNode(idleft, right);
+                return new AssignationSumStatementNode { LeftValue = idleft, RightValue = right };
             }
             else if(_currentToken.Type == TokenType.OpSubAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();          
-                return new AssignationSubStatementNode(idleft, right);
+                return new AssignationSubStatementNode { LeftValue = idleft, RightValue = right };
             }
             else if(_currentToken.Type == TokenType.OpMulAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationMultStatemntNode(idleft, right);
+                return new AssignationMultStatemntNode { LeftValue = idleft, RightValue = right };
             }
             else if(_currentToken.Type == TokenType.OpDivAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationDivStatementNode(idleft, right);
+                return new AssignationDivStatementNode { LeftValue = idleft, RightValue = right };
             }
             else if(_currentToken.Type == TokenType.OpModAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationModStatementNode(idleft, right);
+                return new AssignationModStatementNode { LeftValue = idleft, RightValue = right };
             }
             else if(_currentToken.Type == TokenType.OpAndAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationAndStatementNode(idleft, right);
+                return new AssignationAndStatementNode { LeftValue = idleft, RightValue = right };
             }
             else if(_currentToken.Type == TokenType.OpOrAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationOrStatementNode(idleft, right);
+                return new AssignationOrStatementNode { LeftValue = idleft, RightValue = right };
             }
             else if(_currentToken.Type == TokenType.OpXorAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                
-                return new AssignationXorStatementNode(idleft, right);
+                return new AssignationXorStatementNode { LeftValue = idleft, RightValue = right };
             }
             else if(_currentToken.Type == TokenType.OpLftShftAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationLftShftStatementNode(idleft, right);
+                return new AssignationLftShftStatementNode { LeftValue = idleft, RightValue = right };
             }
             else if(_currentToken.Type == TokenType.OpRghtShftAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                
-                return new AssignationRghtShftStatementNode(idleft, right);
+                return new AssignationRghtShftStatementNode { LeftValue = idleft, RightValue = right };
             }
             return new AssignationNodeStatement { LeftValue = idleft };
         }
@@ -3204,77 +3204,77 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationEqualExpressionNode(left, right);
+                return new AssignationEqualExpressionNode{LeftValue = left,RightValue = right};
             }
             if (_currentToken.Type == TokenType.OpAddAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                
-                return new AssignationSumExpressionNode(left, right);
+                return new AssignationSumExpressionNode { LeftValue = left, RightValue = right };
             }
             if (_currentToken.Type == TokenType.OpSubAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationSubExpressionNode(left, right);
+                return new AssignationSubExpressionNode { LeftValue = left, RightValue = right };
             }
             if (_currentToken.Type == TokenType.OpMulAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationMultExpressionNode(left, right);
+                return new AssignationMultExpressionNode { LeftValue = left, RightValue = right };
             }
             if (_currentToken.Type == TokenType.OpDivAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationDivExpressionNode(left, right);
+                return new AssignationDivExpressionNode { LeftValue = left, RightValue = right };
             }
             if (_currentToken.Type == TokenType.OpModAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationModExpressionNode(left, right);
+                return new AssignationModExpressionNode { LeftValue = left, RightValue = right };
             }
             if (_currentToken.Type == TokenType.OpAndAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationAndExpressionNode(left, right);
+                return new AssignationAndExpressionNode { LeftValue = left, RightValue = right };
             }
             if (_currentToken.Type == TokenType.OpOrAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationOrExpressionNode(left, right);
+                return new AssignationOrExpressionNode { LeftValue = left, RightValue = right };
             }
             if (_currentToken.Type == TokenType.OpXorAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationXorExpressionNode(left, right);
+                return new AssignationXorExpressionNode { LeftValue = left, RightValue = right };
             }
             if (_currentToken.Type == TokenType.OpLftShftAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationLftShftExpressionNode(left, right);
+                return new AssignationLftShftExpressionNode { LeftValue = left, RightValue = right };
             }
             if (_currentToken.Type == TokenType.OpRghtShftAsgn)
             {
                 _currentToken = _lexer.GetNextToken();
                 var right = Expresion();
                 
-                return new AssignationRghtShftExpressionNode(left, right);
+                return new AssignationRghtShftExpressionNode { LeftValue = left, RightValue = right };
             }
             else
             {

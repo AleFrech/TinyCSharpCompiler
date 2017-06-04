@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using ParserProject.Nodes.ExpressionNodes;
+using ParserProject.Semantic.CustomTypes;
+
 namespace ParserProject.Nodes.StatementNodes
 {
     public class IfNodeStatement:StatementNode
@@ -25,6 +27,11 @@ namespace ParserProject.Nodes.StatementNodes
 
         public IfNodeStatement(){
             
+        }
+
+        public override CustomType EvaluateSemantic()
+        {
+            throw new NotImplementedException();
         }
     }
 }

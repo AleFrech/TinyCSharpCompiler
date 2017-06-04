@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ParserProject.Nodes.ExpressionNodes;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
 {
@@ -19,5 +20,9 @@ namespace ParserProject.Nodes.StatementNodes
             
         }
 
+        public override CustomType EvaluateSemantic()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

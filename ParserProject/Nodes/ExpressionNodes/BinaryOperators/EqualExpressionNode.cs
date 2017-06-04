@@ -20,7 +20,9 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Float), Boolean);
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Float, Char), Boolean);
 
-			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Char), Boolean);
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Enum, Enum), Boolean);
+
+            OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Char), Boolean);
             OperatorRules.Add(new Tuple<CustomType, CustomType>(Boolean, Boolean), Boolean);
             OperatorRules.Add(new Tuple<CustomType, CustomType>(String, String), Boolean);
         }

@@ -1,6 +1,7 @@
 ﻿using LexerProject.Tokens;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
 {
@@ -10,5 +11,9 @@ namespace ParserProject.Nodes.StatementNodes
         public Token Name { get; set; }
 
         public AccesorExpressionNode Accesor { get; set; }
+        public override CustomType EvaluateSemantic()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

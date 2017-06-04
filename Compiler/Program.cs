@@ -23,9 +23,6 @@ namespace Compiler
                 var api= new ApiManager(tree);
                 var claNode = api.GetClass("VinculacionBackend.Services.StudentsServices");
                 ;
-                var x = 3.14f;
-
-                x =3;
             }
             catch (Exception e)
             {
