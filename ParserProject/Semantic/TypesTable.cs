@@ -26,25 +26,16 @@ namespace ParserProject.Semantic
 
 		public static TypesTable Instance => _instance  ?? (_instance = new TypesTable());
 
-		public void RegisterType(string name, CustomType baseType, int row)
+		public void RegisterType(string name, CustomType baseType)
 		{
 			if (_table.ContainsKey(name))
 			{
-				throw new SemanticException($"Type: {name} doesn't exists in row: {row}");
+				throw new SemanticException($"Type: {name} already exists");
 			}
 
 			_table.Add(name, baseType);
 		}
 
-		public CustomType GetType(string name, int row)
-		{
-			if (_table.ContainsKey(name))
-			{
-				return _table[name];
-			}
-
-            throw new SemanticException($"Type: {name} doesn't exists in row: {row}");
-		}
 
 		public CustomType GetType(string name)
 		{
