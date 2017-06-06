@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodConstructorNodes;
 
 namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 {
     public class ClassBodyNode
     {
-        public  List<ClassMemberDeclaration> ClassMemberDeclarationList { get; set; }
+        public  List<FieldMethodConstructor> ClassMemberDeclarationList { get; set; }
     }
 }

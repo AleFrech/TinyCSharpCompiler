@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using LexerProject.Tokens;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
+using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodConstructorNodes;
 
 namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 {
@@ -13,6 +14,6 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
         public Token NameToken { get; set; }
         public List<IdTypeNode> HeritageList { get; set; }
 
-        public List<ClassMemberDeclaration> FieldMethodConstructorList { get; set; }
+        public List<FieldMethodConstructor> FieldMethodConstructorList { get; set; }
     }
 }

@@ -7,6 +7,7 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
     {
         public VoidTypeNode()
         {
+            @Type = "void";
         }
 
         public override CustomType EvaluateSemantic()

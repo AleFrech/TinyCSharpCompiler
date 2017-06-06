@@ -6,6 +6,8 @@ namespace ParserProject.Nodes.NameSpaceNodes.MethodModiferNodes
 {
     public class AbstractMethodModifer:MethodModifierNode
     {
-
+        public AbstractMethodModifer(){
+            Value = "abstract";
+        }
     }
 }

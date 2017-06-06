@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using LexerProject.Tokens;
+﻿using LexerProject.Tokens;
 using ParserProject.Nodes.ExpressionNodes;
 
-namespace ParserProject.Nodes.NameSpaceNodes
+namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodConstructorNodes
 {
     public class FieldNode
     {

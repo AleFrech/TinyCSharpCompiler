@@ -6,5 +6,6 @@ namespace ParserProject.Nodes.NameSpaceNodes.MethodModiferNodes
 {
     public class MethodModifierNode
     {
+        public string Value { get; set; }
     }
 }

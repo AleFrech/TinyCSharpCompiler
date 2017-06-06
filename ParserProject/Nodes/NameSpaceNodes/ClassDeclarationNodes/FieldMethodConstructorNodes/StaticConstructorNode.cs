@@ -6,9 +6,9 @@ using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes;
 using ParserProject.Nodes.PrivacyModifierNodes;
 using ParserProject.Nodes.StatementNodes;
 
-namespace ParserProject.Nodes.NameSpaceNodes
+namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodConstructorNodes
 {
-    public class StaticConstructorNode:ClassMemberDeclaration
+    public class StaticConstructorNode:FieldMethodConstructor
     {
         public string PrivacyModifier { get; set; }
         public IdTypeProductionNode Type { get; set; }

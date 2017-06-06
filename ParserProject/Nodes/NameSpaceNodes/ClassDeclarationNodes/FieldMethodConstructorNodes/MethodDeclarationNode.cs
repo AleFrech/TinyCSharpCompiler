@@ -5,7 +5,7 @@ using LexerProject.Tokens;
 using ParserProject.Nodes.ExpressionNodes;
 using ParserProject.Nodes.StatementNodes;
 
-namespace ParserProject.Nodes.NameSpaceNodes
+namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodConstructorNodes
 {
     public class MethodDeclarationNode:FieldMethodDeclarationNode
     {

@@ -21,6 +21,7 @@
     <Folder Include="Nodes\ExpressionNodes\TypeProductionNodes\" />
     <Folder Include="Nodes\PrivacyModifierNodes\" />
     <Folder Include="Nodes\ExpressionNodes\ArrayNodes\" />
+    <Folder Include="Nodes\NameSpaceNodes\ClassDeclarationNodes\FieldMethodConstructorNodes\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Nodes\ExpressionNodes\IdExpressionNode.cs" />

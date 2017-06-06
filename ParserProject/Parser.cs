@@ -1,4 +1,4 @@
-﻿﻿﻿using System;
+﻿﻿﻿﻿using System;
 using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.Exceptions;
@@ -29,7 +29,7 @@ using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes;
 using ParserProject.Nodes.NameSpaceNodes.MethodModiferNodes;
 using ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNodes;
 using ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes;
-
+using ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodConstructorNodes;
 
 namespace ParserProject
 {
@@ -529,7 +529,7 @@ namespace ParserProject
             return new ClassBodyNode{ClassMemberDeclarationList = list };
         }
 
-        private List<ClassMemberDeclaration> ClassMemberDeclarations()
+        private List<FieldMethodConstructor> ClassMemberDeclarations()
         {
 
             if (_currentToken.Type.IsPrivacyModifier() || _currentToken.Type == TokenType.RwStatic || _currentToken.Type.IsType() || _currentToken.Type == TokenType.RwVoid
@@ -543,11 +543,11 @@ namespace ParserProject
             }
             else
             {
-                return new List<ClassMemberDeclaration>();
+                return new List<FieldMethodConstructor>();
             }
         }
 
-        private ClassMemberDeclaration ClassMemberDeclaration()
+        private FieldMethodConstructor ClassMemberDeclaration()
         {
             var privacyNode=PrivacyModifier();
             if (_currentToken.Type == TokenType.RwAbstract)
@@ -559,11 +559,11 @@ namespace ParserProject
             }
             else
             {
-                return FieldMethodPropertyConstructor(privacyNode);
+                return FieldMethodConstructor(privacyNode);
             }
         }
 
-        private ClassMemberDeclaration FieldMethodPropertyConstructor(PrivacyModifierNode privacyNode)
+        private FieldMethodConstructor FieldMethodConstructor(PrivacyModifierNode privacyNode)
         {
             if (_currentToken.Type == TokenType.RwStatic)
             {
@@ -578,8 +578,19 @@ namespace ParserProject
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                var fieldormethod=FieldMethodPropertyDeclaration(id);
-                return new FieldMemberDeclaration {  PrivacyModifier=privacyNode.Value,Type = type, FieldMethod = fieldormethod ,MethodModifer = null};
+                var fieldmethodMetaData =FieldMethodDeclaration(id);
+				return new FieldMethodConstructor
+                {
+                    IsStatic = false,
+					IsMethod = fieldmethodMetaData.IsMethod,
+					IsField = fieldmethodMetaData.IsField,
+					IsConstructor = false,
+					Type = type,
+					PrivacyModifier = privacyNode.Value,
+					FieldList = fieldmethodMetaData.FieldList,
+					Method = fieldmethodMetaData.Method
+
+				};
 
             }
             else if (_currentToken.Type == TokenType.RwVoid)
@@ -591,7 +602,18 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var method=MethodDeclaration(id);
-                return new FieldMemberDeclaration { PrivacyModifier = privacyNode.Value, Type = new VoidTypeNode(), FieldMethod = method ,MethodModifer = null};
+                return new FieldMethodConstructor
+                {
+                    IsStatic = false,
+                    IsMethod = true,
+                    IsField = false,
+					IsConstructor = false,
+					Type = new VoidTypeNode(),
+					PrivacyModifier = privacyNode.Value,
+					FieldList = null,
+					Method = method
+
+				};
             }
             else if (_currentToken.Type.IsMethodModifiers())
             {
@@ -613,7 +635,7 @@ namespace ParserProject
             }
         }
 
-        private ClassMemberDeclaration Mierda3(PrivacyModifierNode privacyNode, IdTypeProductionNode type)
+        private FieldMethodConstructor Mierda3(PrivacyModifierNode privacyNode, IdTypeProductionNode type)
         {
             if (_currentToken.Type == TokenType.Id || _currentToken.Type == TokenType.BraOpen)
             {
@@ -624,8 +646,20 @@ namespace ParserProject
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                var f=FieldMethodPropertyDeclaration(idlexeme);
-                return new FieldMemberDeclaration { PrivacyModifier = privacyNode.Value,Type = type, FieldMethod = f };
+                var fieldmethodMetaData =FieldMethodDeclaration(idlexeme);
+				return new FieldMethodConstructor
+				{
+					IsStatic = false,
+					IsMethod = fieldmethodMetaData.IsMethod,
+					IsField = fieldmethodMetaData.IsField,
+					IsConstructor = false,
+					Type = type,
+					PrivacyModifier = privacyNode.Value,
+					FieldList = fieldmethodMetaData.FieldList,
+					Method = fieldmethodMetaData.Method
+
+				};
+
             }
             else if (_currentToken.Type == TokenType.ParOpen)
             {
@@ -640,7 +674,21 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
                 var constructInit=ConstructorInitializer();
                 var statementList=Block();
-                return new ConstructorNode { PrivacyModifier = privacyNode.Value, Type = type, ParameterList=paremeterList ,StatementList = statementList , ConstructorInitalizer= constructInit };
+                return new FieldMethodConstructor
+                {
+                    IsStatic = false,
+                    IsMethod = false,
+                    IsField = false,
+                    IsConstructor = true,
+                    Type = type,
+                    PrivacyModifier = privacyNode.Value,
+                    FieldList = null,
+					Method = null,
+                    ConstructorParameterList=paremeterList,
+                    BaseNode=constructInit,
+                    ConstructorStatementList=statementList,
+
+				};
             }
             else
             {
@@ -650,7 +698,7 @@ namespace ParserProject
 
         }
 
-        private ClassMemberDeclaration Mierda2(IdTypeProductionNode type, PrivacyModifierNode privacyNode)
+        private FieldMethodConstructor Mierda2(IdTypeProductionNode type, PrivacyModifierNode privacyNode)
         {
             if (_currentToken.Type == TokenType.ParOpen)
             {
@@ -660,7 +708,19 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var statementList = Block();
-                return new StaticConstructorNode { PrivacyModifier = privacyNode.Value, Type = type, StatementList = statementList };
+				return new FieldMethodConstructor
+                {
+                    IsStatic = true,
+                    IsMethod = false,
+                    IsField = false,
+					IsConstructor = true,
+					Type = type,
+					PrivacyModifier = privacyNode.Value,
+					FieldList = null,
+					Method = null,
+                    ConstructorStatementList=statementList
+
+				};
             }
             else if (_currentToken.Type == TokenType.Id || _currentToken.Type == TokenType.BraOpen)
             {
@@ -671,9 +731,21 @@ namespace ParserProject
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
+                          
+				var fieldmethodMetaData = FieldMethodDeclaration(idlexeme);
+				return new FieldMethodConstructor
+				{
+					IsStatic = true,
+					IsMethod = fieldmethodMetaData.IsMethod,
+					IsField = fieldmethodMetaData.IsField,
+					IsConstructor = false,
+					Type = type,
+					PrivacyModifier = privacyNode.Value,
+					FieldList = fieldmethodMetaData.FieldList,
+					Method = fieldmethodMetaData.Method
 
-                var FieldMethodDeclaration = FieldMethodPropertyDeclaration(idlexeme);
-                return new StaticFieldMemberDeclaration { PrivacyModifier = privacyNode.Value, Type = type, FieldMethod = FieldMethodDeclaration };
+				};
+
             }
             else
             {
@@ -683,7 +755,7 @@ namespace ParserProject
 
         }
 
-        private ConstructorInitalizerNode ConstructorInitializer()
+        private BaseConstructorNode ConstructorInitializer()
         {
             if (_currentToken.Type == TokenType.Colon)
             {
@@ -696,7 +768,7 @@ namespace ParserProject
             }
         }
 
-        private ConstructorInitalizerNode ConstructorInitializerPrime()
+        private BaseConstructorNode ConstructorInitializerPrime()
         {
             if (_currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis)
             {
@@ -710,7 +782,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                return  new BaseConstructor{ArgumeList = expList};
+                return new BaseConstructorNode { ArgumeList = expList, BaseOrThis = "base" };
 
             }else if (_currentToken.Type == TokenType.RwThis)
             {
@@ -724,7 +796,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected ) Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                return new ThisConstructor {ArgumeList = expList};
+                return new BaseConstructorNode { ArgumeList = expList, BaseOrThis = "this" };
             }
             else
             {
@@ -764,7 +836,7 @@ namespace ParserProject
             }
         }
 
-        private ClassMemberDeclaration MethodReturn(PrivacyModifierNode privacyNode, MethodModifierNode method)
+        private FieldMethodConstructor MethodReturn(PrivacyModifierNode privacyNode, MethodModifierNode method)
         {
             if (_currentToken.Type == TokenType.RwVoid)
             {
@@ -773,9 +845,22 @@ namespace ParserProject
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                var methodDec=MethodDeclaration(id);
+                var fieldmethodMetaData =MethodDeclaration(id);
 
-                return new FieldMemberDeclaration { PrivacyModifier = privacyNode.Value, MethodModifer =method ,Type = new VoidTypeNode(), FieldMethod = methodDec };
+				return new FieldMethodConstructor
+                {
+                    IsStatic = false,
+					IsMethod = fieldmethodMetaData.IsMethod,
+					IsField = fieldmethodMetaData.IsField,
+					IsConstructor = false,
+					Type = new VoidTypeNode(),
+					PrivacyModifier = privacyNode.Value,
+                    MethodModifier=method.Value,
+					FieldList = fieldmethodMetaData.FieldList,
+					Method = fieldmethodMetaData.Method
+
+				};
+
             }
             else if (_currentToken.Type.IsType())
             {
@@ -786,7 +871,19 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var methodDec=MethodDeclaration(id);
-                return new FieldMemberDeclaration { PrivacyModifier = privacyNode.Value, MethodModifer = method, Type = type, FieldMethod = methodDec };
+				return new FieldMethodConstructor
+                {
+                    IsStatic = false,
+                    IsMethod = true,
+                    IsField = false,
+					IsConstructor = false,
+					Type = type,
+					PrivacyModifier = privacyNode.Value,
+					MethodModifier = method.Value,
+					FieldList = null,
+					Method = methodDec
+
+				};
             }
             else
             {
@@ -795,7 +892,7 @@ namespace ParserProject
             }
         }
 
-        private ClassMemberDeclaration StaticOptions(PrivacyModifierNode privacyNode)
+        private FieldMethodConstructor StaticOptions(PrivacyModifierNode privacyNode)
         {
             if (_currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
             {
@@ -805,8 +902,19 @@ namespace ParserProject
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                var FieldMethodDeclaration=FieldMethodPropertyDeclaration(idlexme);
-                return new StaticFieldMemberDeclaration { PrivacyModifier = privacyNode.Value, Type = type, FieldMethod= FieldMethodDeclaration };
+                var fieldmethodMetaData=FieldMethodDeclaration(idlexme);
+                return new FieldMethodConstructor
+                {
+                    IsStatic = true,
+                    IsMethod = fieldmethodMetaData.IsMethod,
+                    IsField = fieldmethodMetaData.IsField,
+                    IsConstructor = false,
+                    Type = type,
+                    PrivacyModifier = privacyNode.Value,
+					FieldList = fieldmethodMetaData.FieldList,
+					Method = fieldmethodMetaData.Method
+
+                };
             }
             else if (_currentToken.Type == TokenType.RwVoid)
             {
@@ -817,7 +925,17 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var method=MethodDeclaration(idlexme);
-                return new StaticFieldMemberDeclaration { PrivacyModifier = privacyNode.Value, Type = new VoidTypeNode(), FieldMethod = method };
+				return new FieldMethodConstructor
+                {
+                    IsStatic = true,
+                    IsMethod = true,
+                    IsField = false,
+					IsConstructor = false,
+					Type = new VoidTypeNode(),
+					PrivacyModifier = privacyNode.Value,
+					FieldList = null,
+					Method = method
+				};
             }
             else if (_currentToken.Type == TokenType.Id)
             {
@@ -833,18 +951,25 @@ namespace ParserProject
             }
         }
 
-        private FieldMethodDeclarationNode FieldMethodPropertyDeclaration(Token idlexme)
+        private FieldMethodDeclarationNode FieldMethodDeclaration(Token idlexme)
         {
+            var method = false;
+            var field = false;
+            List<FieldNode> list = null;
+            MethodDeclarationNode methodNode = null;
             if (_currentToken.Type == TokenType.ParOpen)
             {
-                return MethodDeclaration(idlexme);
+                method = true;
+                methodNode=MethodDeclaration(idlexme);
             }
             else
             {
-                var list=FieldDeclaration(idlexme);
-                return new FieldDeclarationNode{FieldList =list};
+                field = true;
+                list=FieldDeclaration(idlexme);
 
             }
+
+            return new FieldMethodDeclarationNode { IsField=field, IsMethod=method,FieldList=list ,Method=methodNode };
 
         }
 

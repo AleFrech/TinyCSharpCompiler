@@ -4,9 +4,9 @@ using ParserProject.Nodes.ExpressionNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Nodes.PrivacyModifierNodes;
 
-namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
+namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodConstructorNodes
 {
-    public class ClassAbstractMemberDeclaration : ClassMemberDeclaration
+    public class ClassAbstractMemberDeclaration : FieldMethodConstructor
     {
         public string PrivacyModifier { get; set; }
         public TypeExpressionNode TypeNode { get; set; }
