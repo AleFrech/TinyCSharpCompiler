@@ -554,8 +554,20 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var x=InterfaceElement();
-                
-                return new ClassAbstractMemberDeclaration { PrivacyModifier = privacyNode.Value, NameToken = x.Name,ParameterList = x.ParameterList,TypeNode = x.TypeNode};
+
+				return new FieldMethodConstructor
+                {
+                    IsStatic = false,
+                    IsMethod = true,
+                    IsField = false,
+                    IsAbstract=true,
+					IsConstructor = false,
+                    Type = x.TypeNode,
+					PrivacyModifier = privacyNode.Value,
+					FieldList = null,
+                    Method = new MethodDeclarationNode{Name=x.Name,ParameterList=x.ParameterList}
+
+				};
             }
             else
             {

@@ -8,6 +8,7 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodCo
     public  class FieldMethodConstructor
     {
         public bool IsStatic { get; set; }
+		public bool IsAbstract { get; set; }
         public bool IsMethod { get; set; }
         public bool IsField { get; set; }
         public bool IsConstructor { get; set; }
@@ -19,5 +20,6 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodCo
         public List<ParameterNode> ConstructorParameterList { get; set; }
         public BaseConstructorNode BaseNode { get; set; }
         public List<StatementNode> ConstructorStatementList { get; set; }
+
     }
 }
