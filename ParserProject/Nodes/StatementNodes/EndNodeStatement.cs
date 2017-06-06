@@ -9,7 +9,7 @@ namespace ParserProject.Nodes.StatementNodes
         {
         }
 
-        public override CustomType EvaluateSemantic()
+        public override void EvaluateSemantic()
         {
             throw new NotImplementedException();
         }

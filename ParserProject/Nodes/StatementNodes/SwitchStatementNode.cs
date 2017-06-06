@@ -22,9 +22,14 @@ namespace ParserProject.Nodes.StatementNodes
             
         }
 
-        public override CustomType EvaluateSemantic()
+        public override void EvaluateSemantic()
         {
-            throw new NotImplementedException();
+            var conditionType = ExpressiontoEvaluate.EvaluateSemantic();
+
+            foreach(var @case in Cases){
+                @case.EvaluateSemantic(conditionType);
+            }
+            DefaultNode.EvaluateSemantic();
         }
     }
 }

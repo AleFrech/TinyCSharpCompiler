@@ -26,7 +26,7 @@ namespace ParserProject.Semantic
 
 		public static TypesTable Instance => _instance  ?? (_instance = new TypesTable());
 
-		public void RegisterType(string name, CustomType baseType)
+		public void AddType(string name, CustomType baseType)
 		{
 			if (_table.ContainsKey(name))
 			{

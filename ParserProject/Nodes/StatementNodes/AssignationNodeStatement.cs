@@ -19,15 +19,17 @@ namespace ParserProject.Nodes.StatementNodes
 
         }
 
-        public override CustomType EvaluateSemantic()
+        public override void EvaluateSemantic()
         {
             var leftType = LeftValue.EvaluateSemantic();
             var rightType = LeftValue.EvaluateSemantic();
 
+            //if(leftype as idleftexpresion.name dosent exist in the idtable )
+                    //throw exception
+
             var key = new Tuple<CustomType, CustomType>(leftType, rightType);
             if (!OperatorRules.ContainsKey(key))
                 throw new SemanticException($"Opperation Rule Not Supported  between {leftType} and {rightType}");
-            return OperatorRules[key];
         }
     }
 

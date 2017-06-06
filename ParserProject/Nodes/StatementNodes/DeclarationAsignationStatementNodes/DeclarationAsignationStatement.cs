@@ -4,7 +4,7 @@ namespace ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes
 {
     public class DeclarationAsignationStatement : StatementNode
     {
-        public override CustomType EvaluateSemantic()
+        public override void EvaluateSemantic()
         {
             throw new System.NotImplementedException();
         }

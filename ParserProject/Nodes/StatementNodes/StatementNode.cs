@@ -18,6 +18,6 @@ namespace ParserProject.Nodes.StatementNodes
 
         }
 
-        public abstract CustomType EvaluateSemantic();
+        public abstract void EvaluateSemantic();
     }
 }

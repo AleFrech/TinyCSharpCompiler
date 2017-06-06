@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ParserProject.Nodes.ExpressionNodes;
+using ParserProject.Semantic;
 using ParserProject.Semantic.CustomTypes;
 
 
@@ -23,7 +24,20 @@ namespace ParserProject.Nodes.StatementNodes
             
         }
 
-        public override CustomType EvaluateSemantic()
+        public void EvaluateSemantic(CustomType type)
+        {
+            var conditionType = Condition.EvaluateSemantic();
+            if (conditionType != type)
+                throw new SemanticException("Invalid Expression");
+			SymbolTable.CreateContext();
+			foreach (var statement in Body)
+			{
+				statement.EvaluateSemantic();
+			}
+			SymbolTable.RemoveContext();
+        }
+
+        public override void EvaluateSemantic()
         {
             throw new NotImplementedException();
         }

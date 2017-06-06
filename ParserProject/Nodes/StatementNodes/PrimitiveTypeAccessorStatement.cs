@@ -11,7 +11,7 @@ namespace ParserProject.Nodes.StatementNodes
         public Token Name { get; set; }
 
         public AccesorExpressionNode Accesor { get; set; }
-        public override CustomType EvaluateSemantic()
+        public override void EvaluateSemantic()
         {
             throw new System.NotImplementedException();
         }
