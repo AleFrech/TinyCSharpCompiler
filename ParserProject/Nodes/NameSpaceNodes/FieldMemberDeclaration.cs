@@ -7,7 +7,7 @@ namespace ParserProject.Nodes.NameSpaceNodes
 {
     public class FieldMemberDeclaration : ClassMemberDeclaration
     {
-        public PrivacyModifierNode PrivacyModifie { get; set; }
+        public string PrivacyModifier { get; set; }
         public TypeExpressionNode Type { get; set; }
         public FieldMethodDeclarationNode FieldMethod { get; set; }
         public MethodModifierNode MethodModifer { get; set; }

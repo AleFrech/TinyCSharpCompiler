@@ -6,5 +6,9 @@ namespace ParserProject.Nodes.ClassModifierNodes
 {
     public class StaticNode:ClassModifierNode
     {
+        public StaticNode()
+        {
+            Value = "static";
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace ParserProject.Nodes.NameSpaceNodes
 {
     public class ConstructorNode : ClassMemberDeclaration
     {
-        public PrivacyModifierNode PrivacyModifie { get; set; }
+        public string PrivacyModifier { get; set; }
         public IdTypeProductionNode Type { get; set; }
         public List<ParameterNode> ParameterList { get; set; }
         public List<StatementNode> StatementList { get; set; }

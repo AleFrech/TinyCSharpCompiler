@@ -1,8 +1,7 @@
 ﻿﻿﻿﻿﻿using System;
 using System.IO;
 using LexerProject;
-using ParserProject;
-using ParserProject.Apis;
+using ParserProject; 
 
 namespace Compiler
 {
@@ -20,9 +19,6 @@ namespace Compiler
                 var parser = new Parser(lex);
                 var tree =parser.Parse();
 				Console.WriteLine("SUCCESS");
-                var api= new ApiManager(tree);
-                var claNode = api.GetClass("VinculacionBackend.Services.StudentsServices");
-                ;
             }
             catch (Exception e)
             {

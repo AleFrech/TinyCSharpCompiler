@@ -227,18 +227,34 @@ namespace ParserProject
             if (_currentToken.Type == TokenType.RwInterface)
             {
                 var interfaceStructure = InterfaceDeclaration();
-                return new InterfaceDeclarationNode { PrivacyModifierNode = privacyNode, InterfaceStructure = interfaceStructure };
-
+               
+                return new InterfaceNode
+                {
+                    PrivacyModifier = privacyNode.Value,
+                    NameToken = interfaceStructure.Name,
+                    HeritageList = interfaceStructure.ExtendsNode.ListIdNodes,
+                    InterfaceMethodList = interfaceStructure.InterfaceBody.InterfaceMethodList
+                };
             }
             else if (_currentToken.Type == TokenType.RwEnum)
             {
                 var enumstructure=EnumDeclaration();
-                return new EnumDeclarationNode { PrivacyModifierNode = privacyNode, EnumStructure = enumstructure };
+                return new EnumNode { PrivacyModifier = privacyNode.Value,
+                    NameToken =enumstructure.Name,
+                    EnumElementList= enumstructure.Body.EnumElementList
+                };
             }
             else if (_currentToken.Type == TokenType.RwClass || _currentToken.Type.IsClassModifier())
             {
                 var classStructure = ClassDeclaration();
-                return new ClassDeclarationNode { PrivacyModifierNode = privacyNode, ClassStructure = classStructure  };
+                return new ClassNode
+                {
+                    PrivacyModifier =privacyNode.Value,
+                    ClassModifier = classStructure.ModifierNode.Value,
+                    NameToken=classStructure.Name,
+                    HeritageList=classStructure.ExtendsNode.ListIdNodes,
+                    FieldMethodConstructorList = classStructure.Body.ClassMemberDeclarationList
+                };
             }
             else
                 throw new SintacticalException("Expected inteface,enum,class or class modifiers Line " +
@@ -539,7 +555,7 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
                 var x=InterfaceElement();
                 
-                return new ClassAbstractMemberDeclaration { PrivacyNode = privacyNode, Name = x.Name,ParameterList = x.ParameterList,TypeNode = x.TypeNode};
+                return new ClassAbstractMemberDeclaration { PrivacyModifier = privacyNode.Value, NameToken = x.Name,ParameterList = x.ParameterList,TypeNode = x.TypeNode};
             }
             else
             {
@@ -563,7 +579,7 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var fieldormethod=FieldMethodPropertyDeclaration(id);
-                return new FieldMemberDeclaration {  PrivacyModifie=privacyNode,Type = type, FieldMethod = fieldormethod ,MethodModifer = null};
+                return new FieldMemberDeclaration {  PrivacyModifier=privacyNode.Value,Type = type, FieldMethod = fieldormethod ,MethodModifer = null};
 
             }
             else if (_currentToken.Type == TokenType.RwVoid)
@@ -575,7 +591,7 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var method=MethodDeclaration(id);
-                return new FieldMemberDeclaration { PrivacyModifie = privacyNode, Type = new VoidTypeNode(), FieldMethod = method ,MethodModifer = null};
+                return new FieldMemberDeclaration { PrivacyModifier = privacyNode.Value, Type = new VoidTypeNode(), FieldMethod = method ,MethodModifer = null};
             }
             else if (_currentToken.Type.IsMethodModifiers())
             {
@@ -609,7 +625,7 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var f=FieldMethodPropertyDeclaration(idlexeme);
-                return new FieldMemberDeclaration { PrivacyModifie = privacyNode,Type = type, FieldMethod = f };
+                return new FieldMemberDeclaration { PrivacyModifier = privacyNode.Value,Type = type, FieldMethod = f };
             }
             else if (_currentToken.Type == TokenType.ParOpen)
             {
@@ -624,7 +640,7 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
                 var constructInit=ConstructorInitializer();
                 var statementList=Block();
-                return new ConstructorNode { PrivacyModifie = privacyNode, Type = type, ParameterList=paremeterList ,StatementList = statementList , ConstructorInitalizer= constructInit };
+                return new ConstructorNode { PrivacyModifier = privacyNode.Value, Type = type, ParameterList=paremeterList ,StatementList = statementList , ConstructorInitalizer= constructInit };
             }
             else
             {
@@ -644,7 +660,7 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var statementList = Block();
-                return new StaticConstructorNode { PrivacyModifie = privacyNode, Type = type, StatementList = statementList };
+                return new StaticConstructorNode { PrivacyModifier = privacyNode.Value, Type = type, StatementList = statementList };
             }
             else if (_currentToken.Type == TokenType.Id || _currentToken.Type == TokenType.BraOpen)
             {
@@ -657,7 +673,7 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
 
                 var FieldMethodDeclaration = FieldMethodPropertyDeclaration(idlexeme);
-                return new StaticFieldMemberDeclaration { PrivacyModifie = privacyNode, Type = type, FieldMethod = FieldMethodDeclaration };
+                return new StaticFieldMemberDeclaration { PrivacyModifier = privacyNode.Value, Type = type, FieldMethod = FieldMethodDeclaration };
             }
             else
             {
@@ -759,7 +775,7 @@ namespace ParserProject
                 _currentToken = _lexer.GetNextToken();
                 var methodDec=MethodDeclaration(id);
 
-                return new FieldMemberDeclaration { PrivacyModifie = privacyNode, MethodModifer =method ,Type = new VoidTypeNode(), FieldMethod = methodDec };
+                return new FieldMemberDeclaration { PrivacyModifier = privacyNode.Value, MethodModifer =method ,Type = new VoidTypeNode(), FieldMethod = methodDec };
             }
             else if (_currentToken.Type.IsType())
             {
@@ -770,7 +786,7 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var methodDec=MethodDeclaration(id);
-                return new FieldMemberDeclaration { PrivacyModifie = privacyNode, MethodModifer = method, Type = type, FieldMethod = methodDec };
+                return new FieldMemberDeclaration { PrivacyModifier = privacyNode.Value, MethodModifer = method, Type = type, FieldMethod = methodDec };
             }
             else
             {
@@ -790,7 +806,7 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var FieldMethodDeclaration=FieldMethodPropertyDeclaration(idlexme);
-                return new StaticFieldMemberDeclaration { PrivacyModifie = privacyNode, Type = type, FieldMethod= FieldMethodDeclaration };
+                return new StaticFieldMemberDeclaration { PrivacyModifier = privacyNode.Value, Type = type, FieldMethod= FieldMethodDeclaration };
             }
             else if (_currentToken.Type == TokenType.RwVoid)
             {
@@ -801,7 +817,7 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var method=MethodDeclaration(idlexme);
-                return new StaticFieldMemberDeclaration { PrivacyModifie = privacyNode, Type = new VoidTypeNode(), FieldMethod = method };
+                return new StaticFieldMemberDeclaration { PrivacyModifier = privacyNode.Value, Type = new VoidTypeNode(), FieldMethod = method };
             }
             else if (_currentToken.Type == TokenType.Id)
             {

@@ -10,7 +10,7 @@ namespace ParserProject.Nodes.NameSpaceNodes
 {
     public class StaticConstructorNode:ClassMemberDeclaration
     {
-        public PrivacyModifierNode PrivacyModifie { get; set; }
+        public string PrivacyModifier { get; set; }
         public IdTypeProductionNode Type { get; set; }
         public List<StatementNode> StatementList { get; set; }
         

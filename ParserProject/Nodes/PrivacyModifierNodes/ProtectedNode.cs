@@ -5,6 +5,7 @@ namespace ParserProject.Nodes.PrivacyModifierNodes
     {
         public ProtectedNode()
         {
+            Value = "protected";
         }
     }
 }

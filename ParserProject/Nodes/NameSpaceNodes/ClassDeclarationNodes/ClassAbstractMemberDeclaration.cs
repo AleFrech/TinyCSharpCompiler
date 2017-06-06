@@ -8,9 +8,10 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 {
     public class ClassAbstractMemberDeclaration : ClassMemberDeclaration
     {
-        public PrivacyModifierNode PrivacyNode { get; set; }
+        public string PrivacyModifier { get; set; }
         public TypeExpressionNode TypeNode { get; set; }
-        public Token Name { get; set; }
+        public Token NameToken { get; set; }
         public List<ParameterNode> ParameterList { get; set; }
+       
     }
 }

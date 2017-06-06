@@ -27,7 +27,7 @@ namespace ParserProject.Nodes.ExpressionNodes
 
         public override CustomType EvaluateSemantic()
         {
-            if (!SymbolTable.Instance.VariableExist(IdNode.Id.Name.Lexeme))
+            if (SymbolTable.Instance.VariableExist(IdNode.Id.Name.Lexeme))
                 throw new SemanticException($"Variable {IdNode.Id.Name.Lexeme} dosen exist in row {IdNode.Id.Name.Line} " +
                                             $"col {IdNode.Id.Name.Column}");
             return SymbolTable.Instance.GetVariable(IdNode.Id.Name.Lexeme);

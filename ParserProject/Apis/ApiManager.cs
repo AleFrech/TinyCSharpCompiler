@@ -30,6 +30,26 @@ namespace ParserProject.Apis
             throw new NameSpaceNotFoundExcpetion("Namespace "+name+ " Not Found" );
         }
 
+
+        //public FieldMemberDeclaration GetFieldOrMemberDeclaration(string className,string fieldOrMethodName)
+        //{
+        //    var @class = GetClass(className);
+
+        //    foreach (var x in @class.ClassStructure.Body.ClassMemberDeclarationList)
+        //    {
+        //        var fieldOrMethod = x as FieldMemberDeclaration;
+        //        if (fieldOrMethod != null)
+        //        {
+        //            var methodDeclaration = fieldOrMethod.FieldMethod as MethodDeclarationNode;
+        //            if (methodDeclaration != == name)
+        //                return @class;
+        //        }
+        //    }
+        //    @class.ClassStructure.Body.ClassMemberDeclarationList
+
+        //}
+
+
         public ClassDeclarationNode GetClass(string name)
         {
             if (!name.Contains("."))

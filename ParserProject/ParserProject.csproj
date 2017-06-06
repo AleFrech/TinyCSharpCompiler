@@ -20,7 +20,6 @@
     <Folder Include="Nodes\ExpressionNodes\PrimitiveTypeNodes\" />
     <Folder Include="Nodes\ExpressionNodes\TypeProductionNodes\" />
     <Folder Include="Nodes\PrivacyModifierNodes\" />
-    <Folder Include="Nodes\NameSpaceNodes\EnumNodes\" />
     <Folder Include="Nodes\ExpressionNodes\ArrayNodes\" />
   </ItemGroup>
   <ItemGroup>
