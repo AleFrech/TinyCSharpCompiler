@@ -7,7 +7,7 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
     {
         public PrimitiveEnumNode()
         {
-			@Type = TypesTable.Instance.GetType("Enum");
+			@Type = CustomTypesTable.Instance.GetType("Enum");
         }
     }
 }

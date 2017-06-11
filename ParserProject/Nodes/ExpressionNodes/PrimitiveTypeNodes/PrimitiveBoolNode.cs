@@ -7,7 +7,7 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
     {
         public PrimitiveBoolNode()
         {
-            @Type = TypesTable.Instance.GetType("Bool");
+            @Type = CustomTypesTable.Instance.GetType("Bool");
         }
     }
 }

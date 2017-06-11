@@ -26,7 +26,7 @@ namespace ParserProject.Nodes.ExpressionNodes.LiteralNodes
 
         public override CustomType EvaluateSemantic()
         {
-            return TypesTable.Instance.GetType("Float");
+            return CustomTypesTable.Instance.GetType("Float");
         }
     }
 }

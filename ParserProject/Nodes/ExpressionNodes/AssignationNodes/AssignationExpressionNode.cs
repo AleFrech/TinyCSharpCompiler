@@ -22,10 +22,9 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
             var leftType = LeftValue.EvaluateSemantic();
             var rightType = LeftValue.EvaluateSemantic();
 
-            var key = new Tuple<CustomType, CustomType>(leftType, rightType);
-            if (!OperatorRules.ContainsKey(key))
+            if (leftType.GetType() != rightType.GetType())
                 throw new SemanticException($"Opperation Rule Not Supported  between {leftType} and {rightType}");
-            return OperatorRules[key];
+            return leftType;
         }
     }
 }

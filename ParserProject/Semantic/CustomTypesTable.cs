@@ -4,12 +4,12 @@ using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Semantic
 {
-	public class TypesTable
+	public class CustomTypesTable
 	{
         readonly Dictionary<string, CustomType> _table;
-		 static TypesTable _instance;
+		 static CustomTypesTable _instance;
 
-		 TypesTable()
+		 CustomTypesTable()
 		{
 			_table = new Dictionary<string, CustomType>
             {
@@ -24,7 +24,7 @@ namespace ParserProject.Semantic
 			};
 		}
 
-		public static TypesTable Instance => _instance  ?? (_instance = new TypesTable());
+		public static CustomTypesTable Instance => _instance  ?? (_instance = new CustomTypesTable());
 
 		public void AddType(string name, CustomType baseType)
 		{

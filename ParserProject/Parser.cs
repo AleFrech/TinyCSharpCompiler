@@ -506,7 +506,7 @@ namespace ParserProject
                 throw new SintacticalException("Expected class Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             var idlexeme=_currentToken = _lexer.GetNextToken();
-            if (_currentToken.Type != TokenType.Id)
+            if (_currentToken.Type != TokenType.Id && _currentToken.Type != TokenType.RwFloat && _currentToken.Type != TokenType.RwInt && _currentToken.Type != TokenType.RwChar && _currentToken.Type != TokenType.RwString && _currentToken.Type != TokenType.RwBool)
                 throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();

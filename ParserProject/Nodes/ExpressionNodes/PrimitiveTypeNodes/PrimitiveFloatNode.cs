@@ -7,7 +7,7 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
 	{
 		public PrimitiveFloatNode()
 		{
-			@Type = TypesTable.Instance.GetType("Float");
+			@Type = CustomTypesTable.Instance.GetType("Float");
 		}
 	}
 }

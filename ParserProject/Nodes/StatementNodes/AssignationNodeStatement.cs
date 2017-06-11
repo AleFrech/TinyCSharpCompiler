@@ -24,11 +24,7 @@ namespace ParserProject.Nodes.StatementNodes
             var leftType = LeftValue.EvaluateSemantic();
             var rightType = LeftValue.EvaluateSemantic();
 
-            //if(leftype as idleftexpresion.name dosent exist in the idtable )
-                    //throw exception
-
-            var key = new Tuple<CustomType, CustomType>(leftType, rightType);
-            if (!OperatorRules.ContainsKey(key))
+            if (leftType.GetType() != rightType.GetType())
                 throw new SemanticException($"Opperation Rule Not Supported  between {leftType} and {rightType}");
         }
     }

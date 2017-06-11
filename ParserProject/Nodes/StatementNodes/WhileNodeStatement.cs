@@ -22,7 +22,7 @@ namespace ParserProject.Nodes.StatementNodes
         public override void EvaluateSemantic()
         {
             var conditionType = Condition.EvaluateSemantic();
-            if (TypesTable.Instance.GetType("bool") != conditionType)
+            if (CustomTypesTable.Instance.GetType("bool") != conditionType)
                 throw new SemanticException($"Condition is not bool {conditionType}");
             
             SymbolTable.CreateContext();

@@ -21,7 +21,7 @@ namespace ParserProject.Nodes.ExpressionNodes.LiteralNodes
 
         public override CustomType EvaluateSemantic()
         {
-            return TypesTable.Instance.GetType("Bool");
+            return CustomTypesTable.Instance.GetType("Bool");
         }
     }
 }

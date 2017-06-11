@@ -7,7 +7,7 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
 	{
 		public PrimitiveIntNode()
 		{
-			@Type = TypesTable.Instance.GetType("Int");
+			@Type = CustomTypesTable.Instance.GetType("Int");
 		}
 	}
 }

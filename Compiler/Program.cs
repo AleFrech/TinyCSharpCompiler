@@ -1,7 +1,8 @@
 ﻿﻿﻿﻿﻿using System;
 using System.IO;
 using LexerProject;
-using ParserProject; 
+using ParserProject;
+    using ParserProject.Semantic;
 
 namespace Compiler
 {
@@ -26,7 +27,8 @@ namespace Compiler
             try
             {
                 var treeList = file.GetTreeListFromFiles();
-                ;
+                TypeTable.FieldTable(treeList);
+                var x=TypeTable.TypeList;
                 ;
             }
             catch (Exception e)

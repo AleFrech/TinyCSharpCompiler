@@ -12,11 +12,39 @@ namespace Compiler
 {
     public class FileManager
     {
+        private string systemClasses;
+        public FileManager()
+        {
+            this.systemClasses  = @"namespace System {
+                    public class Object{
+                        
+                        public virtual string ToString(){
+                                return """";
+                       }
+                    }
+                    public class int {
+                        public static int Parse(){
+                            return 1;    
+                        }
+                    }
+                     public class float {
+                        public static float Parse(){
+                            return 0.5f;    
+                        }
+                    }
+                   public class string {
+
+                    }
+                }";
+
+        }
 
         public string GetSourceCode(string filePath)
         {
             return File.ReadAllText(filePath);
         }
+
+
 
 
         public List<List<CodeNode>> GetTreeListFromFiles()
@@ -32,6 +60,9 @@ namespace Compiler
                 treeList.Add(tree);
                 
             }
+
+            treeList.Add(new Parser(new Lexer(new InputString(systemClasses))).Parse());
+
             return treeList;
         }
 
