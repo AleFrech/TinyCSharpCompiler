@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
+using LexerProject;
+using ParserProject;
 using ParserProject.Nodes.NameSpaceNodes;
 
 namespace Compiler
@@ -14,6 +16,23 @@ namespace Compiler
         public string GetSourceCode(string filePath)
         {
             return File.ReadAllText(filePath);
+        }
+
+
+        public List<List<CodeNode>> GetTreeListFromFiles()
+        {
+            var files = Directory.GetFiles("./TestProject", "*.cs", SearchOption.AllDirectories);
+            var treeList= new List<List<CodeNode>>();
+            foreach (var file in files)
+            {
+                
+                var lex = new Lexer(new InputString(File.ReadAllText(file)));
+                var parser = new Parser(lex);
+                var tree = parser.Parse();
+                treeList.Add(tree);
+                
+            }
+            return treeList;
         }
 
 

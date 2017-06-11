@@ -9,16 +9,25 @@ namespace Compiler
     {
         static void Main(string[] args)
         {
+
             var file = new FileManager();
-            var sourceCode = file.GetSourceCode(Path.Combine(AppContext.BaseDirectory.
-                Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/test1.cs"));
+
+            //var sourceCode = file.GetSourceCode("./TestProject/Level1/Test3.cs");
+
+            //try
+            //{
+            //    var lex = new Lexer(new InputString(sourceCode));
+            //    var parser = new Parser(lex);
+            //    var tree = parser.Parse();
+            //    Console.WriteLine("SUCCESS");
+            //}
+
 
             try
             {
-                var lex = new Lexer(new InputString(sourceCode));
-                var parser = new Parser(lex);
-                var tree =parser.Parse();
-				Console.WriteLine("SUCCESS");
+                var treeList = file.GetTreeListFromFiles();
+                ;
+                ;
             }
             catch (Exception e)
             {

@@ -230,9 +230,9 @@ namespace ParserProject
                
                 return new InterfaceNode
                 {
-                    PrivacyModifier = privacyNode.Value,
+                    PrivacyModifier = privacyNode?.Value??"",
                     NameToken = interfaceStructure.Name,
-                    HeritageList = interfaceStructure.ExtendsNode.ListIdNodes,
+                    HeritageList = interfaceStructure.ExtendsNode?.ListIdNodes,
                     InterfaceMethodList = interfaceStructure.InterfaceBody.InterfaceMethodList
                 };
             }
@@ -249,10 +249,10 @@ namespace ParserProject
                 var classStructure = ClassDeclaration();
                 return new ClassNode
                 {
-                    PrivacyModifier =privacyNode.Value,
-                    ClassModifier = classStructure.ModifierNode.Value,
+                    PrivacyModifier =privacyNode?.Value??"",
+                    ClassModifier = classStructure.ModifierNode!=null? classStructure.ModifierNode.Value :"",
                     NameToken=classStructure.Name,
-                    HeritageList=classStructure.ExtendsNode.ListIdNodes,
+                    HeritageList=classStructure.ExtendsNode !=null ? classStructure.ExtendsNode.ListIdNodes : null,
                     FieldMethodConstructorList = classStructure.Body.ClassMemberDeclarationList
                 };
             }
@@ -944,7 +944,7 @@ namespace ParserProject
                     IsField = false,
 					IsConstructor = false,
 					Type = new VoidTypeNode(),
-					PrivacyModifier = privacyNode.Value,
+					PrivacyModifier = privacyNode?.Value??"",
 					FieldList = null,
 					Method = method
 				};
