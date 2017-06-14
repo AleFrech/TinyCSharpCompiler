@@ -559,7 +559,7 @@ namespace ParserProject
 					IsConstructor = false,
                     Type = x.TypeNode,
 					PrivacyModifier = privacyNode,
-					FieldList = null,
+                    FieldList = new List<FieldNode>(),
                     Method = new MethodDeclarationNode{Name=x.Name,ParameterList=x.ParameterList}
 
 				};
@@ -617,7 +617,7 @@ namespace ParserProject
 					IsConstructor = false,
 					Type = new VoidTypeNode(),
 					PrivacyModifier = privacyNode,
-					FieldList = null,
+                    FieldList = new List<FieldNode>(),
 					Method = method
 
 				};
@@ -689,7 +689,7 @@ namespace ParserProject
                     IsConstructor = true,
                     Type = type,
                     PrivacyModifier = privacyNode,
-                    FieldList = null,
+                    FieldList = new List<FieldNode>(),
 					Method = null,
                     ConstructorParameterList=paremeterList,
                     BaseNode=constructInit,
@@ -723,7 +723,7 @@ namespace ParserProject
 					IsConstructor = true,
 					Type = type,
 					PrivacyModifier = privacyNode,
-					FieldList = null,
+					FieldList = new List<FieldNode>(),
 					Method = null,
                     ConstructorStatementList=statementList
 
@@ -887,7 +887,7 @@ namespace ParserProject
 					Type = type,
 					PrivacyModifier = privacyNode,
 					MethodModifier = method.Value,
-					FieldList = null,
+                    FieldList = new List<FieldNode>(),
 					Method = methodDec
 
 				};
@@ -940,7 +940,7 @@ namespace ParserProject
 					IsConstructor = false,
 					Type = new VoidTypeNode(),
 					PrivacyModifier = privacyNode,
-					FieldList = null,
+                    FieldList = new List<FieldNode>(),
 					Method = method
 				};
             }
@@ -962,7 +962,7 @@ namespace ParserProject
         {
             var method = false;
             var field = false;
-            List<FieldNode> list = null;
+            List<FieldNode> list = new List<FieldNode>();
             MethodDeclarationNode methodNode = null;
             if (_currentToken.Type == TokenType.ParOpen)
             {
@@ -1823,7 +1823,7 @@ namespace ParserProject
                 var accesorNode=IdExpressionWithoutOpenBra();
                 var idleft = new IdLeftExpressionNode();
                 idleft.Accessor = accesorNode;
-                idleft.PreId = null;
+                idleft.PreId = "";
                 IdTypeNode type = new IdTypeNode(idName, idNode);
                 idleft.Id = type;
                 return XXXX(idleft);
@@ -1958,7 +1958,7 @@ namespace ParserProject
                 var accessor = Mierda4();
                 var idleft = new IdLeftExpressionNode();
                 idleft.Id = idTypeNode;
-                idleft.PreId = null;
+                idleft.PreId = "";
                 idleft.Accessor = accessor;      
                 return XXXX(idleft);
             }
@@ -2092,7 +2092,7 @@ namespace ParserProject
             if(_currentToken.Type.IsExpression()){
                 return ExpresionList();
             }else{
-                return null;
+                return new List<ExpressionNode>();
             }
         }
 
@@ -2974,7 +2974,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected ] Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-				List<RankSpeciferNode> rankSpeciferNodes = null;
+                List<RankSpeciferNode> rankSpeciferNodes = new List<RankSpeciferNode>();
 				ArrayInitalizerNode arrayNode = null;
                 if (_currentToken.Type == TokenType.BraOpen)
                     rankSpeciferNodes=RankSpecifiers();
@@ -2982,7 +2982,7 @@ namespace ParserProject
                     arrayNode=ArrayInitalizer();
 
                 var r = new RankSpeciferNode();
-
+                rankSpeciferNodes.Insert(0,r);
                 return new NewArrayCreation
                 {
                     Bracket=bracketAccessor,

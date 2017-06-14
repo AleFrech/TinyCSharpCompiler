@@ -1,8 +1,8 @@
-﻿﻿﻿﻿﻿using System;
+﻿﻿﻿﻿﻿﻿using System;
 using System.IO;
 using LexerProject;
 using ParserProject;
-    using ParserProject.Semantic;
+using ParserProject.Semantic;
 
 namespace Compiler
 {
