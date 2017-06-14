@@ -4,6 +4,7 @@ public class CheckAccount{
 
    public CheckAccount(string o, double ir): 
      base(o, 0.0f, ir) {
+        int x = ++y;
    }
 
    // public override void Withdraw (float amount) {

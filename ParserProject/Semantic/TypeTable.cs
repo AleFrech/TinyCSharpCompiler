@@ -16,7 +16,7 @@ namespace ParserProject.Semantic
         
 
 
-        public static void FieldTable(List<List<CodeNode>> treeList)
+        public static void FillTable(List<List<CodeNode>> treeList)
         {
             foreach (var tl in treeList)
             {

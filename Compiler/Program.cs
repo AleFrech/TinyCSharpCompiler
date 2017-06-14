@@ -27,7 +27,7 @@ namespace Compiler
             try
             {
                 var treeList = file.GetTreeListFromFiles();
-                TypeTable.FieldTable(treeList);
+                TypeTable.FillTable(treeList);
                 var x=TypeTable.TypeList;
                 ;
             }
