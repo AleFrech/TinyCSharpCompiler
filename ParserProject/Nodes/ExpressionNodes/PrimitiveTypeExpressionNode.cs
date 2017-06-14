@@ -1,7 +1,6 @@
 ﻿using System;
 using LexerProject.Tokens;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
-using ParserProject.Nodes.ExpressionNodes.PostIdNodes;
 using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
 
 namespace ParserProject.Nodes.ExpressionNodes
@@ -11,9 +10,9 @@ namespace ParserProject.Nodes.ExpressionNodes
         public PrimitiveTypeNode PrimitiveType { get; set; }
         public Token Name { get; set; }
         public AccesorExpressionNode Accessor { get; set; }
-        public PostIdExpressionNode PostId { get; set; }
+        public string PostId { get; set; }
 
-        public PrimitiveTypeExpressionNode(PrimitiveTypeNode primitiveType,Token name,AccesorExpressionNode accessor,PostIdExpressionNode posId)
+        public PrimitiveTypeExpressionNode(PrimitiveTypeNode primitiveType,Token name,AccesorExpressionNode accessor,string posId)
         {
             PrimitiveType = primitiveType;
             Name = name;

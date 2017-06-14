@@ -1,6 +1,5 @@
 ﻿using System;
 using ParserProject.Nodes.ExpressionNodes.AssignationNodes;
-using ParserProject.Nodes.ExpressionNodes.PostIdNodes;
 using ParserProject.Semantic;
 using ParserProject.Semantic.CustomTypes;
 
@@ -11,9 +10,9 @@ namespace ParserProject.Nodes.ExpressionNodes
         public IdLeftExpressionNode IdNode { get; set; }
 
         public AssignationExpressionNode AssignmentNode { get; set; }
-        public PostIdExpressionNode PostId { get; set; }
+        public string PostId { get; set; }
 
-        public IdExpressionNode(IdLeftExpressionNode idLeft, AssignationExpressionNode assgnNode, PostIdExpressionNode postId)
+        public IdExpressionNode(IdLeftExpressionNode idLeft, AssignationExpressionNode assgnNode, string postId)
         {
             PostId = postId;
             AssignmentNode = assgnNode;

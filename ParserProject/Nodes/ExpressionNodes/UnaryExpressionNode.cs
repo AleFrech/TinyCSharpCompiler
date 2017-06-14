@@ -1,21 +1,20 @@
 ﻿using System;
-using LexerProject.Tokens;
 using ParserProject.Semantic.CustomTypes;
 
-namespace ParserProject.Nodes.ExpressionNodes.UnaryNodes
+namespace ParserProject.Nodes.ExpressionNodes
 {
     public class UnaryExpressionNode:ExpressionNode
     {
-        public Token Value { get; set; }
+        public string Unary { get; set; }
+        public ExpressionNode Expression { get; set; }
+
+        public UnaryExpressionNode()
+        {
+        }
 
         public override CustomType EvaluateSemantic()
         {
             throw new NotImplementedException();
         }
     }
-
-
-
-
-
 }

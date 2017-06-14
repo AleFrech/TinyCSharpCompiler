@@ -6,7 +6,7 @@ namespace ParserProject.Nodes.ExpressionNodes.ArrayNodes
 {
     public class RankSpeciferNode:ExpressionNode
     {
-        public List<DimSeparatorNode> DimSeparatorList { get; set; }
+        public List<string> DimSeparatorList { get; set; }
         public RankSpeciferNode()
         {
         }

@@ -83,7 +83,7 @@ namespace ParserProject.Apis
             throw new ClassNotFoundExcpetion("Class " + name + " Not Found");
         }
 
-        private string GetFullNameFromIdNode(IdTypeNode idNode, string name="")
+        public  string GetFullNameFromIdNode(IdTypeNode idNode, string name="")
         {
             if (idNode == null)
             {
@@ -95,8 +95,6 @@ namespace ParserProject.Apis
             accumulated += idNode.Name.Lexeme;
             return GetFullNameFromIdNode(idNode.IdNode, accumulated);
         }
-
-
 
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using ParserProject.Nodes.ExpressionNodes.UnaryNodes;
 using ParserProject.Semantic;
 using ParserProject.Semantic.CustomTypes;
 
@@ -15,7 +14,6 @@ namespace ParserProject.Nodes.ExpressionNodes
 		public CustomType Float = CustomTypesTable.Instance.GetType("Float");
 		public CustomType Enum = CustomTypesTable.Instance.GetType("Enum");
 		public CustomType Void = CustomTypesTable.Instance.GetType("Void");
-		public UnaryExpressionNode UnaryNode { get; set; }
         public ExpressionNode()
         {
         }

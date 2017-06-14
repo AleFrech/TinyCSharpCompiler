@@ -11,9 +11,9 @@ namespace ParserProject.Nodes.StatementNodes
     {
         public ExpressionNode Condition { get; set; }
         public List<StatementNode> Body { get; set; }
-        public BreakNodeStatement BreakNode { get; set; }
+        public string BreakNode { get; set; }
 
-		public CaseNodeStatement(ExpressionNode condition, List<StatementNode> body, BreakNodeStatement @break)
+		public CaseNodeStatement(ExpressionNode condition, List<StatementNode> body, string @break)
 		{
 			Condition = condition;
 			Body = body;

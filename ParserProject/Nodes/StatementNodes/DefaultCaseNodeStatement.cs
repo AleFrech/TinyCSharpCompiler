@@ -7,9 +7,9 @@ namespace ParserProject.Nodes.StatementNodes
     public class DefaultCaseNodeStatement:StatementNode
 	{
         public List<StatementNode> StatementList { get; set; }
-		public BreakNodeStatement BreakNode { get; set; }
+		public string BreakNode { get; set; }
 
-        public DefaultCaseNodeStatement(List<StatementNode> statementList, BreakNodeStatement @break)
+        public DefaultCaseNodeStatement(List<StatementNode> statementList, string @break)
 		{
             StatementList = statementList;
             BreakNode=@break;

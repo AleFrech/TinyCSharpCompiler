@@ -13,7 +13,7 @@ namespace ParserProject.Nodes.StatementNodes
             = new Dictionary<Tuple<CustomType, CustomType>, CustomType>();
         public ExpressionNode LeftValue { get; set; }
         public ExpressionNode RightValue { get; set; }
-
+        public string IncOrDec { get; set; }
         public AssignationNodeStatement()
         {
 

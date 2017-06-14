@@ -15,7 +15,7 @@ namespace ParserProject.Nodes.ExtendsNodes
         }
 
         public ExtendsNode(){
-            
+            ListIdNodes = new List<IdTypeNode>();
         }
     }
 }

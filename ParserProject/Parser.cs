@@ -8,13 +8,8 @@ using ParserProject.Nodes.ExtendsNodes;
 using ParserProject.Nodes.NameSpaceNodes;
 using ParserProject.Nodes.StatementNodes;
 using ParserProject.Nodes.ExpressionNodes;
-using ParserProject.Nodes.ClassModifierNodes;
-using ParserProject.Nodes.PrivacyModifierNodes;
 using ParserProject.Nodes.NameSpaceNodes.EnumNodes;
-using ParserProject.Nodes.ExpressionNodes.UnaryNodes;
-using ParserProject.Nodes.ExpressionNodes.PreIdNodes;
 using ParserProject.Nodes.ExpressionNodes.ArrayNodes;
-using ParserProject.Nodes.ExpressionNodes.PostIdNodes;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Nodes.ExpressionNodes.LiteralNodes;
 using ParserProject.Nodes.NameSpaceNodes.InterfaceNodes;
@@ -199,30 +194,30 @@ namespace ParserProject
             return codeNode;
 		}
 
-        private PrivacyModifierNode PrivacyModifier()
+        private string PrivacyModifier()
         {
             if (_currentToken.Type == TokenType.RwPublic)
             {
                 _currentToken = _lexer.GetNextToken();
-                return new PublicNode();
+                return "Public";
             }
             else if (_currentToken.Type == TokenType.RwPrivate)
             {
                 _currentToken = _lexer.GetNextToken();
-                return new PrivateNode();
+                return "Private";
             }
             else if (_currentToken.Type == TokenType.RwProtected)
             {
                 _currentToken = _lexer.GetNextToken();
-                return new ProtectedNode();
+                return  "Protected";
             }
             else
             {
-                return null;
+                return "";
             }
         }
 
-        private NameSpaceDeclarationNode ClassInterfaceEnum(PrivacyModifierNode privacyNode)
+        private NameSpaceDeclarationNode ClassInterfaceEnum(string privacyNode)
         {
             if (_currentToken.Type == TokenType.RwInterface)
             {
@@ -230,16 +225,16 @@ namespace ParserProject
                
                 return new InterfaceNode
                 {
-                    PrivacyModifier = privacyNode?.Value??"",
+                    PrivacyModifier = privacyNode,
                     NameToken = interfaceStructure.Name,
-                    HeritageList = interfaceStructure.ExtendsNode?.ListIdNodes,
+                    HeritageList = interfaceStructure.ExtendsNode.ListIdNodes,
                     InterfaceMethodList = interfaceStructure.InterfaceBody.InterfaceMethodList
                 };
             }
             else if (_currentToken.Type == TokenType.RwEnum)
             {
                 var enumstructure=EnumDeclaration();
-                return new EnumNode { PrivacyModifier = privacyNode.Value,
+                return new EnumNode { PrivacyModifier = privacyNode,
                     NameToken =enumstructure.Name,
                     EnumElementList= enumstructure.Body.EnumElementList
                 };
@@ -249,10 +244,10 @@ namespace ParserProject
                 var classStructure = ClassDeclaration();
                 return new ClassNode
                 {
-                    PrivacyModifier =privacyNode?.Value??"",
-                    ClassModifier = classStructure.ModifierNode!=null? classStructure.ModifierNode.Value :"",
+                    PrivacyModifier = privacyNode,
+                    ClassModifier = classStructure.ClassModifierNode,
                     NameToken=classStructure.Name,
-                    HeritageList=classStructure.ExtendsNode !=null ? classStructure.ExtendsNode.ListIdNodes : null,
+                    HeritageList=classStructure.ExtendsNode.ListIdNodes,
                     FieldMethodConstructorList = classStructure.Body.ClassMemberDeclarationList
                 };
             }
@@ -512,7 +507,7 @@ namespace ParserProject
             _currentToken = _lexer.GetNextToken();
             var extendsNode=Heredance();
             var body= ClassBody();
-            return  new ClassStructureNode{ModifierNode = classModifier,Name = idlexeme,ExtendsNode = extendsNode,Body = body};
+            return  new ClassStructureNode{ClassModifierNode = classModifier,Name = idlexeme,ExtendsNode = extendsNode,Body = body};
         }
 
         private ClassBodyNode ClassBody()
@@ -563,7 +558,7 @@ namespace ParserProject
                     IsAbstract=true,
 					IsConstructor = false,
                     Type = x.TypeNode,
-					PrivacyModifier = privacyNode.Value,
+					PrivacyModifier = privacyNode,
 					FieldList = null,
                     Method = new MethodDeclarationNode{Name=x.Name,ParameterList=x.ParameterList}
 
@@ -575,7 +570,7 @@ namespace ParserProject
             }
         }
 
-        private FieldMethodConstructor FieldMethodConstructor(PrivacyModifierNode privacyNode)
+        private FieldMethodConstructor FieldMethodConstructor(string privacyNode)
         {
             if (_currentToken.Type == TokenType.RwStatic)
             {
@@ -598,7 +593,7 @@ namespace ParserProject
 					IsField = fieldmethodMetaData.IsField,
 					IsConstructor = false,
 					Type = type,
-					PrivacyModifier = privacyNode.Value,
+					PrivacyModifier = privacyNode,
 					FieldList = fieldmethodMetaData.FieldList,
 					Method = fieldmethodMetaData.Method
 
@@ -621,7 +616,7 @@ namespace ParserProject
                     IsField = false,
 					IsConstructor = false,
 					Type = new VoidTypeNode(),
-					PrivacyModifier = privacyNode.Value,
+					PrivacyModifier = privacyNode,
 					FieldList = null,
 					Method = method
 
@@ -647,7 +642,7 @@ namespace ParserProject
             }
         }
 
-        private FieldMethodConstructor Mierda3(PrivacyModifierNode privacyNode, IdTypeProductionNode type)
+        private FieldMethodConstructor Mierda3(string privacyNode, IdTypeProductionNode type)
         {
             if (_currentToken.Type == TokenType.Id || _currentToken.Type == TokenType.BraOpen)
             {
@@ -666,7 +661,7 @@ namespace ParserProject
 					IsField = fieldmethodMetaData.IsField,
 					IsConstructor = false,
 					Type = type,
-					PrivacyModifier = privacyNode.Value,
+					PrivacyModifier = privacyNode,
 					FieldList = fieldmethodMetaData.FieldList,
 					Method = fieldmethodMetaData.Method
 
@@ -693,7 +688,7 @@ namespace ParserProject
                     IsField = false,
                     IsConstructor = true,
                     Type = type,
-                    PrivacyModifier = privacyNode.Value,
+                    PrivacyModifier = privacyNode,
                     FieldList = null,
 					Method = null,
                     ConstructorParameterList=paremeterList,
@@ -710,7 +705,7 @@ namespace ParserProject
 
         }
 
-        private FieldMethodConstructor Mierda2(IdTypeProductionNode type, PrivacyModifierNode privacyNode)
+        private FieldMethodConstructor Mierda2(IdTypeProductionNode type, string privacyNode)
         {
             if (_currentToken.Type == TokenType.ParOpen)
             {
@@ -727,7 +722,7 @@ namespace ParserProject
                     IsField = false,
 					IsConstructor = true,
 					Type = type,
-					PrivacyModifier = privacyNode.Value,
+					PrivacyModifier = privacyNode,
 					FieldList = null,
 					Method = null,
                     ConstructorStatementList=statementList
@@ -752,7 +747,7 @@ namespace ParserProject
 					IsField = fieldmethodMetaData.IsField,
 					IsConstructor = false,
 					Type = type,
-					PrivacyModifier = privacyNode.Value,
+					PrivacyModifier = privacyNode,
 					FieldList = fieldmethodMetaData.FieldList,
 					Method = fieldmethodMetaData.Method
 
@@ -848,7 +843,7 @@ namespace ParserProject
             }
         }
 
-        private FieldMethodConstructor MethodReturn(PrivacyModifierNode privacyNode, MethodModifierNode method)
+        private FieldMethodConstructor MethodReturn(string privacyNode, MethodModifierNode method)
         {
             if (_currentToken.Type == TokenType.RwVoid)
             {
@@ -866,7 +861,7 @@ namespace ParserProject
 					IsField = fieldmethodMetaData.IsField,
 					IsConstructor = false,
 					Type = new VoidTypeNode(),
-					PrivacyModifier = privacyNode.Value,
+					PrivacyModifier = privacyNode,
                     MethodModifier=method.Value,
 					FieldList = fieldmethodMetaData.FieldList,
 					Method = fieldmethodMetaData.Method
@@ -890,7 +885,7 @@ namespace ParserProject
                     IsField = false,
 					IsConstructor = false,
 					Type = type,
-					PrivacyModifier = privacyNode.Value,
+					PrivacyModifier = privacyNode,
 					MethodModifier = method.Value,
 					FieldList = null,
 					Method = methodDec
@@ -904,7 +899,7 @@ namespace ParserProject
             }
         }
 
-        private FieldMethodConstructor StaticOptions(PrivacyModifierNode privacyNode)
+        private FieldMethodConstructor StaticOptions(string privacyNode)
         {
             if (_currentToken.Type.IsPredifinedType() || _currentToken.Type == TokenType.RwEnum)
             {
@@ -922,7 +917,7 @@ namespace ParserProject
                     IsField = fieldmethodMetaData.IsField,
                     IsConstructor = false,
                     Type = type,
-                    PrivacyModifier = privacyNode.Value,
+                    PrivacyModifier = privacyNode,
 					FieldList = fieldmethodMetaData.FieldList,
 					Method = fieldmethodMetaData.Method
 
@@ -944,7 +939,7 @@ namespace ParserProject
                     IsField = false,
 					IsConstructor = false,
 					Type = new VoidTypeNode(),
-					PrivacyModifier = privacyNode?.Value??"",
+					PrivacyModifier = privacyNode,
 					FieldList = null,
 					Method = method
 				};
@@ -1111,7 +1106,7 @@ namespace ParserProject
             }
             else
             {
-                return null;
+                return new ExtendsNode();
             }
         }
 
@@ -1131,20 +1126,20 @@ namespace ParserProject
             }
         }
 
-        private ClassModifierNode ClassModifier()
+        private string ClassModifier()
         {
             if (_currentToken.Type == TokenType.RwStatic)
             {
                 _currentToken = _lexer.GetNextToken();
-                return new StaticNode();
+                return "static";
             }else if (_currentToken.Type==TokenType.RwAbstract)
             {
                 _currentToken = _lexer.GetNextToken();
-                return new AbstractNode();
+                return "abstract";
             }
             else
             {
-                return null;
+                return "";
             }
         }
 
@@ -1277,7 +1272,7 @@ namespace ParserProject
 
         }
 
-        private List<DimSeparatorNode> DimSpearetorsOpt()
+        private List<string> DimSpearetorsOpt()
         {
             if (_currentToken.Type == TokenType.Comma)
             {
@@ -1285,27 +1280,27 @@ namespace ParserProject
             }
             else
             {
-                return null;
+                return new List<string>();
             }
         }
 
-        private List<DimSeparatorNode> DimSpearetors()
+        private List<string> DimSpearetors()
         {
             if (_currentToken.Type != TokenType.Comma)
                 throw new SintacticalException("Expected , Line " + _currentToken.Line + " Col " +
                                                _currentToken.Column);
             _currentToken = _lexer.GetNextToken();
-            var dim = new DimSeparatorNode();
+            var dim = ",";
             var list=DimSpearetorsPrime();
             list.Insert(0,dim);
             return list;
         }
 
-        private List<DimSeparatorNode> DimSpearetorsPrime()
+        private List<string> DimSpearetorsPrime()
         {
             if (_currentToken.Type == TokenType.Comma)
             {
-                var dim = new DimSeparatorNode();
+                var dim = ",";
                 _currentToken = _lexer.GetNextToken();
                 var list=DimSpearetorsPrime();
                 list.Insert(0,dim);
@@ -1314,7 +1309,7 @@ namespace ParserProject
             }
             else
             {
-                return new List<DimSeparatorNode>();
+                return new List<string>();
             }
         }
 
@@ -1670,11 +1665,11 @@ namespace ParserProject
             }
             else if (_currentToken.Type == TokenType.RwBase || _currentToken.Type == TokenType.RwThis)
             {
-                PreIdExpressionNode preId=null;
+                string preId="";
                 if(_currentToken.Type == TokenType.RwBase)
-                    preId= new BaseExpressionNode();
+                    preId= "base.";
                 else
-                    preId = new BaseExpressionNode();
+                    preId = "this.";
 
                _currentToken = _lexer.GetNextToken();
                 if (_currentToken.Type != TokenType.Period)
@@ -1840,12 +1835,12 @@ namespace ParserProject
             if (_currentToken.Type == TokenType.OpDec)
             {
                 _currentToken = _lexer.GetNextToken();
-                return new AssignationNodeStatement {LeftValue = idleft, RightValue = new DecNode()};
+                return new AssignationNodeStatement {LeftValue = idleft,IncOrDec="--"};
             }
             else if (_currentToken.Type == TokenType.OpInc)
             {
                 _currentToken = _lexer.GetNextToken();
-                return new AssignationNodeStatement { LeftValue = idleft, RightValue = new IncNode() };
+                return new AssignationNodeStatement { LeftValue = idleft, IncOrDec="++" };
             }
             else if(_currentToken.Type == TokenType.OpAsgn)
             {
@@ -2299,7 +2294,7 @@ namespace ParserProject
             return new CaseNodeStatement(exp, body, @break);
         }
 
-        private BreakNodeStatement BreakStatement()
+        private string BreakStatement()
         {
             if (_currentToken.Type == TokenType.RwBreak)
             {
@@ -2308,11 +2303,11 @@ namespace ParserProject
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                return new BreakNodeStatement();
+                return "break";
             }
             else
             {
-                return null;
+                return "";
             }
         }
 
@@ -2722,9 +2717,15 @@ namespace ParserProject
         private ExpressionNode MultiplicativeExpression()
         {
             var unary = UnaryExpression();
-            var left = PrimaryExpression();
-            left.UnaryNode = unary;
-            return MultiplicativeExpressionPrime(left);
+            if(unary==""){
+				var left = PrimaryExpression();
+				return MultiplicativeExpressionPrime(left);
+            }else{
+				var left = PrimaryExpression();
+				var exp =MultiplicativeExpressionPrime(left);
+                return new UnaryExpressionNode{ Unary=unary,Expression=exp};
+            }
+
         }
 
         private ExpressionNode MultiplicativeExpressionPrime(ExpressionNode param)
@@ -2733,25 +2734,40 @@ namespace ParserProject
             {
                 _currentToken = _lexer.GetNextToken();
                 var unary = UnaryExpression();
-                var right = PrimaryExpression();
-                right.UnaryNode = unary;
-                return MultiplicativeExpressionPrime(new MultExpressionNode{ LeftOperand = param, RightOperand = right });
+                if(unary==""){
+					var right = PrimaryExpression();
+					return MultiplicativeExpressionPrime(new MultExpressionNode { LeftOperand = param, RightOperand = right });
+                }else{
+					var right = PrimaryExpression();
+                    return new UnaryExpressionNode { Unary = unary, Expression = MultiplicativeExpressionPrime(new MultExpressionNode { LeftOperand = param, RightOperand = right }) };
+                }
+              
             }
             else if (_currentToken.Type == TokenType.OpDiv)
             {
                 _currentToken = _lexer.GetNextToken();
                 var unary = UnaryExpression();
-                var right = PrimaryExpression();
-                right.UnaryNode = unary;
-                return MultiplicativeExpressionPrime(new DivExpressionNode { LeftOperand = param, RightOperand = right });
+                if(unary==""){
+					var right = PrimaryExpression();
+					return MultiplicativeExpressionPrime(new DivExpressionNode { LeftOperand = param, RightOperand = right });
+                }else{
+                    var right = PrimaryExpression();
+                    return new UnaryExpressionNode { Unary = unary, Expression = MultiplicativeExpressionPrime(new DivExpressionNode { LeftOperand = param, RightOperand = right }) };
+                }
+               
             }
             else if (_currentToken.Type == TokenType.OpMod)
             {
                 _currentToken = _lexer.GetNextToken();
                 var unary = UnaryExpression();
-                var right = PrimaryExpression();
-                right.UnaryNode = unary;
-                return MultiplicativeExpressionPrime(new ModExpressionNode{ LeftOperand = param, RightOperand = right });
+                if(unary==""){
+					var right = PrimaryExpression();
+					return MultiplicativeExpressionPrime(new ModExpressionNode { LeftOperand = param, RightOperand = right });
+                }else{
+					var right = PrimaryExpression();
+                    return new UnaryExpressionNode { Unary = unary, Expression = MultiplicativeExpressionPrime(new ModExpressionNode { LeftOperand = param, RightOperand = right }) };
+                }
+
             }
             else
             {
@@ -2759,47 +2775,47 @@ namespace ParserProject
             }
         }
 
-        private UnaryExpressionNode UnaryExpression()
+        private string UnaryExpression()
         {
             if (_currentToken.Type == TokenType.OpSum)
             {
                 var unary = _currentToken;
                 _currentToken = _lexer.GetNextToken();
-                return new SumUnaryExpressionNode(unary);
+                return unary.Lexeme;
             }
             else if (_currentToken.Type == TokenType.OpSub)
             {
                 var unary = _currentToken;
                 _currentToken = _lexer.GetNextToken();
-                return new SubUnaryExpressionNode(unary);
+                return unary.Lexeme;
             }
             else if (_currentToken.Type == TokenType.OpLogicalNot)
             {
                 var unary = _currentToken;
                 _currentToken = _lexer.GetNextToken();
-                return new NotUnaryExpressionNode(unary);
+                return unary.Lexeme;
             }
             else if (_currentToken.Type == TokenType.OpBinaryComplement)
             {
                 var unary = _currentToken;
                 _currentToken = _lexer.GetNextToken();
-                return new ComplementUnaryExpressionNode(unary);
+                return unary.Lexeme;
             }
             else if (_currentToken.Type == TokenType.OpInc)
             {
                 var unary = _currentToken;
                 _currentToken = _lexer.GetNextToken();
-                return new IncUnaryExpressionNode(unary);
+                return unary.Lexeme;
             }
             else if (_currentToken.Type == TokenType.OpDec)
             {
                 var unary = _currentToken;
                 _currentToken = _lexer.GetNextToken();
-                return new DecUnaryExpressionNode(unary);
+                return unary.Lexeme;
             }
             else
             {
-                return null;
+                return "";
             }
         }
         private ExpressionNode PrimaryExpression()
@@ -3435,7 +3451,7 @@ namespace ParserProject
             }
         }
 
-        private PreIdExpressionNode PreIdExpression()
+        private string PreIdExpression()
         {
             if (_currentToken.Type == TokenType.RwThis)
             {
@@ -3445,7 +3461,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected . Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                return new ThisExpressionNode();
+                return "this.";
             }
             else if (_currentToken.Type == TokenType.RwBase)
             {
@@ -3455,29 +3471,29 @@ namespace ParserProject
                     throw new SintacticalException("Expected . Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                return new BaseExpressionNode();
+                return "base.";
             }
             else
             {
-                return null;
+                return "";
             }
         }
 
-        private PostIdExpressionNode PostIncrementExpression()
+        private string PostIncrementExpression()
         {
             if (_currentToken.Type == TokenType.OpInc)
             {
                 _currentToken = _lexer.GetNextToken();
-                return new IncNode();
+                return "++";
             }
             else if (_currentToken.Type == TokenType.OpDec)
             {
                 _currentToken = _lexer.GetNextToken();
-                return new DecNode();
+                return "--";
             }
             else
             {
-                return null;
+                return "";
             }
         }
     }
