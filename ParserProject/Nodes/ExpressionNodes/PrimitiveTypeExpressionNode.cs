@@ -31,7 +31,7 @@ namespace ParserProject.Nodes.ExpressionNodes
 			var stringCode = "";
             stringCode += PrimitiveType.GenerateCode().Code+".";
             stringCode += IdToken.Lexeme;
-			stringCode += helper.GetFullAccessorFromAccessorNode(Accessor);
+            stringCode += Accessor.GenerateCode().Code;
 			stringCode += PostId;
 
 

@@ -33,13 +33,9 @@ namespace ParserProject.Nodes.ExpressionNodes
 		{
             var helper = new GenerationHelper();
             var stringCode = "";
-            stringCode += IdNode.PreId;
-            stringCode += helper.GetFullNameFromIdNode(IdNode.Id);
-            stringCode += helper.GetFullAccessorFromAccessorNode(IdNode.Accessor);
-            if (AssignmentNode != null)
-                stringCode += AssignmentNode.GenerateCode().Code;
+            stringCode += IdNode.GenerateCode().Code;
+            stringCode += AssignmentNode.GenerateCode().Code;
             stringCode += PostId;
-
 
             return new ExpressionCode { Code = stringCode };
 		}

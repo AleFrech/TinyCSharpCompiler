@@ -23,7 +23,7 @@ namespace ParserProject.Nodes.StatementNodes
 			var stringCode = "";
 			stringCode += Type.GenerateCode().Code + ".";
             stringCode += Name.Lexeme;
-			stringCode += helper.GetFullAccessorFromAccessorNode(Accesor);
+            stringCode += Accesor.GenerateCode().Code;
 			stringCode += PostId;
 
 

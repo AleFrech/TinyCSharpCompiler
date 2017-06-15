@@ -31,5 +31,14 @@ namespace ParserProject.Nodes.StatementNodes
         {
             throw new NotImplementedException();
         }
+
+        public override ExpressionCode GenerateCode()
+        {
+            var stringCode = "for ( " + Type.GenerateCode().Code + " " + IdName.Lexeme + " of " + Expression.GenerateCode().Code + " ) {\n";
+            foreach (var s in ListStatement)
+                stringCode += s.GenerateCode().Code;
+            stringCode += "}\n";
+            return new ExpressionCode { Code = stringCode };
+        }
     }
 }

@@ -1,3 +1,4 @@
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 
@@ -21,5 +22,17 @@ namespace ParserProject.Nodes.ExpressionNodes
             
         }
 
-    }
+		public override ExpressionCode GenerateCode()
+		{
+			var helper = new GenerationHelper();
+			var stringCode = "";
+			stringCode += PreId;
+			stringCode += helper.GetFullNameFromIdNode(Id);
+            stringCode += Accessor.GenerateCode().Code;
+
+			return new ExpressionCode { Code = stringCode };
+		}
+
+
+	}
 }

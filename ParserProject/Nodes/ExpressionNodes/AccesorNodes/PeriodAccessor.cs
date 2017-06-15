@@ -16,7 +16,11 @@ namespace ParserProject.Nodes.ExpressionNodes.AccesorNodes
 
         public override ExpressionCode GenerateCode()
         {
-            throw new NotImplementedException();
+            var stringCode = "." + Id.Lexeme;
+            if(Accessor!=null){
+                stringCode += Accessor.GenerateCode().Code;
+            }
+            return new ExpressionCode { Code = stringCode };
         }
     }
 }
