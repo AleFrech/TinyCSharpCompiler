@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ParserProject.Generation;
 using ParserProject.Semantic;
 using ParserProject.Semantic.CustomTypes;
 
@@ -25,6 +26,11 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
             if (leftType.GetType() != rightType.GetType())
                 throw new SemanticException($"Opperation Rule Not Supported  between {leftType} and {rightType}");
             return leftType;
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            throw new NotImplementedException();
         }
     }
 }

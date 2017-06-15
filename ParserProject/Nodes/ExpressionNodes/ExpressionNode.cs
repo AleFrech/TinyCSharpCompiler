@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserProject.Generation;
 using ParserProject.Semantic;
 using ParserProject.Semantic.CustomTypes;
 
@@ -18,6 +19,7 @@ namespace ParserProject.Nodes.ExpressionNodes
         {
         }
         public abstract CustomType EvaluateSemantic();
+        public abstract ExpressionCode GenerateCode();
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserProject.Generation;
 using ParserProject.Semantic;
 
 namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
@@ -9,5 +10,10 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
         {
 			@Type = CustomTypesTable.Instance.GetType("Enum");
         }
+
+		public override ExpressionCode GenerateCode()
+		{
+			return new ExpressionCode { Code = "enum" };
+		}
     }
 }

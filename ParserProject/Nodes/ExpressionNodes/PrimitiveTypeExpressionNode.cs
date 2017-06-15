@@ -1,5 +1,6 @@
 ﻿using System;
 using LexerProject.Tokens;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
 
@@ -8,14 +9,14 @@ namespace ParserProject.Nodes.ExpressionNodes
     public class PrimitiveTypeExpressionNode:PrimaryExpressionNode
     {
         public PrimitiveTypeNode PrimitiveType { get; set; }
-        public Token Name { get; set; }
+        public Token IdToken { get; set; }
         public AccesorExpressionNode Accessor { get; set; }
         public string PostId { get; set; }
 
         public PrimitiveTypeExpressionNode(PrimitiveTypeNode primitiveType,Token name,AccesorExpressionNode accessor,string posId)
         {
             PrimitiveType = primitiveType;
-            Name = name;
+            IdToken = name;
             Accessor = accessor;
             PostId = posId;
         }
@@ -23,5 +24,19 @@ namespace ParserProject.Nodes.ExpressionNodes
         public PrimitiveTypeExpressionNode(){
             
         }
+
+		public override ExpressionCode GenerateCode()
+		{
+			var helper = new GenerationHelper();
+			var stringCode = "";
+            stringCode += PrimitiveType.GenerateCode();
+            stringCode += IdToken.Lexeme;
+			stringCode += helper.GetFullAccessorFromAccessorNode(Accessor);
+			stringCode += PostId;
+
+
+			return new ExpressionCode { Code = stringCode };
+		}
+
     }
 }

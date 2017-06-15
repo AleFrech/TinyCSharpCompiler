@@ -19,6 +19,7 @@
     <Folder Include="Nodes\ExpressionNodes\TypeProductionNodes\" />
     <Folder Include="Nodes\ExpressionNodes\ArrayNodes\" />
     <Folder Include="Nodes\NameSpaceNodes\ClassDeclarationNodes\FieldMethodConstructorNodes\" />
+    <Folder Include="Generation\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Nodes\ExpressionNodes\IdExpressionNode.cs" />

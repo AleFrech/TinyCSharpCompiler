@@ -35,6 +35,15 @@ namespace Compiler
                    public class string {
 
                     }
+                    public class Console {
+                        public static WriteLine(){
+
+                        }
+
+                        public static ReadLine(){
+
+                        }
+                    }
                 }";
 
         }

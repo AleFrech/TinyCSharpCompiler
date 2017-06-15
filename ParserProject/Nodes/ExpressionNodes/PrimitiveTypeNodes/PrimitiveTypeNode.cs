@@ -1,5 +1,5 @@
 ﻿using System;
-using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
@@ -10,5 +10,7 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
         public PrimitiveTypeNode()
         {
         }
+
+		public abstract ExpressionCode GenerateCode();
     }
 }

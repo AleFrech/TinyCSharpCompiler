@@ -1,6 +1,6 @@
 ﻿using System;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.AssignationNodes;
-using ParserProject.Semantic;
 using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes
@@ -28,5 +28,22 @@ namespace ParserProject.Nodes.ExpressionNodes
         {
             throw new NotImplementedException();
         }
+
+		public override ExpressionCode GenerateCode()
+		{
+            var helper = new GenerationHelper();
+            var stringCode = "";
+            stringCode += IdNode.PreId;
+            stringCode += helper.GetFullNameFromIdNode(IdNode.Id);
+            stringCode += helper.GetFullAccessorFromAccessorNode(IdNode.Accessor);
+            if (AssignmentNode != null)
+                stringCode += AssignmentNode.GenerateCode();
+            stringCode += PostId;
+
+
+            return new ExpressionCode { Code = stringCode };
+		}
+
+
     }
 }

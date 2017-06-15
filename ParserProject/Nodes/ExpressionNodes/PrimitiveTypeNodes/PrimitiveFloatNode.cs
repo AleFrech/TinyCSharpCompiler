@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserProject.Generation;
 using ParserProject.Semantic;
 
 namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
@@ -8,6 +9,11 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
 		public PrimitiveFloatNode()
 		{
 			@Type = CustomTypesTable.Instance.GetType("Float");
+		}
+
+		public override ExpressionCode GenerateCode()
+		{
+			return new ExpressionCode { Code = "float" };
 		}
 	}
 }
