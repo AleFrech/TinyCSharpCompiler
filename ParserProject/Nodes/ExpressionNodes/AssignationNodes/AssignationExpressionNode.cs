@@ -28,9 +28,9 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
             return leftType;
         }
 
-        public override ExpressionCode GenerateCode()
-        {
-            throw new NotImplementedException();
-        }
+		public override ExpressionCode GenerateCode()
+		{
+            return new ExpressionCode { Code = LeftValue.GenerateCode().Code };
+		}
     }
 }

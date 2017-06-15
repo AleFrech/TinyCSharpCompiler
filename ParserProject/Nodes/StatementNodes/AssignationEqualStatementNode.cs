@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
@@ -18,5 +19,10 @@ namespace ParserProject.Nodes.StatementNodes
             OperatorRules.Add(new Tuple<CustomType, CustomType>(Boolean, Boolean), Boolean);
             OperatorRules.Add(new Tuple<CustomType, CustomType>(String, String), String);
         }
+
+		public override ExpressionCode GenerateCode()
+		{
+			return new ExpressionCode { Code = LeftValue.GenerateCode().Code + " = " + RightValue.GenerateCode().Code };
+		}
     }
 }

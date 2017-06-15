@@ -37,7 +37,7 @@ namespace ParserProject.Nodes.ExpressionNodes
             stringCode += helper.GetFullNameFromIdNode(IdNode.Id);
             stringCode += helper.GetFullAccessorFromAccessorNode(IdNode.Accessor);
             if (AssignmentNode != null)
-                stringCode += AssignmentNode.GenerateCode();
+                stringCode += AssignmentNode.GenerateCode().Code;
             stringCode += PostId;
 
 
