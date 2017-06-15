@@ -1787,7 +1787,8 @@ namespace ParserProject
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
                 var accessor=IdExpression();
-                return new PrimitiveTypeAccessorStatement{Type = primitive,Name = idlexeme,Accesor = accessor};
+                var postId = PostIncrementExpression();
+                return new PrimitiveTypeAccessorStatement{Type = primitive,Name = idlexeme,Accesor = accessor,PostId=postId};
             }
             else
             {
@@ -2303,7 +2304,7 @@ namespace ParserProject
                     throw new SintacticalException("Expected ; Line " + _currentToken.Line + " Col " +
                                                    _currentToken.Column);
                 _currentToken = _lexer.GetNextToken();
-                return "break";
+                return "break;";
             }
             else
             {

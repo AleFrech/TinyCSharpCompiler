@@ -1,7 +1,7 @@
 ﻿using LexerProject.Tokens;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
-using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
 {
@@ -9,11 +9,25 @@ namespace ParserProject.Nodes.StatementNodes
     {
         public PrimitiveTypeNode Type { get; set; }
         public Token Name { get; set; }
-
         public AccesorExpressionNode Accesor { get; set; }
+        public string PostId { get;  set; }
+
         public override void EvaluateSemantic()
         {
             throw new System.NotImplementedException();
         }
+
+		public override ExpressionCode GenerateCode()
+		{
+			var helper = new GenerationHelper();
+			var stringCode = "";
+			stringCode += Type.GenerateCode().Code + ".";
+            stringCode += Name.Lexeme;
+			stringCode += helper.GetFullAccessorFromAccessorNode(Accesor);
+			stringCode += PostId;
+
+
+			return new ExpressionCode { Code = stringCode };
+		}
     }
 }

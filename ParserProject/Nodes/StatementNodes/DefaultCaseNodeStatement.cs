@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
@@ -23,5 +24,16 @@ namespace ParserProject.Nodes.StatementNodes
 	    {
 	        throw new NotImplementedException();
 	    }
-	}
+
+        public override ExpressionCode GenerateCode()
+        {
+            var stringCode = "";
+            stringCode += "default : \n";
+            foreach(var s in StatementList){
+                stringCode += s.GenerateCode().Code;
+            }
+            stringCode += @BreakNode + "\n";
+            return new ExpressionCode { Code = stringCode };
+        }
+    }
 }

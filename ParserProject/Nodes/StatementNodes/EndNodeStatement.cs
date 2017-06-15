@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
@@ -12,6 +13,11 @@ namespace ParserProject.Nodes.StatementNodes
         public override void EvaluateSemantic()
         {
             throw new NotImplementedException();
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            return new ExpressionCode { Code = "; \n" };
         }
     }
 }

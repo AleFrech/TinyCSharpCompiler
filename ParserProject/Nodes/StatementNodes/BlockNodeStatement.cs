@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
@@ -20,6 +21,15 @@ namespace ParserProject.Nodes.StatementNodes
         public override void EvaluateSemantic()
         {
             throw new NotImplementedException();
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            var stringCode = "";
+            foreach(var s in StatementList){
+                stringCode += s.GenerateCode().Code;
+            }
+            return new ExpressionCode { Code = stringCode };
         }
     }
 }

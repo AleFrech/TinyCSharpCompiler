@@ -29,7 +29,7 @@ namespace ParserProject.Nodes.ExpressionNodes
 		{
 			var helper = new GenerationHelper();
 			var stringCode = "";
-            stringCode += PrimitiveType.GenerateCode().Code;
+            stringCode += PrimitiveType.GenerateCode().Code+".";
             stringCode += IdToken.Lexeme;
 			stringCode += helper.GetFullAccessorFromAccessorNode(Accessor);
 			stringCode += PostId;

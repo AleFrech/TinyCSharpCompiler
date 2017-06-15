@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LexerProject.Tokens;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Semantic.CustomTypes;

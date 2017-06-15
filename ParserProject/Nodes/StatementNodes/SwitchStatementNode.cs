@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes;
 using ParserProject.Semantic.CustomTypes;
 
@@ -30,6 +31,17 @@ namespace ParserProject.Nodes.StatementNodes
                 @case.EvaluateSemantic(conditionType);
             }
             DefaultNode.EvaluateSemantic();
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            var stringCode = "switch ( " + ExpressiontoEvaluate.GenerateCode().Code + " ) { \n";
+            foreach(var @case in Cases){
+                stringCode+=@case.GenerateCode().Code;
+            }
+            stringCode += DefaultNode.GenerateCode().Code;
+            stringCode += " }\n";
+            return new ExpressionCode { Code = stringCode };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using ParserProject.Generation;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes
 {
