@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Semantic.CustomTypes;
 
@@ -15,6 +16,15 @@ namespace ParserProject.Nodes.ExpressionNodes
         public override CustomType EvaluateSemantic()
         {
             throw new NotImplementedException();
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            var stringCode = "( ";
+            stringCode += ExpresioNode.GenerateCode().Code;
+            stringCode += " )";
+            stringCode += AccesorExpression.GenerateCode().Code;
+            return new ExpressionCode{Code = stringCode};
         }
     }
 }

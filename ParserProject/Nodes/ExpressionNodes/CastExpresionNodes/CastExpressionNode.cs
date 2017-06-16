@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes.CastExpresionNodes
@@ -12,6 +13,11 @@ namespace ParserProject.Nodes.ExpressionNodes.CastExpresionNodes
         public override CustomType EvaluateSemantic()
         {
             throw new NotImplementedException();
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            return new ExpressionCode{Code=Right.GenerateCode().Code};
         }
     }
 }

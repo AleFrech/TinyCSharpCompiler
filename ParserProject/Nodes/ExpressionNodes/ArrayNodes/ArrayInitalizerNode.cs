@@ -17,11 +17,18 @@ namespace ParserProject.Nodes.ExpressionNodes.ArrayNodes
 
         public override ExpressionCode GenerateCode()
         {
-            var stringCode = "[";
+            var stringCode = "[ ";
             if (ExpressionList != null)
-                foreach (var exp in ExpressionList)
-                    stringCode += exp.GenerateCode().Code;
-            stringCode += "]";
+            {
+                for (int i = 0; i < ExpressionList.Count; i++)
+                {
+                    if (ExpressionList[i] == ExpressionList[ExpressionList.Count - 1])
+                        stringCode += ExpressionList[i].GenerateCode().Code;
+                    else
+                        stringCode += ExpressionList[i].GenerateCode().Code + ",";
+                }
+            }
+            stringCode += " ]";
             return new ExpressionCode { Code = stringCode };
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using LexerProject.Tokens;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Semantic.CustomTypes;
 
@@ -16,6 +17,15 @@ namespace ParserProject.Nodes.ExpressionNodes
         public override CustomType EvaluateSemantic()
         {
             throw new NotImplementedException();
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            return new ExpressionCode
+            {
+                Code = Name.Lexeme
+                    
+            };
         }
     }
 }
