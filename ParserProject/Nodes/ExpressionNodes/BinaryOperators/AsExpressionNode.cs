@@ -1,4 +1,6 @@
-﻿using ParserProject.Nodes.ExpressionNodes;
+﻿using System;
+using ParserProject.Generation;
+using ParserProject.Nodes.ExpressionNodes;
 using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
 
 namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
@@ -14,6 +16,11 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
         public AsExpressionNode(){
             
         }
-	}
+
+        public override ExpressionCode GenerateCode()
+        {
+            return new ExpressionCode { Code = "("+LeftOperand.GenerateCode().Code+")" };
+        }
+    }
 
 }
