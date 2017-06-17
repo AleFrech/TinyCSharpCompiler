@@ -13,6 +13,7 @@ namespace Compiler
     public class FileManager
     {
         private string systemClasses;
+        private string predefinedFunctions;
         public FileManager()
         {
             this.systemClasses  = @"namespace System {
@@ -45,6 +46,54 @@ namespace Compiler
                         }
                     }
                 }";
+
+            this.predefinedFunctions = @"function decimalToBinary(decimal) {
+  return (decimal >>> 0).toString(); 
+}
+
+function getBoolBitAndValue(a,b) {
+    const c= a & b;
+    return c==0 ? false : true ;
+}
+
+function getBoolBitOrValue(a,b) {
+    const c= a | b;
+    return c==0 ? false : true ;
+}
+
+function getBoolBitXorValue(a,b) {
+    const c= a ^ b;
+    return c==0 ? false : true ;
+}
+
+function getIntBitAndValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  const binC = decimalToBinary(decC);
+  const binI = decimalToBinary(decI);
+  return binC & binI;
+  
+}
+
+function getIntBitOrValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  const binC = decimalToBinary(decC);
+  const binI = decimalToBinary(decI);
+  return binC | binI;
+  
+}
+
+function getIntBitOrValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  const binC = decimalToBinary(decC);
+  const binI = decimalToBinary(decI);
+  return binC ^ binI;
+  
+}
+
+";
 
         }
 

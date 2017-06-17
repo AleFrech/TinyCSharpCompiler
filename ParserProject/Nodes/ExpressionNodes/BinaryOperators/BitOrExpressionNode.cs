@@ -19,25 +19,21 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 	    {
 	        var leftType = LeftOperand.EvaluateSemantic();
 	        var rightType = RightOperand.EvaluateSemantic();
-	        if (leftType == Boolean && rightType == Boolean)
+	        if (leftType != null && rightType != null)
 	        {
-	            var s = "function getBoolBitOrValue(a,b) {\n";
-	            s += "const c= a | b;\nreturn c==0 ? false : true ;\n }\n\n ";
-	            s += "getBoolBitOrValue(" + LeftOperand.GenerateCode().Code + ") , (" + RightOperand.GenerateCode().Code + ");\n";
+	            if (leftType == Boolean && rightType == Boolean)
+	            {
+	                var s = "( getBoolBitOrValue( " + LeftOperand.GenerateCode().Code + " , " +
+	                        RightOperand.GenerateCode().Code + " ) )";
 
-	            return new ExpressionCode { Code = s };
+	                return new ExpressionCode {Code = s};
 
+	            }
+	            var stringCode = "( getIntBitOrValue( " + LeftOperand.GenerateCode().Code + " , " +
+	                             RightOperand.GenerateCode().Code + " ) )";
+	            return new ExpressionCode {Code = stringCode};
 	        }
-	        if (leftType == Integer && rightType == Integer)
-	        {
-	            return new ExpressionCode { Code = "( " + LeftOperand.GenerateCode().Code + " & " + RightOperand.GenerateCode().Code + ")" };
-	        }
-
-	        var stringCode = "function decimalToBinary(decimal) {\n    return (decimal >>> 0).toString();\n}\n\n";
-	        stringCode += "function getIntBitOrValue(c, i) {\n    const decC = typeof c === 'number' ? c : c.charCodeAt(0);\n    const decI = typeof i === 'number' ? i : i.charCodeAt(0);\n    const binC = decimalToBinary(decC);\n    const binI = decimalToBinary(decI);\n    return binC | binI;\n}\n\n";
-	        stringCode = "getIntBitOrValue(" + LeftOperand.GenerateCode().Code + ") , (" + RightOperand.GenerateCode().Code + ");\n";
-
-	        return new ExpressionCode { Code = stringCode };
+            throw new GenerationException("Cannot generate code from null type operand");
 	    }
     }
 }

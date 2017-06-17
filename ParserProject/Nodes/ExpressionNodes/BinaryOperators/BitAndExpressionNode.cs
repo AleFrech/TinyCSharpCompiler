@@ -19,25 +19,21 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
         {
             var leftType = LeftOperand.EvaluateSemantic();
             var rightType = RightOperand.EvaluateSemantic();
-            if (leftType == Boolean && rightType == Boolean)
+            if (leftType != null && rightType != null)
             {
-				var s = "function getBoolBitAndValue(a,b) {\n";
-				s += "const c= a & b;\nreturn c==0 ? false : true ;\n }\n\n ";
-                s += "getBoolBitAndValue(" + LeftOperand.GenerateCode().Code + ") , (" + RightOperand.GenerateCode().Code + ");\n";
-              
-                return new ExpressionCode { Code = s };
+                if (leftType == Boolean && rightType == Boolean)
+                {
+                    var s = " ( getBoolBitAndValue( " + LeftOperand.GenerateCode().Code + " , " +
+                            RightOperand.GenerateCode().Code + " ) )";
 
-            }
-            if (leftType == Integer && rightType == Integer)
-            {
-                return new ExpressionCode { Code = "( " + LeftOperand.GenerateCode().Code + " & " + RightOperand.GenerateCode().Code + ")" };
-            }
+                    return new ExpressionCode {Code = s};
 
-            var stringCode = "function decimalToBinary(decimal) {\n    return (decimal >>> 0).toString();\n}\n\n";
-            stringCode += "function getIntBitAndValue(c, i) {\n    const decC = typeof c === 'number' ? c : c.charCodeAt(0);\n    const decI = typeof i === 'number' ? i : i.charCodeAt(0);\n    const binC = decimalToBinary(decC);\n    const binI = decimalToBinary(decI);\n    return binC & binI;\n}\n\n";
-            stringCode = "getIntBitAndValue(" + LeftOperand.GenerateCode().Code + ") , (" + RightOperand.GenerateCode().Code + ");\n";
-				
-			return new ExpressionCode { Code = stringCode };
+                }
+                var stringCode = "( getIntBitAndValue( " + LeftOperand.GenerateCode().Code + " , " +
+                                 RightOperand.GenerateCode().Code + " ) )";
+                return new ExpressionCode {Code = stringCode};
+            }
+            throw new GenerationException("Cannot generate code from null type operand");
         }
 
     }

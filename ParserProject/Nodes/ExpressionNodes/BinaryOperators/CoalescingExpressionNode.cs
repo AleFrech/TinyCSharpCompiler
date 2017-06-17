@@ -1,4 +1,6 @@
 ﻿using System;
+using ParserProject.Generation;
+
 namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 {
     public class CoalescingExpressionNode:BinaryOperatorNode
@@ -11,6 +13,11 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 
         public CoalescingExpressionNode(){
             
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            return new ExpressionCode{Code="( "+LeftOperand.GenerateCode().Code+" || "+RightOperand.GenerateCode().Code+" )"};
         }
     }
 
