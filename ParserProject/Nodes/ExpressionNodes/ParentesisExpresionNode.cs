@@ -23,7 +23,8 @@ namespace ParserProject.Nodes.ExpressionNodes
             var stringCode = "( ";
             stringCode += ExpresioNode.GenerateCode().Code;
             stringCode += " )";
-            stringCode += AccesorExpression.GenerateCode().Code;
+            if(AccesorExpression!=null)
+                stringCode += AccesorExpression.GenerateCode().Code;
             return new ExpressionCode{Code = stringCode};
         }
     }

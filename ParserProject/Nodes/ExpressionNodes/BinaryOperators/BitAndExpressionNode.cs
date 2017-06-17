@@ -1,9 +1,8 @@
 ﻿using System;
 using ParserProject.Generation;
-using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
 using ParserProject.Semantic.CustomTypes;
 
-namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
+namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 {
     public class BitAndExpressionNode : BinaryOperatorNode
     {
@@ -24,7 +23,7 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
             {
 				var s = "function getBoolBitAndValue(a,b) {\n";
 				s += "const c= a & b;\nreturn c==0 ? false : true ;\n }\n\n ";
-                s += "getBoolBoolBitAndValue(" + LeftOperand.GenerateCode().Code + ") , (" + RightOperand.GenerateCode().Code + ");\n";
+                s += "getBoolBitAndValue(" + LeftOperand.GenerateCode().Code + ") , (" + RightOperand.GenerateCode().Code + ");\n";
               
                 return new ExpressionCode { Code = s };
 

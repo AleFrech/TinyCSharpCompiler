@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using LexerProject.Tokens;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNodes
@@ -14,6 +15,14 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNode
         public override CustomType EvaluateSemantic()
         {
             return null;
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            var stringCode = Name.Lexeme + " ";
+            if (Expression != null)
+                stringCode += "= " + Expression.GenerateCode().Code;
+            return new ExpressionCode{Code = stringCode};
         }
     }
 }

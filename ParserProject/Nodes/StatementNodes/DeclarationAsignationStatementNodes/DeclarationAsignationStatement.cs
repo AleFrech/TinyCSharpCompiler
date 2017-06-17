@@ -11,7 +11,7 @@ namespace ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes
 
         public override ExpressionCode GenerateCode()
         {
-      
+            return null;
         }
     }
 }
