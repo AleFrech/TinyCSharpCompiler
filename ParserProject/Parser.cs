@@ -647,7 +647,7 @@ namespace ParserProject
             if (_currentToken.Type == TokenType.Id || _currentToken.Type == TokenType.BraOpen)
             {
                 var rankspecList = TypeProductionPrime();
-                type.rankSpecifiers = rankspecList;
+                type.RankSpecifiers = rankspecList;
                 var idlexeme = _currentToken;
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
@@ -732,7 +732,7 @@ namespace ParserProject
             else if (_currentToken.Type == TokenType.Id || _currentToken.Type == TokenType.BraOpen)
             {
                 var rankspecList = TypeProductionPrime();
-                type.rankSpecifiers = rankspecList;
+                type.RankSpecifiers = rankspecList;
                 var idlexeme = _currentToken;
                 if (_currentToken.Type != TokenType.Id)
                     throw new SintacticalException("Expected Id Line " + _currentToken.Line + " Col " +
@@ -1149,7 +1149,7 @@ namespace ParserProject
             {
                 var idNode=TypeName();
                 var rankspecfiers=TypeProductionPrime();
-                return new IdTypeProductionNode { IdType  = idNode,rankSpecifiers = rankspecfiers };
+                return new IdTypeProductionNode { IdType  = idNode,RankSpecifiers = rankspecfiers };
             }
             else if (_currentToken.Type.IsPredifinedType())
             {
@@ -1971,7 +1971,7 @@ namespace ParserProject
                 var listdeclartion=DeclaratorsList();
 
                 var id = new IdTypeProductionNode();
-                id.rankSpecifiers = listRankSpecifiers;
+                id.RankSpecifiers = listRankSpecifiers;
                 id.IdType = idTypeNode;
 
                 return new DeclarationNodeStatement {DeclarationList = listdeclartion, Type = id};

@@ -20,12 +20,7 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 
         public override CustomType EvaluateSemantic()
         {
-            var leftType = LeftValue.EvaluateSemantic();
-            var rightType = LeftValue.EvaluateSemantic();
-
-            if (leftType.GetType() != rightType.GetType())
-                throw new SemanticException($"Opperation Rule Not Supported  between {leftType} and {rightType}");
-            return leftType;
+            return null;
         }
 
 		public override ExpressionCode GenerateCode()

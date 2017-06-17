@@ -14,7 +14,7 @@ namespace ParserProject.Nodes.StatementNodes
 
         public override void EvaluateSemantic()
         {
-            throw new System.NotImplementedException();
+
         }
 
 		public override ExpressionCode GenerateCode()

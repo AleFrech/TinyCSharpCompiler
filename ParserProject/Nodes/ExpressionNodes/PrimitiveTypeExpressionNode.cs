@@ -3,6 +3,7 @@ using LexerProject.Tokens;
 using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes
 {
@@ -21,11 +22,18 @@ namespace ParserProject.Nodes.ExpressionNodes
             PostId = posId;
         }
 
-        public PrimitiveTypeExpressionNode(){
-            
+        public PrimitiveTypeExpressionNode()
+        {
+
+           
         }
 
-		public override ExpressionCode GenerateCode()
+        public override CustomType EvaluateSemantic()
+        {
+            return PrimitiveType.Type;
+        }
+
+        public override ExpressionCode GenerateCode()
 		{
 			var helper = new GenerationHelper();
 			var stringCode = "";

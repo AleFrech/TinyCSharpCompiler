@@ -1,4 +1,5 @@
-﻿using ParserProject.Semantic.CustomTypes;
+﻿using ParserProject.Generation;
+using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes
 {
@@ -6,7 +7,11 @@ namespace ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes
     {
         public override void EvaluateSemantic()
         {
-            throw new System.NotImplementedException();
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+      
         }
     }
 }

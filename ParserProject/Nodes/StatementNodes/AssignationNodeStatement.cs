@@ -22,11 +22,7 @@ namespace ParserProject.Nodes.StatementNodes
 
         public override void EvaluateSemantic()
         {
-            var leftType = LeftValue.EvaluateSemantic();
-            var rightType = LeftValue.EvaluateSemantic();
 
-            if (leftType.GetType() != rightType.GetType())
-                throw new SemanticException($"Opperation Rule Not Supported  between {leftType} and {rightType}");
         }
 
 

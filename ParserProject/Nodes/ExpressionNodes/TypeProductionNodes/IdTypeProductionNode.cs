@@ -9,14 +9,14 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
     public class IdTypeProductionNode:TypeProductionNode
     {
         public IdTypeNode IdType { get; set; }
-		public List<RankSpeciferNode> rankSpecifiers { get; set; }
+		public List<RankSpeciferNode> RankSpecifiers { get; set; }
         public IdTypeProductionNode()
         {
         }
 
         public override CustomType EvaluateSemantic()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override ExpressionCode GenerateCode()
@@ -24,8 +24,8 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
 			var helper = new GenerationHelper();
 			var stringCode = "";
 			stringCode += helper.GetFullNameFromIdNode(IdType);
-            if (rankSpecifiers != null){
-                foreach (var rank in rankSpecifiers)
+            if (RankSpecifiers != null){
+                foreach (var rank in RankSpecifiers)
                     stringCode += rank.GenerateCode().Code;
             }
 			return new ExpressionCode { Code = stringCode };

@@ -12,7 +12,7 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
 
         public override CustomType EvaluateSemantic()
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         public override ExpressionCode GenerateCode()

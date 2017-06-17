@@ -16,7 +16,7 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes
 
         public override CustomType EvaluateSemantic()
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 }
