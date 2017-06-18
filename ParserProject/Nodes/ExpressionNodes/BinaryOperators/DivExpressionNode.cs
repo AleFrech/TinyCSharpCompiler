@@ -1,8 +1,8 @@
 ﻿using System;
-using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
-namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
+namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 {
     public class DivExpressionNode : BinaryOperatorNode
 	{
@@ -11,7 +11,6 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Integer), Integer); 
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Integer), Integer);
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Integer, Char), Integer);
-
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Char), Integer);
 
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Float, Float), Float);
@@ -20,6 +19,28 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Float), Float);
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Float, Char), Float);
         }
+
+	    public override ExpressionCode GenerateCode()
+	    {
+	        var leftType = LeftOperand.EvaluateSemantic();
+	        var rightType = RightOperand.EvaluateSemantic();
+	        if (leftType != null && rightType != null)
+	        {
+	            if (leftType == Float || rightType == Float)
+	            {
+	                var s = " ( getFloatDivValue( " + LeftOperand.GenerateCode().Code + " , " +
+	                        RightOperand.GenerateCode().Code + " ) )";
+
+	                return new ExpressionCode { Code = s };
+
+	            }
+	            var stringCode = "( getIntDivValue( " + LeftOperand.GenerateCode().Code + " , " +
+	                             RightOperand.GenerateCode().Code + " ) )";
+	            return new ExpressionCode { Code = stringCode };
+	        }
+	        throw new GenerationException("Cannot generate code from null type operand");
+	    }
+    }
 	}
 
 }

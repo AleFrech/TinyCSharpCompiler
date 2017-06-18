@@ -1,9 +1,8 @@
 ﻿using System;
-using ParserProject.Nodes.ExpressionNodes;
-using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
-namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
+namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 {
     public class NotEqualExpressionNode : BinaryOperatorNode
 	{
@@ -25,6 +24,14 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Char), Boolean);
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Boolean, Boolean), Boolean);
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(String, String), Boolean);
+        }
+
+	    public override ExpressionCode GenerateCode()
+	    {
+	        return new ExpressionCode
+	        {
+	            Code = "( " + LeftOperand.GenerateCode().Code + " !== " + RightOperand.GenerateCode().Code + " )"
+	        };
         }
 	}
 

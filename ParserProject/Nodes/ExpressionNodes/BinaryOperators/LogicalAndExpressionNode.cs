@@ -1,8 +1,8 @@
 ﻿using System;
-using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
-namespace ParserProject
+namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 {
     public  class LogicalAndExpressionNode: BinaryOperatorNode
     {
@@ -10,6 +10,14 @@ namespace ParserProject
         public LogicalAndExpressionNode(){
 		
             OperatorRules.Add(new Tuple<CustomType, CustomType>(Boolean, Boolean), Boolean);
+        }
+
+        public override ExpressionCode GenerateCode()
+        {
+            return new ExpressionCode
+            {
+                Code = "( " + LeftOperand.GenerateCode().Code + " && " + RightOperand.GenerateCode().Code + " )"
+            };
         }
     }
 }

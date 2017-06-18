@@ -1,8 +1,8 @@
 ﻿using System;
-using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
+using ParserProject.Generation;
 using ParserProject.Semantic.CustomTypes;
 
-namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
+namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 {
     public class ModExpressionNode : BinaryOperatorNode
 	{
@@ -20,6 +20,11 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, Float), Float);
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Float, Char), Float);
         }
+
+	    public override ExpressionCode GenerateCode()
+	    {
+	        throw new NotImplementedException();
+	    }
 	}
 
 }

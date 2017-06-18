@@ -90,6 +90,43 @@ function getIntBitOrValue(c, i) {
   const binC = decimalToBinary(decC);
   const binI = decimalToBinary(decI);
   return binC ^ binI;
+
+function getIntDivValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  return parseInt(decC / decI,10);
+  
+}
+
+function getFloatDivValue(c, i) {
+  let cValue;
+  let iValue;
+  
+  if(!isNaN(parseFloat(c))){
+    cValue=parseFloat(c);
+  }else{
+    cValue=c.charCodeAt(0);
+  }
+  
+  if(!isNaN(parseFloat(i))){
+    iValue=parseFloat(i);
+  }else{
+    iValue=i.charCodeAt(0);
+  }
+  return parseFloat(cValue/iValue);
+}
+
+function getIntLeftShiftValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  return decC << decI;
+  
+}
+
+function getIntRightShiftValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  return decC >>> decI;
   
 }
 
