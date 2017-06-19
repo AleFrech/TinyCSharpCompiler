@@ -1155,7 +1155,7 @@ namespace ParserProject
             {
                 var primitivetypeNode=PredifinedType();
                 var rankspecifiers=TypeProductionPrime();
-                return new PrimitiveTypeProductionNode { primitiveType = primitivetypeNode , rankSpecifiers=rankspecifiers };
+                return new PrimitiveTypeProductionNode { PrimitiveType = primitivetypeNode , RankSpecifiers=rankspecifiers };
 
             }
             else if (_currentToken.Type == TokenType.RwEnum)
@@ -1163,7 +1163,7 @@ namespace ParserProject
                 var primitivetypeNode = new PrimitiveEnumNode();
                 _currentToken = _lexer.GetNextToken();
                var rankspecifiers= TypeProductionPrime();
-                return new PrimitiveTypeProductionNode { primitiveType = primitivetypeNode, rankSpecifiers = rankspecifiers };
+                return new PrimitiveTypeProductionNode { PrimitiveType = primitivetypeNode, RankSpecifiers = rankspecifiers };
             }
             else
             {
@@ -1178,14 +1178,14 @@ namespace ParserProject
             {
                 var primitivetypeNode = PredifinedType();
                 var rankspecifiers = TypeProductionPrime();
-                return new PrimitiveTypeProductionNode { primitiveType = primitivetypeNode, rankSpecifiers = rankspecifiers };
+                return new PrimitiveTypeProductionNode { PrimitiveType = primitivetypeNode, RankSpecifiers = rankspecifiers };
             }
             else if (_currentToken.Type == TokenType.RwEnum)
             {
                 var primitivetypeNode = new PrimitiveEnumNode();
                 _currentToken = _lexer.GetNextToken();
                 var rankspecifiers = TypeProductionPrime();
-                return new PrimitiveTypeProductionNode { primitiveType = primitivetypeNode, rankSpecifiers = rankspecifiers };
+                return new PrimitiveTypeProductionNode { PrimitiveType = primitivetypeNode, RankSpecifiers = rankspecifiers };
             }
             else
             {
@@ -1205,14 +1205,14 @@ namespace ParserProject
             else if (_currentToken.Type.IsPredifinedType())
             {
                 var primitivetypeNode = PredifinedType();
-                return new PrimitiveTypeProductionNode { primitiveType = primitivetypeNode};
+                return new PrimitiveTypeProductionNode { PrimitiveType = primitivetypeNode};
 
             }
             else if (_currentToken.Type == TokenType.RwEnum)
             {
                 var primitivetypeNode = new PrimitiveEnumNode();
                 _currentToken = _lexer.GetNextToken();
-                return new PrimitiveTypeProductionNode { primitiveType = primitivetypeNode};
+                return new PrimitiveTypeProductionNode { PrimitiveType = primitivetypeNode};
             }
             else
             {
@@ -1793,7 +1793,7 @@ namespace ParserProject
             else
             {
                 var rank=TypeProductionPrime();
-                var typeProduction = new PrimitiveTypeProductionNode {primitiveType = primitive ,rankSpecifiers = rank};
+                var typeProduction = new PrimitiveTypeProductionNode {PrimitiveType = primitive ,RankSpecifiers = rank};
                 var list=DeclaratorsList();
                 return new DeclarationNodeStatement {Type = typeProduction, DeclarationList = list};
             }

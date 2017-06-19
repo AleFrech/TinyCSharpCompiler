@@ -13,7 +13,7 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
 
 		public override ExpressionCode GenerateCode()
 		{
-			return new ExpressionCode { Code = "string" };
+			return new ExpressionCode { Code = "string",Type = "string"};
 		}
 	}
 }

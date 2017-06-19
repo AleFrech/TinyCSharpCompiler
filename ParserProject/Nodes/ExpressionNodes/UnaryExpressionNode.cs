@@ -20,7 +20,7 @@ namespace ParserProject.Nodes.ExpressionNodes
 
         public override ExpressionCode GenerateCode()
         {
-            return new ExpressionCode { Code = Unary + " " + Expression.GenerateCode().Code };
+            return new ExpressionCode { Code = Unary + " " + Expression.GenerateCode().Code,Type = Expression.GenerateCode().Type};
         }
     }
 }

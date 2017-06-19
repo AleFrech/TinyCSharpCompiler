@@ -20,7 +20,7 @@ namespace ParserProject.Nodes.ExpressionNodes
             var stringCode = Condition.GenerateCode().Code;
             stringCode += " ? " + TrueExpression.GenerateCode().Code;
             stringCode += " : " + FalseExpression.GenerateCode().Code;
-            return new ExpressionCode { Code = stringCode };
+            return new ExpressionCode { Code = stringCode ,Type = TrueExpression.GenerateCode().Type};
         }
     }
 }

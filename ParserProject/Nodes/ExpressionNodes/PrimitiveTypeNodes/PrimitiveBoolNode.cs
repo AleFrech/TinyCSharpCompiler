@@ -13,7 +13,7 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
 
         public override ExpressionCode GenerateCode()
         {
-            return new ExpressionCode { Code = "bool" }; 
+            return new ExpressionCode { Code = "bool",Type = "bool"}; 
         }
     }
 }

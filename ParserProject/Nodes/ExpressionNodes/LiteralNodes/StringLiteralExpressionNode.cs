@@ -27,7 +27,7 @@ namespace ParserProject.Nodes.ExpressionNodes.LiteralNodes
 
 		public override ExpressionCode GenerateCode()
 		{
-			return new ExpressionCode { Code = "\'"+Value.ToString()+"\'" };
+			return new ExpressionCode { Code = "\'"+Value.ToString()+"\'" , Type = "string"};
 		}
     }
 }

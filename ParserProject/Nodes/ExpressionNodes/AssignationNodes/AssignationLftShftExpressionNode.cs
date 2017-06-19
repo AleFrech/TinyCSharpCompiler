@@ -17,7 +17,10 @@ namespace ParserProject.Nodes.ExpressionNodes.AssignationNodes
 
 		public override ExpressionCode GenerateCode()
 		{
-            return new ExpressionCode { Code = LeftValue.GenerateCode().Code + " <<= " + RightValue.GenerateCode().Code };
-		}
+		    if (LeftValue.GenerateCode().Type == "int")
+                return new ExpressionCode { Code = LeftValue.GenerateCode().Code + " <<= " + RightValue.GenerateCode().Code,Type = "int"};
+		    return new ExpressionCode { Code = LeftValue.GenerateCode().Code + " <<= " + RightValue.GenerateCode().Code, Type = "char" };
+
+        }
 	}
 }

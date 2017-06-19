@@ -17,7 +17,7 @@ namespace ParserProject.Nodes.ExpressionNodes.CastExpresionNodes
 
         public override ExpressionCode GenerateCode()
         {
-            return new ExpressionCode{Code=Right.GenerateCode().Code};
+            return new ExpressionCode{Code=Right.GenerateCode().Code,Type = Right.GenerateCode().Type};
         }
     }
 }

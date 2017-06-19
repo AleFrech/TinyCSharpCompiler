@@ -12,7 +12,7 @@ namespace ParserProject.Nodes.ExpressionNodes.PrimitiveTypeNodes
 		}
 		public override ExpressionCode GenerateCode()
 		{
-			return new ExpressionCode { Code = "char" };
+			return new ExpressionCode { Code = "char", Type = "char"};
 		}
 	}
 }

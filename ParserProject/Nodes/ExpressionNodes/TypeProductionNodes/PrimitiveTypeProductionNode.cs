@@ -9,8 +9,8 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
 {
 	public class PrimitiveTypeProductionNode : TypeProductionNode
 	{
-		public PrimitiveTypeNode primitiveType { get; set; }
-        public List<RankSpeciferNode> rankSpecifiers { get; set; }
+		public PrimitiveTypeNode PrimitiveType { get; set; }
+        public List<RankSpeciferNode> RankSpecifiers { get; set; }
 
         public override CustomType EvaluateSemantic()
         {
@@ -20,10 +20,10 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
         public override ExpressionCode GenerateCode()
         {
             var stringCode = "";
-            stringCode += primitiveType.GenerateCode().Code;
-			if (rankSpecifiers != null)
+            stringCode += PrimitiveType.GenerateCode().Code;
+			if (RankSpecifiers != null)
 			{
-				foreach (var rank in rankSpecifiers)
+				foreach (var rank in RankSpecifiers)
 					stringCode += rank.GenerateCode().Code;
 			}
 			return new ExpressionCode { Code = stringCode };
