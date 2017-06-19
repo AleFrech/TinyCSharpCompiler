@@ -22,25 +22,23 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 
 	    public override ExpressionCode GenerateCode()
 	    {
-	        var leftType = LeftOperand.EvaluateSemantic();
-	        var rightType = RightOperand.EvaluateSemantic();
+			var leftType = LeftOperand.GenerateCode().Type;
+			var rightType = RightOperand.GenerateCode().Type;
 	        if (leftType != null && rightType != null)
 	        {
-	            if (leftType == Float || rightType == Float)
+	            if (leftType == "float" || rightType == "float")
 	            {
 	                var s = " ( getFloatDivValue( " + LeftOperand.GenerateCode().Code + " , " +
 	                        RightOperand.GenerateCode().Code + " ) )";
 
-	                return new ExpressionCode { Code = s };
+                    return new ExpressionCode { Code = s,Type="float" };
 
 	            }
 	            var stringCode = "( getIntDivValue( " + LeftOperand.GenerateCode().Code + " , " +
 	                             RightOperand.GenerateCode().Code + " ) )";
-	            return new ExpressionCode { Code = stringCode };
+                return new ExpressionCode { Code = stringCode,Type="int" };
 	        }
 	        throw new GenerationException("Cannot generate code from null type operand");
 	    }
     }
-	}
-
 }

@@ -16,7 +16,8 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
         {
             return new ExpressionCode
             {
-                Code = "( " + LeftOperand.GenerateCode().Code + " && " + RightOperand.GenerateCode().Code + " )"
+                Code = "( " + LeftOperand.GenerateCode().Code + " && " + RightOperand.GenerateCode().Code + " )",
+                Type="bool"
             };
         }
     }

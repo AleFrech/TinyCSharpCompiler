@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -98,6 +98,20 @@ function getIntDivValue(c, i) {
   
 }
 
+function getIntModValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  return parseInt(decC % decI,10);
+  
+}
+
+function getIntMultValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  return parseInt(decC * decI,10);
+  
+}
+
 function getFloatDivValue(c, i) {
   let cValue;
   let iValue;
@@ -116,6 +130,80 @@ function getFloatDivValue(c, i) {
   return parseFloat(cValue/iValue);
 }
 
+function getFloatModValue(c, i) {
+  let cValue;
+  let iValue;
+  
+  if(!isNaN(parseFloat(c))){
+    cValue=parseFloat(c);
+  }else{
+    cValue=c.charCodeAt(0);
+  }
+  
+  if(!isNaN(parseFloat(i))){
+    iValue=parseFloat(i);
+  }else{
+    iValue=i.charCodeAt(0);
+  }
+  return parseFloat(cValue%iValue);
+}
+
+function getFloatMultValue(c, i) {
+  let cValue;
+  let iValue;
+  
+  if(!isNaN(parseFloat(c))){
+    cValue=parseFloat(c);
+  }else{
+    cValue=c.charCodeAt(0);
+  }
+  
+  if(!isNaN(parseFloat(i))){
+    iValue=parseFloat(i);
+  }else{
+    iValue=i.charCodeAt(0);
+  }
+  return parseFloat(cValue*iValue);
+}
+
+
+function getFloatSumValue(c, i) {
+  let cValue;
+  let iValue;
+  
+  if(!isNaN(parseFloat(c))){
+    cValue=parseFloat(c);
+  }else{
+    cValue=c.charCodeAt(0);
+  }
+  
+  if(!isNaN(parseFloat(i))){
+    iValue=parseFloat(i);
+  }else{
+    iValue=i.charCodeAt(0);
+  }
+  return parseFloat(cValue+iValue);
+}
+
+function getFloatSubValue(c, i) {
+  let cValue;
+  let iValue;
+  
+  if(!isNaN(parseFloat(c))){
+    cValue=parseFloat(c);
+  }else{
+    cValue=c.charCodeAt(0);
+  }
+  
+  if(!isNaN(parseFloat(i))){
+    iValue=parseFloat(i);
+  }else{
+    iValue=i.charCodeAt(0);
+  }
+  return parseFloat(cValue-iValue);
+}
+
+
 function getIntLeftShiftValue(c, i) {
   const decC = typeof c === 'number' ? c : c.charCodeAt(0);
   const decI = typeof i === 'number' ? i : i.charCodeAt(0);
@@ -129,6 +217,9 @@ function getIntRightShiftValue(c, i) {
   return decC >>> decI;
   
 }
+
+
+
 
 ";
 

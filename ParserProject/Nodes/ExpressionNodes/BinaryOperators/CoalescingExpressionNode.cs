@@ -17,7 +17,7 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 
         public override ExpressionCode GenerateCode()
         {
-            return new ExpressionCode{Code="( "+LeftOperand.GenerateCode().Code+" || "+RightOperand.GenerateCode().Code+" )"};
+            return new ExpressionCode { Code = "( " + LeftOperand.GenerateCode().Code + " || " + RightOperand.GenerateCode().Code + " )", Type = RightOperand.GenerateCode().Type};
         }
     }
 

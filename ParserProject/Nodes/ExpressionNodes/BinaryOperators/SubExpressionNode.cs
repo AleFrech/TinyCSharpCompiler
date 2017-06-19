@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.BinaryOperators;
 using ParserProject.Semantic.CustomTypes;
 
@@ -32,6 +33,33 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 
 			OperatorRules.Add(new Tuple<CustomType, CustomType>(Char, String), String);
         }
+
+		public override ExpressionCode GenerateCode()
+		{
+			var leftType = LeftOperand.GenerateCode().Type;
+			var rightType = RightOperand.GenerateCode().Type;
+			if (leftType != null && rightType != null)
+			{
+				if (leftType == "float" || rightType == "float")
+				{
+					var s = " ( getFloatSubValue( " + LeftOperand.GenerateCode().Code + " , " +
+							RightOperand.GenerateCode().Code + " ) )";
+
+					return new ExpressionCode { Code = s, Type = "float" };
+
+				}
+				else if ((leftType == "int" || rightType == "int") || (leftType == "char" && rightType == "char"))
+				{
+					var stringCode = "( getIntSubValue( " + LeftOperand.GenerateCode().Code + " , " +
+									 RightOperand.GenerateCode().Code + " ) )";
+					return new ExpressionCode { Code = stringCode, Type = "int" };
+				}
+				return new ExpressionCode { Code = "( " + LeftOperand.GenerateCode().Code + " - " + RightOperand.GenerateCode().Code + " )", Type = "string" };
+			}
+			throw new GenerationException("Cannot generate code from null type operand");
+		}
+
+
 	}
 
 }

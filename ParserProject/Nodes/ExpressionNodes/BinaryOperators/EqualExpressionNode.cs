@@ -32,7 +32,8 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
 	    {
 	        return new ExpressionCode
 	        {
-	            Code = "( " + LeftOperand.GenerateCode().Code + " === " + RightOperand.GenerateCode().Code + " )"
+	            Code = "( " + LeftOperand.GenerateCode().Code + " === " + RightOperand.GenerateCode().Code + " )",
+                Type ="bool"
 	        };
 	    }
 	}
