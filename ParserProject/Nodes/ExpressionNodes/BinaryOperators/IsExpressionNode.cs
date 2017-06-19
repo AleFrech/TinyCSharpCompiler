@@ -19,7 +19,8 @@ namespace ParserProject.Nodes.ExpressionNodes.BinaryOperators
 	        return new ExpressionCode
 	        {
                 
-	            Code = "( typeof " + LeftOperand.GenerateCode().Code + " === \'" + RightOperand.GenerateCode().Code + "\' )"
+	            Code = "( typeof " + LeftOperand.GenerateCode().Code + " === \'" + RightOperand.GenerateCode().Code + "\' )",
+                Type = "bool"
 	        };
         }
 	}

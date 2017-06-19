@@ -37,7 +37,7 @@ namespace ParserProject.Nodes.ExpressionNodes
             stringCode += AssignmentNode.GenerateCode().Code;
             stringCode += PostId;
 
-            return new ExpressionCode { Code = stringCode };
+            return new ExpressionCode { Code = stringCode,Type=IdNode.GenerateCode().Type };
 		}
 
 

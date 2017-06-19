@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
+using ParserProject.Semantic;
 
 namespace ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes
 {
@@ -13,6 +12,13 @@ namespace ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes
 
         public override ExpressionCode GenerateCode()
         {
+            var type = Type.GenerateCode().Type;
+
+			foreach (var dec in DeclarationList){
+                SymbolTable.vars[dec.Name.Lexeme] = type;
+            }
+
+
             var stringCode = "let ";
             for (int i = 0; i < DeclarationList.Count; i++)
             {

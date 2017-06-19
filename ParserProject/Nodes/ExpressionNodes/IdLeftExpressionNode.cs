@@ -1,6 +1,7 @@
 using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
+using ParserProject.Semantic;
 
 namespace ParserProject.Nodes.ExpressionNodes
 {
@@ -25,12 +26,18 @@ namespace ParserProject.Nodes.ExpressionNodes
 		public override ExpressionCode GenerateCode()
 		{
 			var helper = new GenerationHelper();
+            var idName=helper.GetFullNameFromIdNode(Id);
 			var stringCode = "";
 			stringCode += PreId;
-			stringCode += helper.GetFullNameFromIdNode(Id);
+            stringCode += idName;
             stringCode += Accessor.GenerateCode().Code;
 
-			return new ExpressionCode { Code = stringCode };
+			if (!SymbolTable.vars.ContainsKey(idName))
+			{
+				throw new SemanticException("Variable does not exist!");
+			}
+			var type = SymbolTable.vars[idName];
+            return new ExpressionCode { Code = stringCode,Type=type };
 		}
 
 

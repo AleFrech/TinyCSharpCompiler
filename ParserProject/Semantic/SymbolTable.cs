@@ -7,17 +7,7 @@ namespace ParserProject.Semantic
 {
 	public static class SymbolTable
 	{
-		public  static readonly List<Context> ContextList = new List<Context>();
-		
-		
-		public static void CreateContext()
-		{
-		    ContextList.Insert(0, new Context());
-		}
-
-		public static void RemoveContext()
-		{
-		    ContextList.RemoveAt(0);
-		}
+		public static Dictionary<string, string> vars = new Dictionary<string, string>();
+	
 	}
 }
