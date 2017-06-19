@@ -38,11 +38,18 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNode
                             stringCode += ((NewObjectCreation)NewCreationNode).ObjectArgumentsList[i].GenerateCode().Code + " , ";
                         }
                     }
+					stringCode += " )" + Accessor.GenerateCode().Code + " ";
+
+                    if(((NewObjectCreation)NewCreationNode).ObjectCollectionInitalizer != null){
+                        
+                    }					
                 }
-                stringCode += " )" + Accessor.GenerateCode().Code +" ;";
+                stringCode += " )" + Accessor.GenerateCode().Code + " ";
                 return new ExpressionCode { Code = stringCode };
+
             }else{
-                
+               var x= NewCreationNode as NewArrayCreation;
+                return new ExpressionCode { Code = x.GenerateCode().Code };
             }
         }
     }

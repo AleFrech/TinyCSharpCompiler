@@ -9,6 +9,6 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNode
         public List<ExpressionNode> ObjectCollectionInitalizer { get; set; }
 
         public List<ExpressionNode> ObjectArgumentsList { get; set; }
-
+			
     }
 }

@@ -112,6 +112,20 @@ function getIntMultValue(c, i) {
   
 }
 
+function getIntSumValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  return parseInt(decC + decI,10);
+  
+}
+
+function getIntSubValue(c, i) {
+  const decC = typeof c === 'number' ? c : c.charCodeAt(0);
+  const decI = typeof i === 'number' ? i : i.charCodeAt(0);
+  return parseInt(decC - decI,10);
+  
+}
+
 function getFloatDivValue(c, i) {
   let cValue;
   let iValue;

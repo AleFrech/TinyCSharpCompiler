@@ -1,4 +1,5 @@
 ﻿﻿using System;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 
 namespace ParserProject.Nodes.NameSpaceNodes
@@ -14,5 +15,13 @@ namespace ParserProject.Nodes.NameSpaceNodes
         public UsingDirectiveNode(){
             
         }
+
+		public  ExpressionCode GenerateCode()
+		{
+			var helper = new GenerationHelper();
+			var idName = helper.GetFullNameFromIdNode(IdNode);
+            return new ExpressionCode { Code = idName };
+			
+		}
     }
 }

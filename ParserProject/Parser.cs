@@ -2939,7 +2939,7 @@ namespace ParserProject
             }
         }
 
-        private NewCreationExpressionNode ArrayOrObjectPrime()
+        private NewExpressionNode ArrayOrObjectPrime()
         {
             if (_currentToken.Type == TokenType.BraOpen)
             {
@@ -2956,7 +2956,7 @@ namespace ParserProject
             }
         }
 
-        private NewCreationExpressionNode ArrayCreationExpression()
+        private NewExpressionNode ArrayCreationExpression()
         {
             if (_currentToken.Type != TokenType.BraOpen)
                 throw new SintacticalException("Expected [ Line " + _currentToken.Line + " Col " +
