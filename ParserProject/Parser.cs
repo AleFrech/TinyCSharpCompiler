@@ -1,4 +1,4 @@
-﻿﻿﻿﻿using System;
+﻿﻿﻿﻿﻿using System;
 using LexerProject;
 using LexerProject.Tokens;
 using ParserProject.Exceptions;
@@ -2965,7 +2965,7 @@ namespace ParserProject
             return PostArrayCreationExpression();
         }
 
-        private NewCreationExpressionNode PostArrayCreationExpression()
+        private NewExpressionNode PostArrayCreationExpression()
         {
             if (_currentToken.Type.IsExpression())
             {

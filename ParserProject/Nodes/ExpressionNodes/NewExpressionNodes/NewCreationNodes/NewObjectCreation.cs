@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 
 namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNodes
@@ -8,5 +9,6 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNode
         public List<ExpressionNode> ObjectCollectionInitalizer { get; set; }
 
         public List<ExpressionNode> ObjectArgumentsList { get; set; }
+
     }
 }

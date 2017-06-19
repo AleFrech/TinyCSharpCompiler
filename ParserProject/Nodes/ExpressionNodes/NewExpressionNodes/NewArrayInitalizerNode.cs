@@ -22,7 +22,9 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes
 
         public override ExpressionCode GenerateCode()
         {
-            return new ExpressionCode{Code = ArrayInitalizerNode.GenerateCode().Code};
+            if(ArrayInitalizerNode!=null)
+                return new ExpressionCode{Code = ArrayInitalizerNode.GenerateCode().Code};
+            return new ExpressionCode { Code = "[]" };
         }
     }
 }
