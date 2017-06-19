@@ -51,17 +51,20 @@ namespace ParserProject.Semantic
                                 var @class = c as ClassNode;
                                 if (@class != null)
                                 {
-                                    TypeList.Add(fullname+"."+@class.NameToken.Lexeme, @class);
+                                    @class.NameToken.Lexeme = fullname + "." + @class.NameToken.Lexeme;
+                                    TypeList.Add(@class.NameToken.Lexeme, @class);
                                 }
                                 var @enum = c as EnumNode;
                                 if (@enum != null)
                                 {
-                                    TypeList.Add(fullname + "." + @enum.NameToken.Lexeme, @enum);
+                                    @enum.NameToken.Lexeme = fullname + "." + @enum.NameToken.Lexeme;
+                                    TypeList.Add(@enum.NameToken.Lexeme, @enum);
                                 }
                                 var @interface = c as InterfaceNode;
                                 if (@interface != null)
                                 {
-                                    TypeList.Add(fullname + "." + @interface.NameToken.Lexeme, @interface);
+                                    @interface.NameToken.Lexeme = fullname + "." + @interface.NameToken.Lexeme;
+                                    TypeList.Add(@interface.NameToken.Lexeme, @interface);
                                 }
                             }                      
                         }

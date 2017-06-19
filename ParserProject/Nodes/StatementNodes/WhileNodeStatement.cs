@@ -27,11 +27,9 @@ namespace ParserProject.Nodes.StatementNodes
             if (CustomTypesTable.Instance.GetType("bool") != conditionType)
                 throw new SemanticException($"Condition is not bool {conditionType}");
             
-            SymbolTable.CreateContext();
             foreach (var statement in TrueStatements){
                 statement.EvaluateSemantic();
             }
-            SymbolTable.RemoveContext();
         }
 
         public override ExpressionCode GenerateCode()

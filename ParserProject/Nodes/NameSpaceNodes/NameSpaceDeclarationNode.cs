@@ -1,4 +1,6 @@
 ﻿using System;
+using ParserProject.Generation;
+
 namespace ParserProject.Nodes.NameSpaceNodes
 {
     public abstract class NameSpaceDeclarationNode
@@ -6,5 +8,7 @@ namespace ParserProject.Nodes.NameSpaceNodes
         public NameSpaceDeclarationNode()
         {
         }
+
+        public abstract ExpressionCode GenerateCode();
     }
 }

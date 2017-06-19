@@ -30,12 +30,10 @@ namespace ParserProject.Nodes.StatementNodes
             var conditionType = Condition.EvaluateSemantic();
             if (conditionType != type)
                 throw new SemanticException("Invalid Expression");
-			SymbolTable.CreateContext();
 			foreach (var statement in Body)
 			{
 				statement.EvaluateSemantic();
 			}
-			SymbolTable.RemoveContext();
         }
 
         public override void EvaluateSemantic()

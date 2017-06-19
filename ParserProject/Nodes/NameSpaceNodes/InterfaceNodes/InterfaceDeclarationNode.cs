@@ -1,5 +1,8 @@
 ﻿
 
+using System;
+using ParserProject.Generation;
+
 namespace ParserProject.Nodes.NameSpaceNodes.InterfaceNodes
 {
     public class InterfaceDeclarationNode : NameSpaceDeclarationNode
@@ -10,6 +13,10 @@ namespace ParserProject.Nodes.NameSpaceNodes.InterfaceNodes
         public  InterfaceDeclarationNode(){
             
         }
-            
+
+        public override ExpressionCode GenerateCode()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
