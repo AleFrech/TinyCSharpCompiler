@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Nodes.StatementNodes;
@@ -20,6 +21,14 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodCo
         public List<ParameterNode> ConstructorParameterList { get; set; }
         public BaseConstructorNode BaseNode { get; set; }
         public List<StatementNode> ConstructorStatementList { get; set; }
+
+
+
+        public  ExpressionCode GenerateCode()
+        {
+        }
+
+
 
     }
 }

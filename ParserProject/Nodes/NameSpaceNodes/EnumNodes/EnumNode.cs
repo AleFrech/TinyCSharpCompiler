@@ -25,7 +25,7 @@ namespace ParserProject.Nodes.NameSpaceNodes.EnumNodes
                 else
                     stringCode += EnumElementList[i].GenerateCode().Code+" , ";
             }
-            stringCode += " }";
+            stringCode += " }\n";
             return new ExpressionCode { Code = stringCode };
 		}
 

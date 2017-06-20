@@ -19,7 +19,27 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 
         public override ExpressionCode GenerateCode()
         {
-            throw new NotImplementedException();
+
+            var stringCode = "class " + NameToken.Lexeme;
+            //       if(HeritageList!=null){
+            //           if(HeritageList.Count>0){
+            //var helper = new GenerationHelper();
+            //stringCode += " extends ";
+            //        foreach (var id in HeritageList)
+            //        {
+            //            var idName = helper.GetFullNameFromIdNode(id);
+            //            if (!idName.Contains("I"){
+            //                stringCode +=
+            //            }
+            //        }       
+            //    }
+            //}
+            stringCode += "{\n";
+            if (FieldMethodConstructorList != null)
+                foreach (var cs in FieldMethodConstructorList)
+                    stringCode += cs.GenerateCode().Code;
+            stringCode += "}\n";
+            return new ExpressionCode { Code = stringCode };
         }
     }
 }

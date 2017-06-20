@@ -17,7 +17,7 @@ namespace ParserProject.Nodes.NameSpaceNodes.InterfaceNodes
 
         public override ExpressionCode GenerateCode()
         {
-            throw new NotImplementedException();
+            return new ExpressionCode { Code = "\n" };
         }
     }
 }
