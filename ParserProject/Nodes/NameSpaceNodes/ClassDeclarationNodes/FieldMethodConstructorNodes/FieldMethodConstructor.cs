@@ -26,9 +26,9 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodCo
 
         public  ExpressionCode GenerateCode()
         {
+            if(IsField){
+                var fieldCode="let"
+            }
         }
-
-
-
     }
 }
