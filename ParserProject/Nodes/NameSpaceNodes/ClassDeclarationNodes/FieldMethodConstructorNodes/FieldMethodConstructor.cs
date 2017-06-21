@@ -21,14 +21,5 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodCo
         public List<ParameterNode> ConstructorParameterList { get; set; }
         public BaseConstructorNode BaseNode { get; set; }
         public List<StatementNode> ConstructorStatementList { get; set; }
-
-
-
-        public  ExpressionCode GenerateCode()
-        {
-            if(IsField){
-                var fieldCode="let"
-            }
-        }
     }
 }

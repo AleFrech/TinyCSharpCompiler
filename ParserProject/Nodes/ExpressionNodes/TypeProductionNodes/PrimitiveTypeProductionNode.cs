@@ -26,7 +26,7 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
 				foreach (var rank in RankSpecifiers)
 					stringCode += rank.GenerateCode().Code;
 			}
-			return new ExpressionCode { Code = "" };
+            return new ExpressionCode { Code = "",Type=PrimitiveType.GenerateCode().Type };
         }
     }
 }
