@@ -17,7 +17,7 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
 
         public override ExpressionCode GenerateCode()
         {
-            return new ExpressionCode { Code = "" };
+            return new ExpressionCode { Code = "var" };
         }
     }
 }

@@ -82,6 +82,7 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 
 
 
+
 			stringCode += "}\n";
             return new ExpressionCode { Code = stringCode };
         }

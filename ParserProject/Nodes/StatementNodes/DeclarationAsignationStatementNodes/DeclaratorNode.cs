@@ -17,7 +17,7 @@ namespace ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes
             var stringCode = " " + Name.Lexeme;
             if(Expression!=null)
                 stringCode+=" = "+Expression.GenerateCode().Code;
-            return new ExpressionCode { Code = stringCode };
+            return new ExpressionCode { Code = stringCode,Type=Expression.GenerateCode().Type };
         }
     }
 }

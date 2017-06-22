@@ -15,7 +15,10 @@ namespace ParserProject.Nodes.StatementNodes.DeclarationAsignationStatementNodes
             var type = Type.GenerateCode().Type;
 
 			foreach (var dec in DeclarationList){
-                SymbolTable.vars[dec.Name.Lexeme] = type;
+                if(type!="var")
+                    SymbolTable.vars[dec.Name.Lexeme] = type;
+                else
+                    SymbolTable.vars[dec.Name.Lexeme] = dec.GenerateCode().Type;
             }
 
 
