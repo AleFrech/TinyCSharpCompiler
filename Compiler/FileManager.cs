@@ -16,34 +16,34 @@ namespace Compiler
         private string predefinedFunctions;
         public FileManager()
         {
-            this.systemClasses  = @"namespace System {
-                    public class Object{
-                        
-                        public virtual string ToString(){
-                                return """";
-                       }
-                    }
-                    public class int {
-                        public static int Parse(){
-                            return 1;    
-                        }
-                    }
-                     public class float {
-                        public static float Parse(){
-                            return 0.5f;    
-                        }
-                    }
-                   public class string {
+            this.systemClasses  = @"
+                    let readlineSync = require('readline-sync');
+
+                    class Object{
 
                     }
-                    public class Console {
-                        public static WriteLine(){
 
+                    class int {
+                        static Parse(str){
+                            return  parseInt(str, 10);    
+                        }
+                    }
+                    
+                    class float {
+                        static Parse(str){
+                            return  parseFloat(str);
+                        }
+                    }
+
+                    class Console {
+
+                        static WriteLine(str){
+                            console.log(str);
                         }
 
-                        public static ReadLine(){
-
-                        }
+                        static ReadLine(){
+                            return readlineSync.question();
+        }
                     }
                 }";
 
@@ -261,7 +261,7 @@ function getIntRightShiftValue(c, i) {
                 
             }
 
-            treeList.Add(new Parser(new Lexer(new InputString(systemClasses))).Parse());
+            //treeList.Add(new Parser(new Lexer(new InputString(systemClasses))).Parse());
 
             return treeList;
         }
