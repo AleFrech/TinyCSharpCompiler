@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using LexerProject.Tokens;
 using ParserProject.Generation;
@@ -21,13 +20,13 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 
         public override ExpressionCode GenerateCode()
         {
-
+            var helper = new GenerationHelper();
             var fieldList = FieldMethodConstructorList.Where(x => x.IsField).ToList();
 
             var stringCode = "class " + NameToken.Lexeme;
             if(HeritageList!=null){
                 if(HeritageList.Count>0){
-	                var helper = new GenerationHelper();
+	               
                     var idname = helper.GetFullNameFromIdNode(HeritageList[0]);
                     if (Regex.IsMatch(idname,"^[I][A-Z].*$"))
                     {
@@ -78,13 +77,58 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 
 			}
             var methodList = FieldMethodConstructorList.Where(x => x.IsMethod).ToList();
+            var overlodMethods = new Dictionary<string, List<FieldMethodConstructor>>();
+            foreach (var method in methodList)
+            {
+                var current = overlodMethods.GetOrUpdate(method.Method.Name.Lexeme, new List<FieldMethodConstructor>());
+                current.Add(method);
+            }
             //normal methods
+            foreach (var methods in overlodMethods)
+            {
+                if (methods.Value.First().IsStatic)
+                    stringCode += "static";
+                stringCode += "function " + methods.Key + "( ...args ) {\n";
+                stringCode += "let methods ={\n";
+
+                foreach (var method in methods.Value)
+                {
+
+                    stringCode += methods.Key + "_" + method.Method.ParameterList.Count;
+                    stringCode += " : function";
+                    stringCode += " ( "+String.Join(",",method.Method.ParameterList.Select(x=>x.Name))+" ) {\n";
+                    foreach (var st in method.Method.StatementList)
+                    {
+                        stringCode += st.GenerateCode().Code+"\n";
+                    }
+                    stringCode += "}\n";
+                }
+                stringCode += "}\n";
+
+                stringCode += @"let name = " + methods.Key + @"+ ""_"" + args.length;
+";
+                stringCode += "return methods[name](...args);\n";
+            }
+            stringCode += "}\n";
 
 
 
 
-			stringCode += "}\n";
+
+            stringCode += "}\n";
             return new ExpressionCode { Code = stringCode };
+        }
+    }
+
+    public static class Extensions
+    {
+        public static TValue GetOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+            TKey key,
+            TValue update)
+        {
+            if (dictionary.ContainsKey(key)) return dictionary[key];
+            dictionary[key] = update;
+            return update;
         }
     }
 }

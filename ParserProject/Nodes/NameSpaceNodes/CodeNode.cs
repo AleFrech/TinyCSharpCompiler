@@ -15,9 +15,6 @@ namespace ParserProject.Nodes.NameSpaceNodes
 		public  ExpressionCode GenerateCode()
 		{
             var stringCode = "";
-            foreach(var us in UsingDirectiveList){
-                stringCode+="require "+us.GenerateCode().Code+"\n";
-            }
 			foreach (var @namespace in NameSpaceDeclarationList)
 			{
 				stringCode += @namespace.GenerateCode().Code + "\n";
