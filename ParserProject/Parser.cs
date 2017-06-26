@@ -857,14 +857,14 @@ namespace ParserProject
 				return new FieldMethodConstructor
                 {
                     IsStatic = false,
-					IsMethod = fieldmethodMetaData.IsMethod,
-					IsField = fieldmethodMetaData.IsField,
+                    IsMethod = true,
+                    IsField = false,
 					IsConstructor = false,
 					Type = new VoidTypeNode(),
 					PrivacyModifier = privacyNode,
                     MethodModifier=method.Value,
 					FieldList = fieldmethodMetaData.FieldList,
-					Method = fieldmethodMetaData.Method
+					Method = fieldmethodMetaData
 
 				};
 

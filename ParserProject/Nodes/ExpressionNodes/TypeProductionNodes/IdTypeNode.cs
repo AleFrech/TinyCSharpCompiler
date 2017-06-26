@@ -27,7 +27,10 @@ namespace ParserProject.Nodes.ExpressionNodes.TypeProductionNodes
 
         public override ExpressionCode GenerateCode()
         {
-            throw new NotImplementedException();
+			var helper = new GenerationHelper();
+            var idName = helper.GetFullNameFromIdNode(IdNode);
+            return new ExpressionCode { Code = Name.Lexeme, Type = idName };
+
         }
     }
 }

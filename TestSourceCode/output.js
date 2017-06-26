@@ -249,7 +249,8 @@ static  Main( ...args ) {
 let methods ={
 Main_1 : function ( args ) {
 let  sum = new Sum (  ) ;
-System.Console.WriteLine(sum.Operate(5,20))
+let  x = 70 ;
+System.Console.WriteLine(( getIntSumValue( x , sum.Operate(5,25) ) ))
 }
 }
 let name = "Main"+ "_" + args.length;
@@ -258,4 +259,3 @@ return methods[name](...args);
 }
 
 Program.Main('Program');
-

@@ -152,10 +152,13 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
                         }
                     }
                     stringCode += " ) {\n";
+                    if (method.Method.StatementList != null)
+                    {
                         foreach (var st in method.Method.StatementList)
                         {
                             stringCode += st.GenerateCode().Code + "\n";
                         }
+                    }
                     stringCode += "}\n";
                 }
                 stringCode += "}\n";
