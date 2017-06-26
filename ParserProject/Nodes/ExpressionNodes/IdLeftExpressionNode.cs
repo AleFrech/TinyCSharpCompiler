@@ -31,12 +31,11 @@ namespace ParserProject.Nodes.ExpressionNodes
 			stringCode += PreId;
             stringCode += idName;
             stringCode += Accessor.GenerateCode().Code;
-
-			if (!SymbolTable.vars.ContainsKey(idName))
+            var type = "string";
+			if (SymbolTable.vars.ContainsKey(idName))
 			{
-				throw new SemanticException("Variable does not exist!");
+				type = SymbolTable.vars[idName];
 			}
-			var type = SymbolTable.vars[idName];
             return new ExpressionCode { Code = stringCode,Type=type };
 		}
 

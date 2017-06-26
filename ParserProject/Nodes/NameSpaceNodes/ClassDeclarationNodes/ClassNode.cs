@@ -37,9 +37,9 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
                 }
             }
 
-            stringCode += "{\n";
+            stringCode += " {\n";
             //normal fields
-            stringCode += "function _define() { \n";
+            stringCode += "_define() { \n";
             foreach (var field in fieldList.Where(x=>!x.IsStatic)){
                 foreach (var f in field.FieldList){
                     stringCode += f.GenerateCode(field.Type.GenerateCode().Type).Code+"\n";
@@ -51,34 +51,46 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 
 			//Constructor
 			var constructorList = FieldMethodConstructorList.Where(x => x.IsConstructor).ToList();
-			var constructor = constructorList[0];
             stringCode += "constructor( ";
-            for (int i = 0; i < constructor.ConstructorParameterList.Count();i++){
-                if (constructor.ConstructorParameterList[i] == constructor.ConstructorParameterList[constructor.ConstructorParameterList.Count - 1])
-                    stringCode += constructor.ConstructorParameterList[i].GenerateCode().Code;
-                else
-                    stringCode += constructor.ConstructorParameterList[i].GenerateCode().Code+" , ";
+            if (constructorList.Count() > 0)
+            {
+                var constructor = constructorList[0];
+
+                for (int i = 0; i < constructor.ConstructorParameterList.Count(); i++)
+                {
+                    if (constructor.ConstructorParameterList[i] == constructor.ConstructorParameterList[constructor.ConstructorParameterList.Count - 1])
+                        stringCode += constructor.ConstructorParameterList[i].GenerateCode().Code;
+                    else
+                        stringCode += constructor.ConstructorParameterList[i].GenerateCode().Code + " , ";
+                }
             }
             stringCode += " ) {\n";
-            stringCode += "super( ";
-            var baseNodeArgs = constructor.BaseNode.ArgumeList;
-			for (int i = 0; i < baseNodeArgs.Count(); i++)
-			{
-				if (baseNodeArgs[i] == baseNodeArgs[baseNodeArgs.Count - 1])
-					stringCode +=baseNodeArgs[i].GenerateCode().Code;
-				else
-					stringCode +=baseNodeArgs[i].GenerateCode().Code + " , ";
-			}
-            stringCode += " );\n";
+            if (constructorList.Count() > 0)
+            {
+                var baseNodeArgs = constructorList[0].BaseNode.ArgumeList;
+                if (baseNodeArgs.Count() > 0)
+                {
+                    stringCode += "super( ";
+
+                    for (int i = 0; i < baseNodeArgs.Count(); i++)
+                    {
+                        if (baseNodeArgs[i] == baseNodeArgs[baseNodeArgs.Count - 1])
+                            stringCode += baseNodeArgs[i].GenerateCode().Code;
+                        else
+                            stringCode += baseNodeArgs[i].GenerateCode().Code + " , ";
+                    }
+                    stringCode += " );\n";
+                }
+            }
             stringCode += "_define();\n";
-            foreach(var cs in constructor.ConstructorStatementList){
-                stringCode += cs.GenerateCode().Code+"\n";
+            if (constructorList.Count() > 0)
+            {
+                foreach (var cs in constructorList[0].ConstructorStatementList)
+                {
+                    stringCode += cs.GenerateCode().Code + "\n";
+                }
             }
             stringCode += "}\n";
-
-
-
-
 
 			//static fields
 			foreach (var field in fieldList.Where(x => x.IsStatic))
@@ -121,8 +133,8 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
             foreach (var methods in overlodMethods)
             {
                 if (methods.Value.First().IsStatic)
-                    stringCode += "static";
-                stringCode += "function " + methods.Key + "( ...args ) {\n";
+                    stringCode += "static ";
+                stringCode += " " + methods.Key + "( ...args ) {\n";
                 stringCode += "let methods ={\n";
 
                 foreach (var method in methods.Value)
@@ -130,7 +142,7 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 
                     stringCode += methods.Key + "_" + method.Method.ParameterList.Count;
                     stringCode += " : function";
-                    stringCode += " ( "+String.Join(",",method.Method.ParameterList.Select(x=>x.Name))+" ) {\n";
+                    stringCode += " ( "+String.Join(",",method.Method.ParameterList.Select(x=>x.Name.Lexeme))+" ) {\n";
                     foreach (var st in method.Method.StatementList)
                     {
                         stringCode += st.GenerateCode().Code+"\n";
@@ -139,7 +151,7 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
                 }
                 stringCode += "}\n";
 
-                stringCode += @"let name = " + methods.Key + @"+ ""_"" + args.length;
+                stringCode += @"let name = " +"\""+ methods.Key +"\""+ @"+ ""_"" + args.length;
 ";
                 stringCode += "return methods[name](...args);\n";
             }

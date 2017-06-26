@@ -30,12 +30,16 @@ namespace Compiler
 				StreamWriter writer = new StreamWriter(File.Create(Path.Combine(AppContext.BaseDirectory.
 																		  Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/output.js")));
                 writer.WriteLine(file.systemClasses);
+				writer.Flush();
                 writer.WriteLine(file.predefinedFunctions);
+				writer.Flush();
                 foreach (var cl in classList.Values)
                 {
                     writer.WriteLine(cl.GenerateCode().Code);
+                    writer.Flush();
                     //Console.WriteLine(cl.GenerateCode().Code);
                 }
+                writer.Flush();
             }
             catch (Exception e)
             {
