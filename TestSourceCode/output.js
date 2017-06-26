@@ -221,16 +221,35 @@ function getIntRightShiftValue(c, i) {
 
 
 
+class Sum {
+_define() { 
+}
+constructor(  ) {
+this._define();
+}
+ Operate( ...args ) {
+let methods ={
+Operate_2 : function ( a,b ) {
+return ( getIntSumValue( a , b ) ) ;
+ 
+}
+}
+let name = "Operate"+ "_" + args.length;
+return methods[name](...args);
+}
+}
+
 class Program {
 _define() { 
 }
 constructor(  ) {
-_define();
+this._define();
 }
 static  Main( ...args ) {
 let methods ={
 Main_1 : function ( args ) {
-System.Console.WriteLine(( getIntRightShiftValue( 'a' , 1 ) ))
+let  sum = new Sum (  ) ;
+System.Console.WriteLine(sum.Operate(5,20))
 }
 }
 let name = "Main"+ "_" + args.length;
@@ -238,5 +257,5 @@ return methods[name](...args);
 }
 }
 
-
 Program.Main('Program');
+

@@ -82,7 +82,7 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
                     stringCode += " );\n";
                 }
             }
-            stringCode += "_define();\n";
+            stringCode += "this._define();\n";
             if (constructorList.Count() > 0)
             {
                 foreach (var cs in constructorList[0].ConstructorStatementList)
@@ -142,11 +142,20 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
 
                     stringCode += methods.Key + "_" + method.Method.ParameterList.Count;
                     stringCode += " : function";
-                    stringCode += " ( "+String.Join(",",method.Method.ParameterList.Select(x=>x.Name.Lexeme))+" ) {\n";
-                    foreach (var st in method.Method.StatementList)
-                    {
-                        stringCode += st.GenerateCode().Code+"\n";
+                    stringCode += " ( ";
+                    var methodParams = method.Method.ParameterList;
+                    for (int i = 0; i < methodParams.Count();i++){
+                        if (methodParams[i] == methodParams[methodParams.Count() - 1])
+                            stringCode += methodParams[i].GenerateCode().Code;
+                        else{
+                            stringCode += methodParams[i].GenerateCode().Code+",";
+                        }
                     }
+                    stringCode += " ) {\n";
+                        foreach (var st in method.Method.StatementList)
+                        {
+                            stringCode += st.GenerateCode().Code + "\n";
+                        }
                     stringCode += "}\n";
                 }
                 stringCode += "}\n";

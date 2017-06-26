@@ -38,13 +38,19 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNode
                             stringCode += ((NewObjectCreation)NewCreationNode).ObjectArgumentsList[i].GenerateCode().Code + " , ";
                         }
                     }
-					stringCode += " )" + Accessor.GenerateCode().Code + " ";
+                    //if (Accessor != null)
+                    //    stringCode += " )" + Accessor.GenerateCode().Code + " ";
+                    //else
+                        //stringCode += " )";
 
                     if(((NewObjectCreation)NewCreationNode).ObjectCollectionInitalizer != null){
                         
                     }					
                 }
-                stringCode += " )" + Accessor.GenerateCode().Code + " ";
+				if (Accessor != null)
+					stringCode += " )" + Accessor.GenerateCode().Code + " ";
+				else
+					stringCode += " )";
                 return new ExpressionCode { Code = stringCode };
 
             }else{

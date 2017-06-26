@@ -2,6 +2,7 @@
 using LexerProject.Tokens;
 using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
+using ParserProject.Semantic;
 using ParserProject.Semantic.CustomTypes;
 
 namespace ParserProject.Nodes.ExpressionNodes
@@ -21,9 +22,11 @@ namespace ParserProject.Nodes.ExpressionNodes
 
         public override ExpressionCode GenerateCode()
         {
+            SymbolTable.vars[Name.Lexeme] = typeNode.GenerateCode().Type;
             return new ExpressionCode
             {
-                Code = Name.Lexeme
+                Code = Name.Lexeme,
+                Type = typeNode.GenerateCode().Type
                     
             };
         }

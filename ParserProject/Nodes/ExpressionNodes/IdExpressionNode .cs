@@ -34,7 +34,8 @@ namespace ParserProject.Nodes.ExpressionNodes
             var helper = new GenerationHelper();
             var stringCode = "";
             stringCode += IdNode.GenerateCode().Code;
-            stringCode += AssignmentNode.GenerateCode().Code;
+            if(AssignmentNode!=null)
+                stringCode += AssignmentNode.GenerateCode().Code;
             stringCode += PostId;
 
             return new ExpressionCode { Code = stringCode,Type=IdNode.GenerateCode().Type };

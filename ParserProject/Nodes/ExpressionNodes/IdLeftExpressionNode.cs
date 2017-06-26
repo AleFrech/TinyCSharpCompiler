@@ -30,7 +30,9 @@ namespace ParserProject.Nodes.ExpressionNodes
 			var stringCode = "";
 			stringCode += PreId;
             stringCode += idName;
-            stringCode += Accessor.GenerateCode().Code;
+			if (Accessor != null)
+                stringCode += Accessor.GenerateCode().Code;
+           
             var type = "string";
 			if (SymbolTable.vars.ContainsKey(idName))
 			{
