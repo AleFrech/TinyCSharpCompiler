@@ -12,30 +12,30 @@ namespace Compiler
 {
     public class FileManager
     {
-        private string systemClasses;
-        private string predefinedFunctions;
+        public string systemClasses;
+        public string predefinedFunctions;
         public FileManager()
         {
             this.systemClasses  = @"
                     let readlineSync = require('readline-sync');
 
-                    class Object{
+                    class System.Object{
 
                     }
 
-                    class int {
+                    class  System.int {
                         static Parse(str){
                             return  parseInt(str, 10);    
                         }
                     }
                     
-                    class float {
+                    class  System.float {
                         static Parse(str){
                             return  parseFloat(str);
                         }
                     }
 
-                    class Console {
+                    class  System.Console {
 
                         static WriteLine(str){
                             console.log(str);
@@ -43,7 +43,7 @@ namespace Compiler
 
                         static ReadLine(){
                             return readlineSync.question();
-        }
+                        }
                     }
                 }";
 

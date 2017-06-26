@@ -1,8 +1,5 @@
-﻿﻿﻿﻿﻿﻿using System;
+﻿﻿﻿﻿﻿﻿﻿using System;
 using System.IO;
-     using System.Runtime.InteropServices;
-     using LexerProject;
-using ParserProject;
 using ParserProject.Semantic;
 
 namespace Compiler
@@ -30,9 +27,14 @@ namespace Compiler
                 var treeList = file.GetTreeListFromFiles();
                 TypeTable.FillTable(treeList);
                 var classList = TypeTable.TypeList;
+				StreamWriter writer = new StreamWriter(File.Create(Path.Combine(AppContext.BaseDirectory.
+																		  Substring(0, AppContext.BaseDirectory.IndexOf("Compiler", StringComparison.Ordinal)), "TestSourceCode/output.js")));
+                writer.WriteLine(file.systemClasses);
+                writer.WriteLine(file.predefinedFunctions);
                 foreach (var cl in classList.Values)
                 {
-                    Console.WriteLine(cl.GenerateCode().Code);
+                    writer.WriteLine(cl.GenerateCode().Code);
+                    //Console.WriteLine(cl.GenerateCode().Code);
                 }
             }
             catch (Exception e)

@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -36,9 +36,10 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
                           
                 }
             }
+
             stringCode += "{\n";
             //normal fields
-            stringCode += "_define() { \n";
+            stringCode += "function _define() { \n";
             foreach (var field in fieldList.Where(x=>!x.IsStatic)){
                 foreach (var f in field.FieldList){
                     stringCode += f.GenerateCode(field.Type.GenerateCode().Type).Code+"\n";
@@ -46,7 +47,40 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
                
             }
             stringCode += "}\n";
-            //static fields
+
+
+			//Constructor
+			var constructorList = FieldMethodConstructorList.Where(x => x.IsConstructor).ToList();
+			var constructor = constructorList[0];
+            stringCode += "constructor( ";
+            for (int i = 0; i < constructor.ConstructorParameterList.Count();i++){
+                if (constructor.ConstructorParameterList[i] == constructor.ConstructorParameterList[constructor.ConstructorParameterList.Count - 1])
+                    stringCode += constructor.ConstructorParameterList[i].GenerateCode().Code;
+                else
+                    stringCode += constructor.ConstructorParameterList[i].GenerateCode().Code+" , ";
+            }
+            stringCode += " ) {\n";
+            stringCode += "super( ";
+            var baseNodeArgs = constructor.BaseNode.ArgumeList;
+			for (int i = 0; i < baseNodeArgs.Count(); i++)
+			{
+				if (baseNodeArgs[i] == baseNodeArgs[baseNodeArgs.Count - 1])
+					stringCode +=baseNodeArgs[i].GenerateCode().Code;
+				else
+					stringCode +=baseNodeArgs[i].GenerateCode().Code + " , ";
+			}
+            stringCode += " );\n";
+            stringCode += "_define();\n";
+            foreach(var cs in constructor.ConstructorStatementList){
+                stringCode += cs.GenerateCode().Code+"\n";
+            }
+            stringCode += "}\n";
+
+
+
+
+
+			//static fields
 			foreach (var field in fieldList.Where(x => x.IsStatic))
 			{
 				foreach (var f in field.FieldList)
@@ -110,9 +144,6 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
                 stringCode += "return methods[name](...args);\n";
             }
             stringCode += "}\n";
-
-
-
 
 
             stringCode += "}\n";
