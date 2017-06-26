@@ -40,6 +40,8 @@ namespace Compiler
                     //Console.WriteLine(cl.GenerateCode().Code);
                 }
                 writer.Flush();
+                writer.WriteLine("Program.Main('Program');");
+                writer.Flush();
             }
             catch (Exception e)
             {
