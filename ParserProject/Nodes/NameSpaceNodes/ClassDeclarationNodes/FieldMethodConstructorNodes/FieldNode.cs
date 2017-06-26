@@ -18,7 +18,7 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes.FieldMethodCo
                 stringCode += ExpressionNode.GenerateCode().Code;
 
             }else{
-                stringCode += " : ";
+                stringCode += " = ";
                 if (type == "int")
                     stringCode +="0";
                 else if (type == "bool")

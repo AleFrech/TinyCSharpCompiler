@@ -223,9 +223,11 @@ function getIntRightShiftValue(c, i) {
 
 class Sum {
 _define() { 
+this.x = 0;
 }
-constructor(  ) {
+constructor( param ) {
 this._define();
+this.x = param
 }
  Operate( ...args ) {
 let methods ={
@@ -248,9 +250,10 @@ this._define();
 static  Main( ...args ) {
 let methods ={
 Main_1 : function ( args ) {
-let  sum = new Sum (  ) ;
-let  x = 70 ;
-System.Console.WriteLine(( getIntSumValue( x , sum.Operate(5,25) ) ))
+let  sum = new Sum ( 50 ) ;
+let  y = 70 ;
+System.Console.WriteLine(sum.x)
+System.Console.WriteLine(( getIntSumValue( y , sum.Operate(5,25) ) ))
 }
 }
 let name = "Main"+ "_" + args.length;

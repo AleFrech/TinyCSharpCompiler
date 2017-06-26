@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ParserProject.Generation;
+﻿using ParserProject.Generation;
 using ParserProject.Nodes.ExpressionNodes.AccesorNodes;
 using ParserProject.Nodes.ExpressionNodes.TypeProductionNodes;
 using ParserProject.Semantic.CustomTypes;
@@ -27,7 +24,7 @@ namespace ParserProject.Nodes.ExpressionNodes.NewExpressionNodes.NewCreationNode
 
                 if (((NewObjectCreation)NewCreationNode).ObjectArgumentsList != null)
                 {
-                    for (int i = 0; 0 < ((NewObjectCreation)NewCreationNode).ObjectArgumentsList.Count; i++)
+                    for (int i = 0; i < ((NewObjectCreation)NewCreationNode).ObjectArgumentsList.Count; i++)
                     {
                         if (((NewObjectCreation)NewCreationNode).ObjectArgumentsList[i] == ((NewObjectCreation)NewCreationNode).ObjectArgumentsList[((NewObjectCreation)NewCreationNode).ObjectArgumentsList.Count - 1])
                         {

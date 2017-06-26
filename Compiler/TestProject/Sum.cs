@@ -1,6 +1,13 @@
 public class Sum
     {
+        public int x;
+
+        public Sum(int param){
+            this.x=param;
+        }
+
         public int Operate(int a,int b){
+           
             return a+b;
         }
     }

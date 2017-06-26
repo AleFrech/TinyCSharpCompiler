@@ -67,19 +67,22 @@ namespace ParserProject.Nodes.NameSpaceNodes.ClassDeclarationNodes
             stringCode += " ) {\n";
             if (constructorList.Count() > 0)
             {
-                var baseNodeArgs = constructorList[0].BaseNode.ArgumeList;
-                if (baseNodeArgs.Count() > 0)
+                if (constructorList[0].BaseNode != null)
                 {
-                    stringCode += "super( ";
-
-                    for (int i = 0; i < baseNodeArgs.Count(); i++)
+                    var baseNodeArgs = constructorList[0].BaseNode.ArgumeList;
+                    if (baseNodeArgs.Count() > 0)
                     {
-                        if (baseNodeArgs[i] == baseNodeArgs[baseNodeArgs.Count - 1])
-                            stringCode += baseNodeArgs[i].GenerateCode().Code;
-                        else
-                            stringCode += baseNodeArgs[i].GenerateCode().Code + " , ";
+                        stringCode += "super( ";
+
+                        for (int i = 0; i < baseNodeArgs.Count(); i++)
+                        {
+                            if (baseNodeArgs[i] == baseNodeArgs[baseNodeArgs.Count - 1])
+                                stringCode += baseNodeArgs[i].GenerateCode().Code;
+                            else
+                                stringCode += baseNodeArgs[i].GenerateCode().Code + " , ";
+                        }
+                        stringCode += " );\n";
                     }
-                    stringCode += " );\n";
                 }
             }
             stringCode += "this._define();\n";
