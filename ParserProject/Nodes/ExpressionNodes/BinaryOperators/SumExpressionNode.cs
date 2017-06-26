@@ -48,13 +48,14 @@ namespace ParserProject.BinaryOperators.ExpressionNodes.Nodes
                     return new ExpressionCode { Code = s, Type = "float" };
 
                 }
-                else if ((leftType == "int" || rightType == "int") || (leftType=="char" && rightType=="char"))
+                else if (leftType == "string" || rightType == "string" )
                 {
-                    var stringCode = "( getIntSumValue( " + LeftOperand.GenerateCode().Code + " , " +
-                                     RightOperand.GenerateCode().Code + " ) )";
-                    return new ExpressionCode { Code = stringCode, Type = "int" };
+					return new ExpressionCode { Code = "( " + LeftOperand.GenerateCode().Code + " + " + RightOperand.GenerateCode().Code + " )", Type = "string" };
                 }
-                return new ExpressionCode { Code = "( "+LeftOperand.GenerateCode().Code+" + "+RightOperand.GenerateCode().Code +" )", Type = "string" };
+               
+				var stringCode = "( getIntSumValue( " + LeftOperand.GenerateCode().Code + " , " +
+									 RightOperand.GenerateCode().Code + " ) )";
+				return new ExpressionCode { Code = stringCode, Type = "int" };
 			}
 			throw new GenerationException("Cannot generate code from null type operand");
 		}

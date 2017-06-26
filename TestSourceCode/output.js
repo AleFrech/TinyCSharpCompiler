@@ -230,12 +230,13 @@ _define();
 static  Main( ...args ) {
 let methods ={
 Main_1 : function ( args ) {
-System.Console.WriteLine("Hello World")
+System.Console.WriteLine(( getIntRightShiftValue( 'a' , 1 ) ))
 }
 }
 let name = "Main"+ "_" + args.length;
 return methods[name](...args);
 }
 }
+
 
 Program.Main('Program');
