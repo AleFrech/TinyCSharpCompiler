@@ -1,0 +1,582 @@
+Code -> NamespacesList
+
+NamespacesList -> Namespace NamespacesList
+                | ~E
+
+Namespace -> using_directives namespace_declarations
+
+using_directives -> using_directive using_directives
+                 | ~E
+
+using_directive -> using typeName ; 
+
+typeName -> id  typeName_Prime
+               
+
+typeName_Prime-> . typeName
+                    | ~E
+
+namespace_declarations -> namespace_declaration namespace_declarations
+                       | ~E
+
+namespace_declaration -> privacy_modifier class_interface_enum
+                      |  Namespace_statement
+
+
+class_interface_enum -> class_declaration
+                      |  interface_declaration
+                      |  enum_declaration
+
+Namespace_statement -> RwNamespace typeName Namespace_Body  
+
+Namespace_Body -> { Namespace }
+
+
+class_declaration -> class_modifier class Id heredence class_body
+
+
+heredence -> : typeName base 
+             | ~ E
+
+base -> , typeName base
+            |~E
+
+privacy_modifier -> public
+                 | private
+                 |protected
+                 |~E
+
+class_modifier ->abstract
+                | static        
+                | ~E
+
+
+interface_declaration -> interface Id heredence interface_body
+
+enum_declaration -> enum Id enum_body
+
+class_body -> {class_members_declarations}
+
+class_members_declarations -> class_members_declaration class_members_declarations
+                           |~E
+
+class_members_declaration -> privacy_modifier field_method_property_constructor 
+
+
+field_method_property_constructor -> static static_options
+                                   | custom_type Id field_method_property_declaration
+                                   | void Id method_declaration
+                                   | method_modifiers  method_return
+                                   | typeName type_prime mierda_3
+
+mierda_3 -> (formal_parameter_list) constructor_initializer block
+          | Id field_method_property_declaration
+
+method_return -> type Id method_property_declaration
+              | void Id method_declaration
+
+
+static_options -> custom_type Id field_method_property_declaration
+               |  void Id method_declaration
+               | typeName type_prime mierda_2
+
+mierda_2 -> () block
+          | Id field_method_property_declaration
+
+custom_type -> predifined_type type_prime
+        | enum type_prime
+
+type ->  typeName type_prime 
+        | predifined_type type_prime
+        | enum type_prime
+
+type_prime -> rank_specifiers type_prime
+            |~E
+
+
+field_method_property_declaration -> field_declaration
+                                 | method_declaration
+                                 |property_declaration
+
+
+method_property_declaration -> method_declaration
+                             |property_declaration
+
+field_declaration ->field_declarations;
+
+field_declarations -> field_assignation field_declarations_prime
+
+// faltaba un id despues de la coma pq sino se aceptaba int a=1,=2...
+
+field_declarations_prime ->  , Id field_declarations
+                        |~E
+
+field_assignation -> = variable_initializer
+                   |~E
+
+variable_initializer -> expression
+                     | array_initializer  **revisar**
+
+
+constructor_initializer -> : constructor_initializerPrime
+                        | ~ E
+
+constructor_initializerPrime -> base (argument_list)
+                              | this (argument_list)
+
+
+
+
+
+argument_list -> expression argument_listPrime
+              | ~ E
+
+ argument_listPrime -> , expression argument_listPrime
+                    | ~ E
+
+method_declaration -> method_header method_body
+
+method_header ->(formal_parameter_list)
+
+method_modifiers -> override
+                 |virtual
+                 |abstract
+
+
+static_modifier -> static
+                |~E
+
+method_body -> block
+
+
+block ->  {StatementList}
+
+property_declaration ->{ property_accessors }
+
+interface_body -> {interface_member_declarations}
+
+interface_member_declarations -> interface_element interface_member_declarations
+                                |~E
+
+interface_element ->type Id method_property
+                   | void Id method_property
+
+method_property -> method_header ;
+                  | property_declaration
+        
+formal_parameter_list -> parameter  formal_parameter_list_prime
+                        |~E
+
+formal_parameter_list_prime -> , parameter formal_parameter_list_prime
+                           |~E
+
+parameter -> type Id
+
+
+property_accessors_privacy_modifier -> private
+                                     |protected
+                                     |~E
+
+
+get_accessor -> property_accessors_privacy_modifier  get;
+              | ~E
+
+set_accessor -> property_accessors_privacy_modifier  set; 
+              | ~E
+
+property_accessors -> property_accessors_privacy_modifier property_accessors_body
+
+property_accessors_body -> get; set_accessor
+                        | set; get_accessor
+
+
+enum_body -> { enum_member_declarations }
+
+enum_member_declarations -> enum_element enum_member_declarations_prime 
+                         |~E
+
+enum_member_declarations_prime -> , enum_element enum_member_declarations_prime
+                                |~E
+
+enum_element -> Id enum_element_body
+
+enum_element_body -> = expression
+                   | ~E
+
+
+StatementList -> Statement StatementList
+                | ~E
+
+Statement -> If_Statement
+             While_Statement
+             doWhile_Statement
+             switch_Statement
+             Foreach_Statement
+             For_Statement          
+             return_Statement ;
+             break;
+             ;
+             continue;
+             ++ Id id_expression; 
+             -- Id id_expression;          
+             declaration_assignment_Statement ;
+             cast_statement ;
+             
+
+cast_statement -> ( cast_statement_prime ) primary_expression 
+
+cast_statement_prime -> type
+                     | cast_statement
+
+declaration_assignment_Statement -> var declarators_list
+                                 | assignment_Statement
+                                 | predifined_type_Or_Enum declarators_list_or_primitivetype_accessor
+
+
+predifined_type_Or_Enum -> predifined_type
+                        | enum
+
+declarators_list_or_primitivetype_accessor -> type_prime declarators_list
+                                            | primitve_type_accessors
+
+
+primitve_type_accessors -> . Id  id_Expression
+
+assignment_Statement ->  base . Id id_expression assignment_operator expression assignment_Statement_list
+                      |  this . Id id_expression assignment_operator expression assignment_Statement_list
+                      |  Id wwwwwwww;
+
+wwwwwwww -> typeName_Prime YYYYYY
+
+
+YYYYYY -> [ YYYYYPrime
+        | id_expression_without_] xxxxx;
+        | declarators_list
+
+id_expression_without_] -> .Id id_expression
+               |( argument_list ) parentesis_expression
+               |~E
+
+
+YYYYYPrime -> mierda_4 xxxxx
+           | rank_specifier_dec type_prime declarators_list
+
+rank_specifier_dec -> dim_separetors_opt]
+
+mierda_4 -> expression_list] id_expression
+               
+xxxxx -> ++
+       | --
+       |assignment_operator expression assignment_Statement_list
+
+
+
+assignment_Statement_list -> assignment_operator expression assignment_Statement_list
+                         |~E
+
+assignment_operator -> =
+                    | +=
+                    | -=
+                    | *=
+                    | /=
+                    | %=
+                    | &=
+                    | ^=
+                    | |=
+                    | >>=
+                    | <<=
+
+
+
+declarators_list -> declarator declarators_list_Prime
+
+// supestamente con el fix ya se sporta var x= b=c;
+declarators_list_Prime -> , declarator declarators_list_Prime
+                        | = variable_initializer declarators_list_Prime
+                        | ~ E
+
+declarator -> Id declarator_Prime
+
+declarator_Prime -> = variable_initializer
+                  | ~ E
+
+local_variable_type -> type
+                     | var
+
+
+return_Statement -> return return_body
+
+return_body -> expression
+             | ~ E
+
+
+embeded_statement -> { StatementList}
+                  | Statement
+
+
+If_Statement -> if (expression) embeded_statement else_statement
+
+Else_Statement -> else embeded_statement
+                | ~E
+
+While_Statement -> while(expression) embeded_statement
+
+doWhile_Statement -> do embeded_statement while (expression) ;
+
+
+Foreach_Statement -> foreach(local_variable_type  Id in expression) embeded_statement
+
+For_Statement -> for(for_initalizer;expression;expression_list) embeded_statement
+
+for_initalizer-> declaration_assignment_Statement
+
+switch_Statement -> switch (expression) { switch_sections }
+
+switch_sections -> switch_section switch_sections
+                | ~ E
+
+switch_section -> switch_labels StatementList Break_Statement
+
+switch_labels -> case expression :
+              | default :
+
+Break_Statement -> break;
+                | ~E
+
+
+
+//revisar
+
+
+
+                
+expression -> conditional_expression
+
+conditional_expression -> null_coalescing_expression ternary
+
+ternary -> ? expression : expression
+        | ~ E
+
+null_coalescing_expression -> conditional_or_expression null_coalescing_expression_Prime
+                            
+null_coalescing_expression_Prime ->  ?? null_coalescing_expression
+                                 | ~ E                
+                                 
+conditional_or_expression -> conditional_and_expression conditional_or_expression_Prime
+
+conditional_or_expression_Prime -> || conditional_and_expression conditional_or_expression_Prime
+                                | ~ E
+
+conditional_and_expression -> inclusive_or_expression conditional_and_expression_Prime
+
+conditional_and_expression_Prime -> && inclusive_or_expression conditional_and_expression_Prime
+                                 | ~ E
+
+inclusive_or_expression -> exclusive_or_expression inclusive_or_expression_Prime
+
+inclusive_or_expression_Prime -> | exclusive_or_expression inclusive_or_expression_Prime
+                              | ~ E
+
+exclusive_or_expression -> and_expression exclusive_or_expression_Prime
+
+exclusive_or_expression_Prime -> ^ and_expression exclusive_or_expression_Prime
+                              | ~ E
+
+
+and_expression -> equality_expression and_expression_Prime
+
+and_expression_Prime -> & equality_expression and_expression_Prime
+                              | ~ E
+
+equality_expression -> relational_expression equality_expression_Prime
+
+equality_expression_Prime -> == relational_expression equality_expression_Prime
+                           | != relational_expression equality_expression_Prime
+                           | ~ E
+
+relational_expression -> shift-expression relational_expression_Prime
+
+relational_expression_Prime -> < shift-expression relational_expression_Prime
+                           | > shift-expression relational_expression_Prime
+                           | <= shift-expression relational_expression_Prime
+                           | >= shift-expression relational_expression_Prime
+                           | is type relational_expression_Prime
+                           | as type relational_expression_Prime
+                           | ~ E
+
+shift_expression -> additive_expression shift_expression_Prime
+
+shift_expression_Prime -> << additive_expression shift_expression_Prime
+                        | >> additive_expression shift_expression_Prime
+                        | ~ E
+
+additive_expression -> multiplicative_expression additive_expression_Prime
+
+additive_expression_Prime -> + multiplicative_expression additive_expression_Prime
+                           | - multiplicative_expression additive_expression_Prime
+                           | ~ E
+
+multiplicative_expression -> unary_expression primary_expression multiplicative_expression_Prime
+
+multiplicative_expression_Prime -> * unary_expression primary_expression multiplicative_expression_Prime
+                                 | / unary_expression primary_expression multiplicative_expression_Prime
+                                 | % unary_expression primary_expression multiplicative_expression_Prime
+                                 | ~E
+
+unary_expression -> + 
+                  | - 
+                  | ! 
+                  | ~ 
+                  | ++ 
+                  | -- 
+                  | ~ E
+                 
+primary_expression -> primary_no_array_creation_expression
+                    | new array_or_object
+                    | ( cast_or_expression
+
+cast_or_expression ->  custom_type ) primary_expression 
+                    |  expression ) cast_or_expression_prime
+
+cast_or_expression_prime -> id_expression
+                          | primary_expression
+                          | ~E
+
+
+array_or_object -> type array_or_object_prime id_Expression
+                | rank_specifier array_initializer
+            
+array_or_object_prime -> array_creation_expression
+                        | object_creation_expression
+
+array_creation_expression -> [ post_array_creation_expression
+
+post_array_creation_expression -> expression_list]  rank_specifier_opt  array_initializer_opt
+                               |  dim_separetors_opt] rank_specifiers_Prime  array_initializer
+
+
+rank_specifier_opt -> rank_specifiers
+                   | ~ E
+
+rank_specifiers -> rank_specifier rank_specifiers_Prime
+
+rank_specifiers_Prime -> rank_specifier rank_specifiers_Prime
+                      | ~ E
+
+
+rank_specifier -> [dim_separetors_opt]
+
+dim_separetors_opt -> dim_separetors
+                    | ~ E
+
+dim_separetors -> , dim_separetors_Prime
+
+dim_separetors_Prime -> , dim_separetors_Prime
+                      | ~ E
+
+array_initializer_opt -> array_initializer
+                        |~E
+array_initializer -> {variable_initializer_list_opt}
+
+variable_initializer_list_opt -> variable_initializer_list
+                              | ~ E
+
+variable_initializer_list-> variable_initializer variable_initializer_list_Prime
+
+variable_initializer_list_Prime -> , variable_initializer variable_initializer_list_Prime
+                                | ~ E
+
+
+
+
+primary_no_array_creation_expression -> literal  
+                                       | pre_id_expression Id id_expression  assignment_in_expression  post_increment_expression
+                                       | predifined_type_Or_Enum . Id id_expression post_increment_expression
+
+assignment_in_expression -> assignment_operator expression
+                         | ~ E
+
+
+
+literal -> LitChar
+        | LitFloat
+        | LitNum
+        | LitBool
+        | LitString
+
+pre_id_expression -> this.
+                  | base.
+                  |~E
+
+id_expression -> .Id id_expression
+               | [expression_list] id_expression
+               |( argument_list ) parentesis_expression
+               |~E
+
+parentesis_expression -> .Id id_expression
+                        | [expression_list] id_expression
+                        | ~E
+
+
+predifined_type -> bool
+                | int
+                | char
+                | string
+                | float
+
+id_prime -> .Id id_prime
+           |~E
+
+
+expression_list -> expression expression_list_prime
+
+expression_list_prime -> , expression expression_list_prime
+                       | ~ E
+
+
+base_access -> base base_access_Prime
+
+base_access_Prime -> . Id
+                   | [expression_list]
+
+post_increment_expression ->  ++
+                            | --
+                            | ~ E
+
+object_creation_expression -> (argument_list) object_or_collection_initializer_opt
+                           | object_or_collection_initializer
+
+object_or_collection_initializer_opt -> object_or_collection_initializer
+                                     | ~E
+
+object_or_collection_initializer -> { object_or_collection_initializer_body
+
+
+object_or_collection_initializer_body ->   member_or_element 
+                                       | element_initializer_list }
+
+member_or_element -> id = member_initializer_list }
+                   | element_initializer_list } 
+                   |  }
+
+
+member_initializer_list_opt -> member_initializer_list
+                            | ~ E
+
+member_initializer_list -> member_initializer member_initializer_list_Prime
+
+member_initializer_list_Prime -> ,  id member_initializer member_initializer_list_Prime
+                                | ~ E
+
+member_initializer ->  = initialzer_value
+
+initialzer_value -> expression
+                  | object_or_collection_initializer
+
+element_initializer_list -> element_initializer element_initializer_list_Prime
+
+element_initializer_list_Prime -> , element_initializer element_initializer_list_Prime
+                               | ~ E
+
+element_initializer -> expression
+                    | { expression_list }
